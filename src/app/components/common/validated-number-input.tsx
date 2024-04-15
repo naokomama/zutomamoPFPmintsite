@@ -25,15 +25,24 @@ export default function ValidatedNumberInput({title, placeholder, rule, errorMes
           {value}
         </div>
       ) : (
+        // <NumberInput
+        //   variant='filled'
+        //   placeholder={placeholder}
+        //   value={value}
+        //   onChange={(e) => onChange(Number(e))}
+        //   min={0}
+        //   precision={3}
+        // >
+        //   <NumberInputField />
+        // </NumberInput>
         <NumberInput
           variant='filled'
-          placeholder={placeholder}
           value={value}
-          onChange={(e) => onChange(Number(e))}
+          onChange={(_, valueAsNumber) => onChange(valueAsNumber)}
           min={0}
-          precision={3}
+          precision={precision} // または、直接 `3` などの値を設定
         >
-          <NumberInputField />
+          <NumberInputField placeholder={placeholder} />
         </NumberInput>
       )}
       {rule(value) ? null : (

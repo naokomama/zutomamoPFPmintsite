@@ -8,6 +8,7 @@ import WalletConnectView from './components/wallet-connect-view'
 
 // Context
 import { WalletContext } from './providers/wallet-provider'
+import { Button } from '@chakra-ui/react'
 
 export default function Home() {
   const { address, provider, chainId } = useContext(WalletContext)
@@ -15,7 +16,7 @@ export default function Home() {
   return (
     <main className="w-screen min-h-screen flex flex-col items-center">
       <div className='text-2xl mt-2'>
-        タイトル
+      ふるさと納税CNP 地図システム
       </div>
       <div className='w-full max-w-4xl'>
         <div className='w-full flex flex-row justify-center mt-5'>
