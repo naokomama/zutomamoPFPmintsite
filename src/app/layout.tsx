@@ -4,8 +4,8 @@ import './globals.css'
 
 
 export const metadata: Metadata = {
-  title: 'ふるさと納税CNP 地図システム',
-  description: 'ふるさと納税CNP 地図システム',
+  title: 'Baseミントサイト',
+  description: 'Baseミントサイト',
   icons: [],
 }
 

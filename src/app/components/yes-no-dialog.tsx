@@ -49,8 +49,8 @@ export default function YesNoDialog({ dialogData }: Props) {
         {dialogData.message}
       </ModalBody>
       <ModalFooter className='space-x-2'>
-        <Button colorScheme='red' onClick={onClickCancel}>Cancel</Button>
-        <Button colorScheme='blue' onClick={onClickOk}>OK</Button>
+        <Button colorScheme='blue' onClick={onClickCancel}>Cancel</Button>
+        <Button bg='#fa4e74' color='white' onClick={onClickOk}>OK</Button>
       </ModalFooter>
       </ModalContent>
     </Modal>

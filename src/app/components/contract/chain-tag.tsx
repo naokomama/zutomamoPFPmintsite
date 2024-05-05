@@ -11,9 +11,11 @@ export default function ChainTag({chainId}: Props) {
   const getTagColor = (chainId: number) => {
     switch (chainId) {
       case 1:
-        return 'blue'
+        return 'pink'
       case 137:
         return 'purple'
+      case 8453:
+        return 'pink'
       case 11155111:
         return 'blackAlpha'
       case 5:
@@ -28,6 +30,8 @@ export default function ChainTag({chainId}: Props) {
         return 'Ethereum'
       case 137:
         return 'Polygon'
+      case 8453:
+          return 'Base'
       case 11155111:
         return 'Sepolia'
       case 5:

@@ -12,11 +12,15 @@ import { Button } from '@chakra-ui/react'
 
 export default function Home() {
   const { address, provider, chainId } = useContext(WalletContext)
-
+//Base「ZUTTO MAMORU PFPコレクション」
   return (
     <main className="w-screen min-h-screen flex flex-col items-center">
       <div className='text-2xl mt-2'>
-      ふるさと納税CNP 地図システム
+        <text>「Base TestNaokoコレクション」</text>
+        <text>Mint Site</text>
+      </div>
+      <div className='text-2xl mt-2'>
+        <text>Mint Site</text>
       </div>
       <div className='w-full max-w-4xl'>
         <div className='w-full flex flex-row justify-center mt-5'>
