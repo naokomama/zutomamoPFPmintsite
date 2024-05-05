@@ -41,7 +41,7 @@ export default function ErrorDialog({ dialogData }: Props) {
         {dialogData.message}
       </ModalBody>
       <ModalFooter>
-        <Button colorScheme='blue' onClick={onClickClose}>Close</Button>
+        <Button bg='#fa4e74' color='white' onClick={onClickClose}>Close</Button>
       </ModalFooter>
       </ModalContent>
     </Modal>

@@ -1,17 +1,17 @@
 'use client'
 
 // Package
-import { Button, Image, Menu, MenuButton, MenuItem, MenuList, Card, CardHeader, CardBody, CardFooter, Heading, Text, Stack } from '@chakra-ui/react'
+import { Button, Image, Menu, MenuButton, MenuItem, MenuList, Card, CardHeader, CardBody, CardFooter, Heading, Text, Stack, Center } from '@chakra-ui/react'
 import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react'
 import { isMobile } from "react-device-detect"
 import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 import { getAccount } from '@wagmi/core'
 import { useWeb3Modal, useWeb3ModalEvents } from '@web3modal/wagmi/react'
-import { getContractDetails } from '../providers/contract-provider';
 
 // Context
 import { WalletContext } from '../providers/wallet-provider'
+import getContractDetails from '../providers/contract-provider';
 import ChainTag from './contract/chain-tag'
 
 export default function WalletConnectView() {
@@ -152,7 +152,7 @@ export default function WalletConnectView() {
     return (
       <div className='w-full'>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src="../../../assets/ALICE.png" className="App-logo" alt="logo" width={500} height={500}/>
+            <img src="../../../assets/takojiro4.png" className="App-logo" alt="logo" width={500} height={500}/>
         </div>
         <div>
         
@@ -177,11 +177,11 @@ export default function WalletConnectView() {
             </CardBody>
             <CardFooter>
               <Stack spacing={4} direction='row' align='center'>
-                <Button shadow="lg" borderRadius="full" padding={4} margin={0} bg='#66ccff' color='white' size='lg' style={{ fontSize: '20px', margin: '0px', textAlign: 'center' }}>MIN</Button>
-                <Button shadow="lg" borderRadius="full" padding={4} margin={0} bg='#66ccff' color='white' size='lg' style={{ fontSize: '30px', margin: '0px', textAlign: 'center' }}>-</Button>
+                <Button shadow="lg" height="60px" width="60px" borderRadius="full" padding={0} display="flex" alignItems="center" justifyContent="center" margin={0} bg='#66ccff' color='white' size='lg' style={{ fontSize: '20px', margin: '0px', textAlign: 'center' }}>MIN</Button>
+                <Button shadow="lg" height="50px" width="40px" borderRadius="full" padding={0} display="flex" alignItems="center" justifyContent="center" margin={0} bg='#66ccff' color='white' size='lg' style={{ fontSize: '30px', margin: '0px', textAlign: 'center' }}>-</Button>
                 <Text fontSize='3xl'> {contractDetails.userMintedAmount}</Text>
-                <Button shadow="lg" borderRadius="full" padding={4} margin={0} bg='#fa4e74' color='white' size='lg' style={{ fontSize: '30px', margin: '0px', textAlign: 'center' }}>+</Button>
-                <Button shadow="lg" borderRadius="full" padding={4} margin={0} bg='#fa4e74' color='white' size='lg' style={{ fontSize: '20px', margin: '0px', textAlign: 'center' }}>MAX</Button>
+                <Button shadow="lg" height="50px" width="40px" borderRadius="full" padding={0} display="flex" alignItems="center" justifyContent="center" margin={0} bg='#fa4e74' color='white' size='lg' style={{ fontSize: '30px', margin: '0px', textAlign: 'center' }}>+</Button>
+                <Button shadow="lg" height="60px" width="60px" borderRadius="full" padding={0} display="flex" alignItems="center" justifyContent="center" margin={0} bg='#fa4e74' color='white' size='lg' style={{ fontSize: '20px', margin: '0px', textAlign: 'center' }}>MAX</Button>
               </Stack>
             </CardFooter>
           </Card>

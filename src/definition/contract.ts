@@ -3,6 +3,7 @@ export const CHAIN_ID = {
   MAINNET : 1,
   GOERLI  : 5,
   POLYGON : 137,
+  BASE    : 8453,
   SEPOLIA : 11155111,
 }
 
@@ -41,6 +42,16 @@ export const FACTORY_ABI = {
 
 export const MAIN_ABI = {
   ERC721: [
+    // paused
+    {"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
+    // baseURI
+    {"inputs":[],"name":"baseURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+    // baseExtension
+    {"inputs":[],"name":"baseExtension","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+    // maxSupply
+    {"inputs":[],"name":"maxSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    // totalSupply
+    {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     // mint
     {"inputs":[{"internalType":"uint256[]","name":"_tokenIds","type":"uint256[]"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function"},
   ],
