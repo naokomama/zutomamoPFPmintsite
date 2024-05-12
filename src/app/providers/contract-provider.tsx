@@ -1,10 +1,11 @@
 import { ethers } from 'ethers';
+import { AlchemyProvider } from "@ethersproject/providers";
 import { FACTORY_CONTRACT_ADDRESS, FACTORY_ABI } from '../../definition/contract';
 
 // Alchemyを使ったプロバイダー設定
 const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string; // Alchemyから取得したAPIキー
 const network = "base"; // ネットワークエイリアス、"homestead"はメインネットを指します
-const provider = new ethers.AlchemyProvider(network, alchemyApiKey);
+const provider = new ethers.providers.AlchemyProvider(network, alchemyApiKey);
 
 // コントラクトに接続
 const contract = new ethers.Contract(

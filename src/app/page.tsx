@@ -17,7 +17,6 @@ export default function Home() {
     <main className="w-screen min-h-screen flex flex-col items-center">
       <div className='text-2xl mt-2'>
         <text>「Base TestNaokoコレクション」</text>
-        <text>Mint Site</text>
       </div>
       <div className='text-2xl mt-2'>
         <text>Mint Site</text>

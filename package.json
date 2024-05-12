@@ -1,5 +1,5 @@
 {
-  "name": "furusatocnp_map",
+  "name": "testnaoko",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,9 +14,11 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@ethersproject/providers": "^5.7.2",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.10",
     "@web3modal/wagmi": "^3.4.0",
-    "ethers": "^6.12.1",
     "framer-motion": "^10.16.14",
+    "merkletreejs": "^0.3.11",
     "next": "14.0.3",
     "react": "^18",
     "react-device-detect": "^2.2.3",
@@ -26,12 +28,17 @@
     "wagmi": "^1.4.8"
   },
   "devDependencies": {
+    "@ethereum-waffle/chai": "^4.0.10",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "chai": "^5.1.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
+    "ethers": "^5.7.2",
     "postcss": "^8",
     "tailwindcss": "^3.4.3",
     "typescript": "^5"

@@ -3,7 +3,7 @@
 // Package
 import { Button, Image, Menu, MenuButton, MenuItem, MenuList, Card, CardHeader, CardBody, CardFooter, Heading, Text, Stack, Center } from '@chakra-ui/react'
 import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useCallback } from 'react'
 import { isMobile } from "react-device-detect"
 import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 import { getAccount } from '@wagmi/core'
@@ -60,24 +60,63 @@ export default function WalletConnectView() {
     updateProvider()
   }, [modalEvent])
 
+    // ↓ 変更分
+  // const updateProvider = useCallback(async () => {
+  //   if (connectingAddress == null) {
+  //     setProvider(null);
+  //     setAddress(null);
+  //     setChainId(null);
+  //   } else {
+  //     if (getAccount().connector == null) return;
+  //     const provider = await getAccount().connector!.options.getProvider();
+  //     provider.on('accountsChanged', (accounts: string[]) => {
+  //       console.log('accountsChanged', accounts[0]);
+  //       setAddress(accounts[0]);
+  //     });
+  //     provider.on('chainChanged', (chainId: number) => {
+  //       console.log('chainChanged', Number(chainId));
+  //       setChainId(Number(chainId));
+  //     });
+  //     setProvider(provider);
+  //     setAddress(connectingAddress);
+  //     if (chain != null) {
+  //       setChainId(chain.id);
+  //     }
+  //   }
+  // }, [connectingAddress, setAddress, setChainId, setProvider, chain]); // ここに依存する変数や関数を列挙します
+  
+  // useEffect(() => {
+  //   updateProvider();
+  // }, [updateProvider, modalEvent]); // useEffect の依存配列に updateProvider を含めます
+
+  // ↑ 変更分
+
+  // const updateProvider = useCallback(() => {
+    // 関数の内容
+  // }, [/* 依存する変数やステート */]);
+
+  // useEffect(() => {
+  //   updateProvider()
+  // }, [updateProvider])
+
   useEffect(() => {
     updateProvider()
   }, [connectingAddress])
 
-  useEffect(() => {
-    async function fetchContractDetails() {
-      try {
-        if (connectingAddress) {
-          const details = await getContractDetails(connectingAddress);
-            setContractDetails(details);
-        }
-      } catch (error) {
-        console.error('Failed to fetch contract details:', error);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchContractDetails() {
+  //     try {
+  //       if (connectingAddress) {
+  //         const details = await getContractDetails(connectingAddress);
+  //           setContractDetails(details);
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to fetch contract details:', error);
+  //     }
+  //   }
 
-    fetchContractDetails();
-  }, [connectingAddress]);
+  //   fetchContractDetails();
+  // }, [connectingAddress]);
 
 
   const LoginView = () => {
@@ -152,7 +191,8 @@ export default function WalletConnectView() {
     return (
       <div className='w-full'>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src="../../../assets/takojiro4.png" className="App-logo" alt="logo" width={500} height={500}/>
+            {/* <img src="../../../assets/takojiro4.png" className="App-logo" alt="logo" width={500} height={500}/>*/}
+             <Image src="../../../assets/takojiro4.png" alt="海の中のまもちゃん" width={500} height={500} />
         </div>
         <div>
         
