@@ -21,7 +21,8 @@ export default function Home() {
       <div className='text-2xl mt-2'>
         <text>Mint Site</text>
       </div>
-      <div className='w-full max-w-4xl'>
+      {/* <div className='w-full max-w-500'> */}
+      <div className='w-500 max-w-500'>
         <div className='w-full flex flex-row justify-center mt-5'>
           <WalletConnectView />
         </div>

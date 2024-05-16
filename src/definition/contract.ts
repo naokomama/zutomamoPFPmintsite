@@ -53,7 +53,7 @@ export const MAIN_ABI = {
     // totalSupply
     {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     // mint
-    {"inputs":[{"internalType":"uint256[]","name":"_tokenIds","type":"uint256[]"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function"},
+    {"inputs":[{"internalType":"address","name":"_address","type":"address"},{"internalType":"uint256[]","name":"_tokenIds","type":"uint256[]"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function"}
   ],
   ERC1155: [
     // paused
