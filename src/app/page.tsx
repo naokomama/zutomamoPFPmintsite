@@ -1,6 +1,11 @@
 'use client'
 
 // Package
+// import { NextPage } from 'next';
+// import { createWeb3Modal } from '@web3modal/wagmi';
+// import { useWeb3Modal } from '@web3modal/wagmi/react';
+// import { useEffect } from 'react';
+
 import { useContext } from 'react'
 
 // Component
@@ -8,7 +13,7 @@ import WalletConnectView from './components/wallet-connect-view'
 
 // Context
 import { WalletContext } from './providers/wallet-provider'
-import { Button } from '@chakra-ui/react'
+// import { Button } from '@chakra-ui/react'
 
 export default function Home() {
   const { address, provider, chainId } = useContext(WalletContext)

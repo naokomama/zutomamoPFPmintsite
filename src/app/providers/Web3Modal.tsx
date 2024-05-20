@@ -3,7 +3,7 @@
 // Package
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 import { WagmiConfig } from 'wagmi'
-import { goerli, mainnet } from 'viem/chains'
+import { sepolia, base } from 'viem/chains'
 
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID as string || ''
 const metadata = {
@@ -13,7 +13,7 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
-const chains = process.env.NEXT_PUBLIC_IS_DEBUG ? [goerli] : [mainnet]
+const chains = process.env.NEXT_PUBLIC_IS_DEBUG ? [sepolia] : [base]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 createWeb3Modal({ wagmiConfig, projectId, chains })
 
