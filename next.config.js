@@ -1,6 +1,6 @@
+// ↓いつものlocalhost
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export',
   webpack: config => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding')
     return config
@@ -8,6 +8,24 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+// ↑いつものlocalhost
+
+// ↓静的サイトできない…
+// const prefixPath = 'https://nft.naokomamablog.com/TestBaseMint/'
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   trailingSlash: true,
+//   // @see https://beta.nextjs.org/docs/configuring/static-export#configuration
+//   output: "export",
+//   assetPrefix: prefixPath,
+//   reactStrictMode: true,
+// };
+
+// module.exports = nextConfig
+
+// ↑静的サイトできない…
+
 // module.exports = {
 //   exportTrailingSlash: true,
 //   images: {

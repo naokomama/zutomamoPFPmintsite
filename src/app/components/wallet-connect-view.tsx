@@ -3,7 +3,6 @@
 // Package
 import { Button, Image, Menu, MenuButton, MenuItem, MenuList, Card, CardHeader, CardBody, CardFooter, Heading, Text, Stack, Center } from '@chakra-ui/react'
 import { ethers } from 'ethers';
-// import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import { useContext, useEffect, useState, useCallback } from 'react'
 import { isMobile } from "react-device-detect"
 import { useAccount, useDisconnect, useNetwork } from 'wagmi'
@@ -19,6 +18,7 @@ import ChainTag from './contract/chain-tag'
 import InfoDialog from './info-dialog'
 import ErrorDialog from './error-dialog'
 import DialogData from '@/entity/dialog/dialog-data'
+import LoadingOverlay from './loading-overlay'
 
 export default function WalletConnectView() {
   const { address, chainId, provider, setAddress, setChainId, setProvider } = useContext(WalletContext)
@@ -46,36 +46,6 @@ export default function WalletConnectView() {
     setCanUseMetamask(window.ethereum != null)
   }, [])
 
-  // ↓ 変更分元の
-  // const updateProvider = async () => {
-  //   if (connectingAddress == null) {
-  //     setProvider(null)
-  //     setAddress(null)
-  //     setChainId(null)
-  //   } else {
-  //     if (getAccount().connector == null) return
-  //     const provider = await getAccount().connector!.options.getProvider()
-  //     provider.on('accountsChanged', (accounts: string[]) => {
-  //       console.log('accountsChanged', accounts[0])
-  //       setAddress(accounts[0])
-  //     })
-  //     provider.on('chainChanged', (chainId: number) => {
-  //       console.log('chainChanged', Number(chainId))
-  //       setChainId(Number(chainId))
-  //     })
-  //     setProvider(provider)
-  //     setAddress(connectingAddress)
-  //     if (chain != null) {
-  //       setChainId(chain.id)
-  //     }
-  //   }
-  // }
-  // useEffect(() => {
-  //   updateProvider()
-  // }, [modalEvent])
-  // ↑ 変更分元の
-
-    // ↓ 変更分
   const updateProvider = useCallback(async () => {
     if (connectingAddress == null) {
       setProvider(null);
@@ -108,18 +78,6 @@ export default function WalletConnectView() {
     updateProvider()
   }, [updateProvider])
 
-
-  // ↑ 変更分
-
-  // const updateProvider = useCallback(() => {
-    // 関数の内容
-  // }, [/* 依存する変数やステート */]);
-
-
-  // useEffect(() => {
-  //   updateProvider()
-  // }, [connectingAddress])
-
   useEffect(() => {
     async function fetchContractDetails() {
       try {
@@ -133,6 +91,12 @@ export default function WalletConnectView() {
         }
       } catch (error) {
         console.error('Failed to fetch contract details:', error);
+        setErrorData({
+          title: 'Error',
+          message: 'コントラクト読み取りエラーが発生しました。もう一度お試しください。',
+          callback: () => setErrorData(null),
+          cancelCallback: () => setErrorData(null)
+        })
       }
     }
 
@@ -163,7 +127,7 @@ export default function WalletConnectView() {
           // setProvider(provider)
           setProvider(new ethers.providers.Web3Provider(provider))
         }} isDisabled={isMinting}>
-          <Image className='mr-1' src='/assets/metamask.svg' height={5} alt='' />
+          <img className='mr-1' src='/assets/metamask.svg' height={5} alt='' />
           Metamask接続
         </Button>
       )
@@ -177,7 +141,7 @@ export default function WalletConnectView() {
           const metamaskLink = `https://metamask.app.link/dapp/` + `${path}`
           location.href = metamaskLink
         }} isDisabled={isMinting}>
-          <Image className='mr-1' src='/assets/metamask.svg' height={5} alt='' />
+          <img className='mr-1' src='/assets/metamask.svg' height={5} alt='' />
           MetamaskAppで開く
         </Button>
       )
@@ -188,7 +152,8 @@ export default function WalletConnectView() {
 
   // Mint 数量の調整ボタン
   const handleIncrease = () => {
-    if (mintAmount < 3) {  // 最大値を3に設定
+    const remainingMintable = parseInt(contractDetails.maxSupply) - parseInt(contractDetails.totalSupply);
+    if (mintAmount < Math.min(3, remainingMintable)) {  // 最大値を3または残りミント可能数に設定
       setMintAmount(mintAmount + 1);
     }
   };
@@ -204,7 +169,8 @@ export default function WalletConnectView() {
   };
 
   const setToMax = () => {
-    setMintAmount(3);
+    const remainingMintable = parseInt(contractDetails.maxSupply) - parseInt(contractDetails.totalSupply);
+    setMintAmount(Math.min(3, remainingMintable));
   };
 
   const LogoutView = () => {
@@ -255,33 +221,50 @@ export default function WalletConnectView() {
           });
         } catch (addError) {
           console.error('Failed to add the network:', addError);
+          setErrorData({
+            title: 'Error',
+            message: 'ネットワークの追加に失敗しました。',
+            callback: () => setErrorData(null),
+            cancelCallback: () => setErrorData(null)
+          })
         }
       } else {
         console.error('Failed to switch the network:', switchError);
+        setErrorData({
+          title: 'Error',
+          message: 'ネットワークの切り替えに失敗しました。',
+          callback: () => setErrorData(null),
+          cancelCallback: () => setErrorData(null)
+        })
       }
     }
   };
 
   const ImageView = () => {
     if (provider == null || contractDetails == null) return null
+    const remainingMintable = parseInt(contractDetails.maxSupply) - parseInt(contractDetails.totalSupply);
     return(
       <div className='w-full' style={{ width: '500px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <Image src="../../../assets/takojiro4.png" alt="海の中のまもちゃん" width={500} height={500} />
+          <img src="../../../assets/takojiro4.png" alt="海の中のまもちゃん" width={500} height={500} />
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
 
         { /* Baseチェーン以外の場合、切り替えボタンを表示  */}
-        {chainId === CHAIN_ID.BASE ? (
-          <MainView />
+        {remainingMintable > 0 ? (
+          chainId !== null && chainId === CHAIN_ID.BASE ? (
+            <MainView />
           ) : (
-          
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isMinting}>
-              Switch to Base Network
-            </Button>
-          </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isMinting}>
+                Switch to Base Network
+              </Button>
+            </div>
+          )
+
+        ) : (
+            <Text fontSize="2xl" color="red.500">完売しました</Text>
         )}
 
         </div>
@@ -387,7 +370,7 @@ export default function WalletConnectView() {
       // エラーが発生したらエラーダイアログを表示
       setErrorData({
         title: 'Error',
-        message: 'An unexpected error occurred. Please try again.',
+        message: '予期せぬエラーが発生しました。もう一度お試しください。',
         callback: () => setErrorData(null),
         cancelCallback: () => setErrorData(null)
       })
@@ -401,6 +384,7 @@ export default function WalletConnectView() {
       <ImageView />
       <InfoDialog dialogData={dialogData} />
       <ErrorDialog dialogData={errorData} />
+      <LoadingOverlay loading={isMinting} />
     </div>
   )
 }
