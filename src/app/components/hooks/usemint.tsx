@@ -28,7 +28,17 @@ export const useMint = () => {
       console.log(successMessage);
       return { success: true, message: successMessage };
     } catch (error) {
-      const errorMessage = `ミント時にエラーが発生しました: ${error}`;
+      const errorCode = (error as any)?.code;
+      const errorMg = (error as any)?.message || (error as any).toString();
+
+      if (errorCode === 4001) {
+        // ユーザーがトランザクションを拒否した場合の処理
+        const cancelMessage = 'ユーザーがトランザクションを拒否しました。';
+        console.log(cancelMessage);
+        return { success: true, message: cancelMessage };
+      }
+
+      const errorMessage = `ミント時にエラーが発生しました: ${errorCode} : ${errorMg}`;
       console.error(errorMessage);
       return { success: false, message: errorMessage };
     }
