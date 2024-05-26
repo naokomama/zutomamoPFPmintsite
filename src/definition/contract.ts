@@ -19,7 +19,7 @@ export const FACTORY_CONTRACT_ADDRESS = {
   MAINNET_ERC1155 : '0x9B18566174416349D179135f52f9f026278edEF9',
   POLYGON_ERC721  : '',
   POLYGON_ERC1155 : '',
-  BASE_ERC721  : '0xF03D53a588db1A268ddec939cdCe58253D53c8bB',
+  BASE_ERC721     : '0xF03D53a588db1A268ddec939cdCe58253D53c8bB',
   BASE_ERC1155 : '',
   SEPOLIA_ERC721  : '',
   SEPOLIA_ERC1155 : '0x96AcFBE52E8dB8826857A6732D781Ad11521B174',
@@ -53,7 +53,7 @@ export const MAIN_ABI = {
     // totalSupply
     {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     // mint
-    {"inputs":[{"internalType":"uint256[]","name":"_tokenIds","type":"uint256[]"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function"},
+    {"inputs":[{"internalType":"address","name":"_address","type":"address"},{"internalType":"uint256[]","name":"_tokenIds","type":"uint256[]"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function"}
   ],
   ERC1155: [
     // paused

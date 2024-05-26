@@ -20,6 +20,8 @@ export default function ChainTag({chainId}: Props) {
         return 'blackAlpha'
       case 5:
         return 'blackAlpha'
+      case 3776:
+        return 'lightblue'
       default:
         return 'gray'
     }
@@ -36,6 +38,8 @@ export default function ChainTag({chainId}: Props) {
         return 'Sepolia'
       case 5:
         return 'Goerli'
+      case 3776:
+        return 'Astar zkEVM'
       default:
         return 'unknown'
     }

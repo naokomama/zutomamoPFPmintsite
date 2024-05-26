@@ -1,14 +1,14 @@
 // Package
-import { createContext, useState } from 'react'
+import { createContext, useState } from 'react';
 
 export type WalletInfo = {
-  address: string | null
-  chainId: number | null
-  provider: any
-  setAddress: (address: string | null) => void
-  setChainId: (chainId: number | null) => void
-  setProvider: (provider: any) => void
-}
+  address: string | null;
+  chainId: number | null;
+  provider: any;
+  setAddress: (address: string | null) => void;
+  setChainId: (chainId: number | null) => void;
+  setProvider: (provider: any) => void;
+};
 
 export const WalletContext = createContext<WalletInfo>({
   address: null,
@@ -17,7 +17,7 @@ export const WalletContext = createContext<WalletInfo>({
   setAddress: () => {},
   setChainId: () => {},
   setProvider: () => {},
-})
+});
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
@@ -25,8 +25,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [chainId, setChainId] = useState<number | null>(null);
 
   return (
-    <WalletContext.Provider value={{address, chainId, provider, setAddress, setChainId, setProvider}}>
+    <WalletContext.Provider value={{ address, chainId, provider, setAddress, setChainId, setProvider }}>
       {children}
     </WalletContext.Provider>
-  )
+  );
 }
