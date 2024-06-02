@@ -9,6 +9,9 @@
 # testing
 /coverage
 
+/bkcontracts
+/successcontracts
+
 # next.js
 /.next/
 /out/

@@ -12,7 +12,8 @@
 // ↑いつものlocalhost
 
 // ↓静的サイト
-const prefixPath = 'https://nft.naokomamablog.com/TestBaseMint/'
+// const prefixPath = 'https://nft.naokomamablog.com/TestBaseMint/'
+const prefixPath = 'https://zutomamogen.net/zutomamoPFP/mintsite/'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
@@ -24,7 +25,7 @@ const nextConfig = {
 
 module.exports = nextConfig
 
-// ↑静的サイトできない…
+// ↑静的サイト
 
 // module.exports = {
 //   exportTrailingSlash: true,

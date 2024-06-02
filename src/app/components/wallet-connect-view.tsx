@@ -38,7 +38,7 @@ export default function WalletConnectView() {
   const [errorData, setErrorData] = useState<DialogData | null>(null);
   const [isLoading, setisLoading] = useState(false);
   const [remainingMintable, setRemainingMintable] = useState<number | null>(null);
-  const SUB_DIRECTRY = "/TestBaseMint/assets/";
+  const SUB_DIRECTRY = "assets/";
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -132,7 +132,7 @@ export default function WalletConnectView() {
           setChainId(Number(chainId));
           setProvider(new ethers.providers.Web3Provider(provider));
         }} isDisabled={isLoading}>
-          <img className='mr-1 metamask-icon' src= {SUB_DIRECTRY + '/metamask.svg'} alt='' />
+          <img className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
           Metamask接続
         </Button>
       );
@@ -145,7 +145,7 @@ export default function WalletConnectView() {
           const metamaskLink = `https://metamask.app.link/dapp/` + `${path}`;
           location.href = metamaskLink;
         }} isDisabled={isLoading}>
-          <img className='mr-1 metamask-icon' src={SUB_DIRECTRY + '/metamask.svg'} alt='' />
+          <img className='mr-1 metamask-icon' src={SUB_DIRECTRY + 'metamask.svg'} alt='' />
           MetamaskAppで開く
         </Button>
       );
@@ -204,7 +204,8 @@ export default function WalletConnectView() {
     try {
       await (window.ethereum as any).request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${CHAIN_ID.BASE.toString(16)}` }],
+        // params: [{ chainId: `0x${CHAIN_ID.BASE.toString(16)}` }],
+        params: [{ chainId: `0x${CHAIN_ID.SEPOLIA.toString(16)}` }],
       });
     } catch (switchError: any) {
 
@@ -246,20 +247,34 @@ export default function WalletConnectView() {
         "method": "wallet_addEthereumChain",
         "params": [
           {
+            // "blockExplorerUrls": [
+            //   "https://basescan.org"
+            // ],
+            // "iconUrls": [],
+            // "nativeCurrency": {
+            //   "name": "ETH",
+            //   "symbol": "ETH",
+            //   "decimals": 18
+            // },
+            // "rpcUrls": [
+            //   "https://mainnet.base.org"
+            // ],
+            // "chainId": `0x${CHAIN_ID.BASE.toString(16)}`,
+            // "chainName": "Base"
             "blockExplorerUrls": [
-              "https://basescan.org"
+              "https://sepolia.basescan.org/"
             ],
             "iconUrls": [],
             "nativeCurrency": {
-              "name": "ETH",
-              "symbol": "ETH",
+              "name": "SepoliaETH",
+              "symbol": "SepoliaETH",
               "decimals": 18
             },
             "rpcUrls": [
-              "https://mainnet.base.org"
+              "https://sepolia.base.org"
             ],
-            "chainId": `0x${CHAIN_ID.BASE.toString(16)}`,
-            "chainName": "Base"
+            "chainId": `0x${CHAIN_ID.SEPOLIA.toString(16)}`,
+            "chainName": "BaseSepolia"
           }
         ]
       });
@@ -280,14 +295,20 @@ export default function WalletConnectView() {
   const ImageView = () => {
     if (provider == null || contractDetails == null || remainingMintable == null || !isLoaded) return null;
 
+    // 販売が停止中の場合のエラーメッセージ表示
+    if (contractDetails.paused) {
+      return <Text fontSize="2xl" color="red.500">販売を停止しています。Discordの情報をチェックしてください。</Text>;
+    }
+
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <img src={ SUB_DIRECTRY + "/takojiro4.png" } alt="海の中のまもちゃん" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
+          <img src={ SUB_DIRECTRY + "PFP-100.jpg" } alt="ずとまもPFP" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           
-            {chainId !== null && chainId !== CHAIN_ID.BASE ? (
+            {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( */}
+            {chainId !== null && chainId !== CHAIN_ID.SEPOLIA ? (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
                   Switch to Base Network

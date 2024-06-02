@@ -22,6 +22,8 @@ export default function ChainTag({chainId}: Props) {
         return 'blackAlpha'
       case 3776:
         return 'lightblue'
+      case 84532:
+        return 'blue'
       default:
         return 'gray'
     }
@@ -40,6 +42,8 @@ export default function ChainTag({chainId}: Props) {
         return 'Goerli'
       case 3776:
         return 'Astar zkEVM'
+      case 84532:
+          return 'Base Sepolia'
       default:
         return 'unknown'
     }
