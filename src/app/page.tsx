@@ -9,6 +9,7 @@ const WalletConnectView = dynamic(() => import('./components/wallet-connect-view
 export default function Home() {
   // const { address, provider, chainId } = useContext(WalletContext);
   const SUB_DIRECTRY = "assets/";
+  console.log("Home");
 
   return (
     <main className="w-screen min-h-screen flex flex-col items-center">

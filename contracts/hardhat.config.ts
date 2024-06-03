@@ -29,12 +29,12 @@ const config: HardhatUserConfig = {
         }
       }
     },
-    // // for local dev environment
-    // 'base-local': {
-    //   url: 'http://localhost:8545',
-    //   accounts: [process.env.WALLET_KEY as string],
-    //   gasPrice: 1000000000,
-    // },
+    // for local dev environment
+    'base-local': {
+      url: 'http://localhost:8545',
+      accounts: [process.env.PRIVATE_KEY as string],
+      gasPrice: 1000000000,
+    },
   },
   etherscan: {
     apiKey: {

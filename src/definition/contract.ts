@@ -20,12 +20,12 @@ export const FACTORY_CONTRACT_ADDRESS = {
   POLYGON_ERC721  : '',
   POLYGON_ERC1155 : '',
   // BASE_ERC721     : '0xF03D53a588db1A268ddec939cdCe58253D53c8bB',
-  BASE_ERC721     : '0x2c37Cfd0Bde423e88b4AC0E9Cd441a6e14fDdaa8',
+  BASE_ERC721     : '0x5548480aeee674041Fada7e1eF0E2D62b9cD18a8',
   BASE_ERC1155 : '',
-  SEPOLIA_ERC721  : '0x2c37Cfd0Bde423e88b4AC0E9Cd441a6e14fDdaa8',
-  SEPOLIA_ERC1155 : '0x96AcFBE52E8dB8826857A6732D781Ad11521B174',
+  SEPOLIA_ERC721  : '0x5548480aeee674041Fada7e1eF0E2D62b9cD18a8',
+  SEPOLIA_ERC1155 : '',
   GOERLI_ERC721   : '',
-  GOERLI_ERC1155  : '0x66B2C27355ec1911FC944d55B2E36c80A59bc369',
+  GOERLI_ERC1155  : '',
 }
 
 // ABI
@@ -52,9 +52,13 @@ export const MAIN_ABI = {
     // maxSupply
     {"inputs":[],"name":"maxSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     // totalSupply
-    {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    // {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"result","type":"uint256"}],"stateMutability":"view","type":"function"},
+    // mintedAmountBySales
+    {"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"address","name":"","type":"address"}],"name":"mintedAmountBySales","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     // mint
-    {"inputs":[{"internalType":"address","name":"_address","type":"address"},{"internalType":"uint256[]","name":"_tokenIds","type":"uint256[]"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function"}
+    // {"inputs":[{"internalType":"address","name":"_address","type":"address"},{"internalType":"uint256[]","name":"_tokenIds","type":"uint256[]"}],"name":"mint","outputs":[],"stateMutability":"payable","type":"function"}
+    {"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"uint256","name":"_allowedAmount","type":"uint256"},{"internalType":"bytes32[]","name":"_merkleProof","type":"bytes32[]"}],"name":"claim","outputs":[],"stateMutability":"payable","type":"function"},
   ],
   ERC1155: [
     // paused

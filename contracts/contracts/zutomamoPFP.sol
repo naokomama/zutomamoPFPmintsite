@@ -60,6 +60,7 @@ contract zutomamoPFP is ERC721A, AccessControl, Pausable {
     constructor() ERC721A("zutomamoPFP", "ZMP") {
         _grantRole(ADMIN, msg.sender);
         setWithdrawAddress(msg.sender);
+        pause();
 
         // Initialize stage timestamps
         stageTimestamps = AllStageParams({
@@ -234,12 +235,21 @@ contract zutomamoPFP is ERC721A, AccessControl, Pausable {
         return block.timestamp >= stageTimestamps.tomb;
     }
 
-    // Admin Tools
+    // Pausable
     function pause() public onlyRole(ADMIN) {
         _pause();
     }
     function unpause() public onlyRole(ADMIN) {
         _unpause();
+    }
+
+    // AccessControl
+    function grantRole(bytes32 role, address account) public override onlyRole(ADMIN) {
+        _grantRole(role, account);
+    }
+    
+    function revokeRole(bytes32 role, address account) public override onlyRole(ADMIN) {
+        _revokeRole(role, account);
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721A, AccessControl) returns (bool) {

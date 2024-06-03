@@ -6,7 +6,8 @@ import { FACTORY_CONTRACT_ADDRESS, MAIN_ABI } from '../../../definition/contract
 export const useMint = () => {
   const { provider } = useContext(WalletContext);
 
-  const mintTokens = async (userAddress: string, mintIdx: string[]) => {
+  // const mintTokens = async (userAddress: string, mintIdx: string[]) => {
+    const mintTokens = async (amount: number, allowedAmount: number, merkleProof: any) => {
     if (!provider) {
       const errorMessage = 'Provider not found';
       console.error(errorMessage);
@@ -21,7 +22,7 @@ export const useMint = () => {
     );
 
     try {
-      const mintTx = await contractWithSigner.mint(userAddress, mintIdx);
+      const mintTx = await contractWithSigner.mint(amount, allowedAmount, merkleProof);
       console.log('Mint transaction sent:', mintTx.hash);
       await mintTx.wait(); // トランザクションの確定を待つ
       const successMessage = 'ミントが完了しました';

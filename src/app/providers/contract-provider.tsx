@@ -12,23 +12,28 @@ const contract = new ethers.Contract(
   MAIN_ABI.ERC721,
   provider
 );
+const salesID = 0;
 
 export default async function getContractDetails(userAddress: string) {
   try {
     const totalSupplyPromise = contract.totalSupply();
     const maxSupplyPromise = contract.maxSupply();
     const pausedPromise = contract.paused();
+    // const mintedAmountBySalesPromise = contract.mintedAmountBySales(salesID, userAddress);
+    // const [totalSupply, maxSupply, paused, mintedAmountBySales] = await Promise.all([
     const [totalSupply, maxSupply, paused] = await Promise.all([
       totalSupplyPromise,
       maxSupplyPromise,
-      pausedPromise
+      pausedPromise,
+      // mintedAmountBySalesPromise
     ]);
 
     return {
       totalSupply: totalSupply.toString(),
-      userMintedAmount: "3",
       maxSupply: maxSupply.toString(),
-      paused: paused
+      paused: paused,
+      // mintedAmountBySales: mintedAmountBySales.toString()
+      mintedAmountBySales: "5"
     };
   } catch (error) {
     console.error('Error fetching contract details:', error);
