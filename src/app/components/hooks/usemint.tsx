@@ -22,9 +22,9 @@ export const useMint = () => {
     );
 
     try {
-      const mintTx = await contractWithSigner.mint(amount, allowedAmount, merkleProof);
-      console.log('Mint transaction sent:', mintTx.hash);
-      await mintTx.wait(); // トランザクションの確定を待つ
+      const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof);
+      console.log('Mint transaction sent:', claimTx.hash);
+      await claimTx.wait(); // トランザクションの確定を待つ
       const successMessage = 'ミントが完了しました';
       console.log(successMessage);
       return { success: true, message: successMessage };
