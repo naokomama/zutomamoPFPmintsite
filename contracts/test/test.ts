@@ -3,19 +3,20 @@ import { MerkleTree } from "merkletreejs";
 import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import hre from "hardhat";
+// import { ethers } from "hardhat";
 
 const BASE_URI = "https://zutomamogen.net/zutomamoPFP/json/";
 const WITHDRAW_ADDRESS = "0x376E2F69A4cF1E73A444055291F9b250166746a9";
 
 export const allowedAddressesLv1 = ['0x976EA74026E726554dB657fA54763abd0C3a0aa9', '0xe030EaDA1e2734356C4e170dCB8DA86B1F399482', '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266']
-  .map(address => ethers.getAddress(address));
+  .map(address => hre.ethers.getAddress(address));
 
 export const allowedAddressesLv2 = ['0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65']
-  .map(address => ethers.getAddress(address));
+  .map(address => hre.ethers.getAddress(address));
 
 export const allowedAddressesLocal = ['0x4Df74Aa88c771a82121A8F15b69505Edd5Ff8Aad']
-  .map(address => ethers.getAddress(address));
+  .map(address => hre.ethers.getAddress(address));
 
 type Node = {
   address: string,
@@ -23,16 +24,17 @@ type Node = {
 };
 
 const createTree = (allowList: Node[]) => {
-  const leaves = allowList.map(node => ethers.solidityPackedKeccak256(['address', 'uint256'], [node.address, node.amount]));
+  const leaves = allowList.map(node => hre.ethers.solidityPackedKeccak256(['address', 'uint256'], [node.address, node.amount]));
   return new MerkleTree(leaves, keccak256, { sortPairs: true });
 };
 
 describe("ZutomamoPFP", function () {
 
   async function fixture() { 
-    const [owner, account, ...others] = await ethers.getSigners();
-    const getcontract = await ethers.getContractFactory("zutomamoPFP");
-    const myContract = await getcontract.connect(owner).deploy();
+    const [owner, account, ...others] = await hre.ethers.getSigners();
+    const getcontract = await hre.ethers.getContractFactory("zutomamoPFP");
+    // const myContract = await getcontract.connect(owner).deploy();
+    const myContract = await getcontract.deploy();
 
     const [addr1, addr2, addr3, addr4] = others;
 
@@ -52,13 +54,16 @@ describe("ZutomamoPFP", function () {
       { address: addr4.address, amount: 40 }
     ]);
 
-    let mintCost = ethers.parseEther("0.021");
+    let mintCost = hre.ethers.parseEther("0.021");
 
     // Set sales info
     await myContract.setSalesInfo(0, 210, mintCost, tree.getHexRoot());
     await myContract.setBaseURI(BASE_URI);
     await myContract.setBaseExtension(".json");
     await myContract.unpause();
+
+    // let leafNodes = allowList.map((addr) => keccak256(hre.ethers.solidityPackedKeccak256(['address', 'uint256'], [addr, allowedAmount])));
+    // let merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
 
     let re_baseURI = await myContract.connect(owner).baseURI();
     let re_baseExtension = await myContract.connect(owner).baseExtension();
@@ -102,10 +107,31 @@ describe("ZutomamoPFP", function () {
 
       // let mintCost = await myContract.connect(owner).mintCost();
       // console.log("mintCost : %s",mintCost)
-      expect(re_mintCost).to.equal(ethers.parseEther("0.021"));
-      // expect(mintCost).to.equal(ethers.parseEther("0.021"));
+      expect(re_mintCost).to.equal(hre.ethers.parseEther("0.021"));
       // expect(await myContract.merkleRoot()).to.equal(tree.getHexRoot());
-    });});
+      // expect(mintCost).to.equal(hre.ethers.parseEther("0.021"));
+      // expect(await myContract.merkleRoot()).to.equal(tree.getHexRoot());
+    });
+  });
+
+  describe("Minting", function () {
+    it("Should mint tokens correctly with valid proof", async function () {
+      const { myContract, owner, account, others, addr1, addr2, addr3, addr4, tree, re_baseURI, re_baseExtension, re_salesId, re_maxSupply, re_mintCost } = await loadFixture(fixture);
+      const proof = tree.getHexProof(tree.getLeaf(0));
+
+      await myContract.connect(owner).claim(2, 20, proof, { value: re_mintCost * 2 });
+      expect(await myContract.balanceOf(owner.address)).to.equal(2);
+    });
+
+    it("Should not mint tokens with invalid proof", async function () {
+      const { myContract, owner, account, others, addr1, addr2, addr3, addr4, tree, re_baseURI, re_baseExtension, re_salesId, re_maxSupply, re_mintCost } = await loadFixture(fixture);
+      const proof = tree.getHexProof(keccak256(addr2.address));
+
+      await expect(
+        myContract.connect(addr2).claim(2, 20, proof, { value: re_mintCost * 2 })
+      ).to.be.revertedWith("Invalid proof");
+    });
+  });
 });
 
 // ↓↓↓
@@ -120,13 +146,13 @@ describe("ZutomamoPFP", function () {
 // const WITHDRAW_ADDRESS = "0x376E2F69A4cF1E73A444055291F9b250166746a9";
 
 // export const allowedAddressesLv1 = ['0x976EA74026E726554dB657fA54763abd0C3a0aa9', '0xe030EaDA1e2734356C4e170dCB8DA86B1F399482', '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // export const allowedAddressesLv2 = ['0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // export const allowedAddressesLocal = ['0x4Df74Aa88c771a82121A8F15b69505Edd5Ff8Aad']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // type Node = {
 //   address: string,
@@ -135,15 +161,15 @@ describe("ZutomamoPFP", function () {
 
 // const createTree = (allowList: Node[]) => {
 
-//   const leaves = allowList.map(node => ethers.solidityPackedKeccak256(['address', 'uint256'], [node.address, node.amount]));
+//   const leaves = allowList.map(node => hre.ethers.solidityPackedKeccak256(['address', 'uint256'], [node.address, node.amount]));
 //   return new MerkleTree(leaves, keccak256, { sortPairs: true });
 // }
 
 // describe("ZutomamoPFP", function () {
 
 //   async function fixture() { 
-//     const [owner, account, ...others] = await ethers.getSigners();
-//     const getcontract = await ethers.getContractFactory("zutomamoPFP");
+//     const [owner, account, ...others] = await hre.ethers.getSigners();
+//     const getcontract = await hre.ethers.getContractFactory("zutomamoPFP");
 //     const myContract = await getcontract.connect(owner).deploy();
 
 //     const [addr1, addr2, addr3, addr4] = others;
@@ -184,7 +210,7 @@ describe("ZutomamoPFP", function () {
 //   beforeEach(async function () {
 //     const { myContract, owner, account, others, addr1, addr2, addr3, addr4, tree } = await loadFixture(fixture);
 
-//     let mintCost: bigint = ethers.parseEther("0.021");
+//     let mintCost: bigint = hre.ethers.parseEther("0.021");
 
 //     // Set sales info
 //     await myContract.setSalesInfo(1, 210, mintCost, tree);
@@ -224,20 +250,20 @@ describe("ZutomamoPFP", function () {
 // const WITHDRAW_ADDRESS = "0x376E2F69A4cF1E73A444055291F9b250166746a9";
 
 // export const allowedAddressesLv1 = ['0x976EA74026E726554dB657fA54763abd0C3a0aa9', '0xe030EaDA1e2734356C4e170dCB8DA86B1F399482', '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // export const allowedAddressesLv2 = ['0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // export const allowedAddressesLocal = ['0x4Df74Aa88c771a82121A8F15b69505Edd5Ff8Aad']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // type Node = {
 //   address: string,
 //   amount: number
 // }
 // const createTree = (allowList: Node[]) => {
-// const leaves = allowList.map(node => ethers.solidityKeccak256(['address', 'uint256'],
+// const leaves = allowList.map(node => hre.ethers.solidityKeccak256(['address', 'uint256'],
 //   [node.address, node.amount]))
 // return new MerkleTree(leaves, keccak256, { sortPairs: true })
 // }
@@ -246,9 +272,9 @@ describe("ZutomamoPFP", function () {
 
 //   async function fixture() { 
 //     // 1. テストに使うウォレットアドレスを作成する
-//     const [owner, account, ...others] = await ethers.getSigners()
+//     const [owner, account, ...others] = await hre.ethers.getSigners()
 //     // 2. ソースコードからスマートコントラクトを生成する
-//     const getcontract = await ethers.getContractFactory("zutomamoPFP")
+//     const getcontract = await hre.ethers.getContractFactory("zutomamoPFP")
 //     // 3. スマートコントラクトをローカルネットワークにデプロイする
 //     const myContract = await getcontract.connect(owner).deploy()
 
@@ -268,10 +294,10 @@ describe("ZutomamoPFP", function () {
 //                                { address: addr3.address,amount:30},
 //                                { address: addr4.address,amount:40}]);
     
-//     const getcontractminter = await ethers.getContractFactory("externalMinter")
+//     const getcontractminter = await hre.ethers.getContractFactory("externalMinter")
 //     const minterContract = await getcontractminter.connect(owner).deploy()
 
-//     const getcontracttokenuri = await ethers.getContractFactory("testURI")
+//     const getcontracttokenuri = await hre.ethers.getContractFactory("testURI")
 //     const tokenuriContract = await getcontracttokenuri.connect(owner).deploy()
   
 //     return { myContract, owner, account, others, addr1, addr2, addr3, addr4, tree, tree2 }
@@ -300,20 +326,20 @@ describe("ZutomamoPFP", function () {
 // const WITHDRAW_ADDRESS = "0x8C638E735Fe99F577d17290b2B7D682f0B165b98";
 
 // export const allowedAddressesLv1 = ['0x976EA74026E726554dB657fA54763abd0C3a0aa9', '0xe030EaDA1e2734356C4e170dCB8DA86B1F399482', '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // export const allowedAddressesLv2 = ['0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // export const allowedAddressesLocal = ['0x4Df74Aa88c771a82121A8F15b69505Edd5Ff8Aad']
-//   .map(address => ethers.getAddress(address))
+//   .map(address => hre.ethers.getAddress(address))
 
 // type Node = {
 //   address: string,
 //   amount: number
 // }
 // const createTree = (allowList: Node[]) => {
-// const leaves = allowList.map(node => ethers.solidityKeccak256(['address', 'uint256'],
+// const leaves = allowList.map(node => hre.ethers.solidityKeccak256(['address', 'uint256'],
 //   [node.address, node.amount]))
 // return new MerkleTree(leaves, keccak256, { sortPairs: true })
 // }
@@ -321,16 +347,16 @@ describe("ZutomamoPFP", function () {
 // describe("zutomamoPFP", function () {
 //   let zutomamoPFP: any;
 //   // let owner: any;
-//   const [owner, account, ...others] = ethers.getSigners();
+//   const [owner, account, ...others] = hre.ethers.getSigners();
 //   const [addr1, addr2, addr3, addr4] = others
 //   let merkleTree: MerkleTree;
 //   let merkleRoot: string;
 //   let leafNodes: string[];
 //   let allowedAmount: number = 20;
-//   let mintCost: number = ethers.parseEther("0.021");
+//   let mintCost: number = hre.ethers.parseEther("0.021");
 
 //   before(async function () {
-//     // [owner, addr1, addr2, addr3, addr4] = await ethers.getSigners();
+//     // [owner, addr1, addr2, addr3, addr4] = await hre.ethers.getSigners();
 
 //   // マークルツリー作成
 //   const tree = createTree([ { address: addr1.address,amount:1},
@@ -350,13 +376,13 @@ describe("ZutomamoPFP", function () {
 
 //     // // Set up Merkle Tree for whitelisting
 //     // const whitelistAddresses = [owner.address, addr1.address];
-//     // leafNodes = whitelistAddresses.map((addr) => keccak256(ethers.solidityKeccak256(['address', 'uint256'], [addr, allowedAmount])));
+//     // leafNodes = whitelistAddresses.map((addr) => keccak256(hre.ethers.solidityKeccak256(['address', 'uint256'], [addr, allowedAmount])));
 //     // merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
 //     // merkleRoot = merkleTree.getHexRoot();
 //   });
 
 //   beforeEach(async function () {
-//     const ZutomamoPFP = await ethers.getContractFactory("zutomamoPFP");
+//     const ZutomamoPFP = await hre.ethers.getContractFactory("zutomamoPFP");
 //     // zutomamoPFP = await ZutomamoPFP.deploy();
 //     const zutomamoPFP = await ZutomamoPFP.connect(owner).deploy()
 //     // await zutomamoPFP.deployed();
@@ -476,11 +502,11 @@ describe("ZutomamoPFP", function () {
 //       const proof = merkleTree.getHexProof(leafNodes[0]);
 //       await zutomamoPFP.connect(owner).claim(1, allowedAmount, proof, { value: mintCost });
 
-//       const initialBalance = await ethers.provider.getBalance(owner.address);
+//       const initialBalance = await hre.ethers.provider.getBalance(owner.address);
 
 //       await zutomamoPFP.withdraw();
 
-//       const finalBalance = await ethers.provider.getBalance(owner.address);
+//       const finalBalance = await hre.ethers.provider.getBalance(owner.address);
 //       expect(finalBalance).to.be.above(initialBalance);
 //     });
 //   });
