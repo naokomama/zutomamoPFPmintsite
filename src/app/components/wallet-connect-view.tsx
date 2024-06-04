@@ -440,7 +440,7 @@ export default function WalletConnectView() {
               message: result.message,
               callback: async () => {
                 setDialogData(null);
-                const details = await getContractDetails(connectingAddress);
+                const details = await getContractDetails(provider, connectingAddress);
                 setContractDetails(details);
               },
               cancelCallback: () => setErrorData(null)
