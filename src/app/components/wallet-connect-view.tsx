@@ -96,13 +96,14 @@ export default function WalletConnectView() {
   }, [updateProvider]);
 
   useEffect(() => {
+    if (provider == null) return
     async function fetchContractDetails() {
       try {
         console.log("fetchContractDetails")
         console.log("connectingAddress=",connectingAddress)
 
         if (connectingAddress) {
-          const details = await getContractDetails(connectingAddress);
+          const details = await getContractDetails(provider, connectingAddress);
           setContractDetails(details);
           console.log("totalSupply=", details.totalSupply);
           console.log("maxSupply=", details.maxSupply);
@@ -122,7 +123,7 @@ export default function WalletConnectView() {
     }
 
     fetchContractDetails();
-  }, [connectingAddress]);
+  }, [connectingAddress, provider]);
 
   useEffect(() => {
     if (contractDetails) {

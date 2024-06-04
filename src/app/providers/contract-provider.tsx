@@ -12,16 +12,16 @@ import { useContext } from 'react';
 // BASE SEPOLIA
 const alchemyApiKey = process.env.NEXT_PUBLIC_BASE_SEPOLIA_ALCHEMY_API_KEY as string;
 const basesepoliaUrl = baseSepolia.rpcUrls.alchemy.http.toString() + `/${alchemyApiKey}`;
-const provider = new ethers.providers.JsonRpcProvider(basesepoliaUrl);
 
-const contract = new ethers.Contract(
-  FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-  MAIN_ABI.ERC721,
-  provider
-);
 const salesID = 0;
 
-export default async function getContractDetails(userAddress: string) {
+export default async function getContractDetails(provider: any, userAddress: string) {
+  const contract = new ethers.Contract(
+    FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
+    MAIN_ABI.ERC721,
+    provider
+  );
+
   try {
     const totalSupplyPromise = contract.totalSupply();
     const maxSupplyPromise = contract.maxSupply();
