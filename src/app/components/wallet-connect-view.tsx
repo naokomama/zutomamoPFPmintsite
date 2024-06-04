@@ -368,7 +368,7 @@ export default function WalletConnectView() {
           <Card align='center'>
             <CardHeader>
               <div style={{ textAlign: 'center', width: '450px' }}>
-                <Text>{mintAmount} Mint × 0.021 = {totalCost}</Text>
+                <Text>{mintAmount} Mint × 0.021 = {totalCost} ETH</Text>
               </div>
             </CardHeader>
             <CardBody>
@@ -420,10 +420,11 @@ export default function WalletConnectView() {
           claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0] , allowlistAddresses[addressId][1]]);
           hexProof = merkleTree.getHexProof(claimingAddress);    
         }
-
+        console.log("⭐ミント前情報⭐")
         console.log("totalSupply=", totalSupply);
         console.log("allowlistMaxMintAmount=",allowlistMaxMintAmount)
         console.log("mintAmount=", mintAmount);
+        console.log("hexProof=",hexProof);
 
         // const mintIdx: string[] = [];
         // for (let i = 0; i < mintAmount; i++) {
