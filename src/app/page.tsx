@@ -3,8 +3,8 @@
 import dynamic from 'next/dynamic';
 
 // Dynamic import for WalletConnectView
-const WalletConnectView = dynamic(() => import('./components/wallet-connect-view'), { ssr: false });
-// import WalletConnectView from './components/wallet-connect-view'
+// const WalletConnectView = dynamic(() => import('./components/wallet-connect-view'), { ssr: false });
+import WalletConnectView from './components/wallet-connect-view'
 
 export default function Home() {
   // const { address, provider, chainId } = useContext(WalletContext);
