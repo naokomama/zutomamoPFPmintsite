@@ -321,9 +321,6 @@ export default function WalletConnectView() {
 
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <img src={ SUB_DIRECTRY + "dog.png" } alt="ずとまもPFP" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
-        </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           
             {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( */}

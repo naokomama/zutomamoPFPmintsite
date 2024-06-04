@@ -19,7 +19,7 @@ export default function Home() {
       <img src={ SUB_DIRECTRY2 + "zutomamologo_pink_03.png" } alt="ずとまもロゴ" style={{ textAlign: 'center', width: '100%', maxWidth: '350px', height: '70px' }} />
       </div>
       <div className='w-full max-w-screen-md px-4' style={{ textAlign: 'center', width: '350px' }}>
-      <img src={ SUB_DIRECTRY2 + "banner.jpg" } alt="ずとまもPFP" style={{ textAlign: 'center', width: '100%', maxWidth: '450px', height: '450px' }} />
+      <img src={ SUB_DIRECTRY2 + "dog.png" } alt="ずとまもPFP" style={{ textAlign: 'center', width: '100%', maxWidth: '450px', height: '450px' }} />
       </div>
       <div className='w-full max-w-screen-md px-4'>
         <div className='w-full flex flex-row justify-center mt-5'>
