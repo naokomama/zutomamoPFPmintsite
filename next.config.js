@@ -1,29 +1,30 @@
 // ↓いつものlocalhost
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   webpack: config => {
-//     config.externals.push('pino-pretty', 'lokijs', 'encoding')
-//     return config
-//   }
-// }
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  webpack: config => {
+    config.externals.push('pino-pretty', 'lokijs', 'encoding')
+    return config
+  }
+}
 
-// module.exports = nextConfig
+module.exports = nextConfig
 
 // ↑いつものlocalhost
 
 // ↓静的サイト
 // const prefixPath = 'https://nft.naokomamablog.com/TestBaseMint/'
-const prefixPath = 'https://zutomamogen.net/zutomamoPFP/mintsite/'
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  trailingSlash: true,
-  // @see https://beta.nextjs.org/docs/configuring/static-export#configuration
-  output: "export",
-  assetPrefix: prefixPath,
-  reactStrictMode: true,
-};
 
-module.exports = nextConfig
+// const prefixPath = 'https://zutomamogen.net/zutomamoPFP/mintsite/'
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   trailingSlash: true,
+//   // @see https://beta.nextjs.org/docs/configuring/static-export#configuration
+//   output: "export",
+//   assetPrefix: prefixPath,
+//   reactStrictMode: true,
+// };
+
+// module.exports = nextConfig
 
 // ↑静的サイト
 
