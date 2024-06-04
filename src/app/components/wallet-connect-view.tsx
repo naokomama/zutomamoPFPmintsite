@@ -324,7 +324,7 @@ export default function WalletConnectView() {
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <img src={ "feature.jpg" } alt="ずとまもPFP" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
+          <img src={ "PFP-100.jpg" } alt="ずとまもPFP" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           
