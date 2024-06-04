@@ -39,10 +39,10 @@ export default function WalletConnectView() {
   const [errorData, setErrorData] = useState<DialogData | null>(null);
   const [isLoading, setisLoading] = useState(false);
   const [remainingMintable, setRemainingMintable] = useState<number | null>(null);
-  const SUB_DIRECTRY = "zutomamoPFP/mintsite/";
-  const SUB_DIRECTRY2 = "assets/";
+  const SUB_DIRECTRY2 = "zutomamoPFP/mintsite/";
+  const SUB_DIRECTRY = "assets/";
   const [isLoaded, setIsLoaded] = useState(false);
-  // const { MerkleTree } = require('merkletreejs');
+  const { MerkleTree } = require('merkletreejs');
   const sha1 = require('crypto-js/sha1')
   const keccak256 = require('keccak256');
 
@@ -154,7 +154,7 @@ export default function WalletConnectView() {
           setChainId(Number(chainId));
           setProvider(new ethers.providers.Web3Provider(provider));
         }} isDisabled={isLoading}>
-          <img className='mr-1 metamask-icon' src= {'metamask.svg'} alt='' />
+          <img className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
           Metamask接続
         </Button>
       );
@@ -167,7 +167,7 @@ export default function WalletConnectView() {
           const metamaskLink = `https://metamask.app.link/dapp/` + `${path}`;
           location.href = metamaskLink;
         }} isDisabled={isLoading}>
-          <img className='mr-1 metamask-icon' src={'metamask.svg'} alt='' />
+          <img className='mr-1 metamask-icon' src={SUB_DIRECTRY + 'metamask.svg'} alt='' />
           MetamaskAppで開く
         </Button>
       );
@@ -314,8 +314,6 @@ export default function WalletConnectView() {
     console.log("ImageViewはじめ")
     if (provider == null || contractDetails == null || remainingMintable == null || !isLoaded) return null;
 
-    console.log("ImageView return nullの後")
-
     // 販売が停止中の場合のエラーメッセージ表示
     if (contractDetails != null && contractDetails.paused) {
       return <Text fontSize="2xl" color="red.500">販売を停止しています。Discordの情報をチェックしてください。</Text>;
@@ -324,7 +322,7 @@ export default function WalletConnectView() {
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <img src={ "PFP-100.jpg" } alt="ずとまもPFP" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
+          <img src={ SUB_DIRECTRY + "PFP-100.jpg" } alt="ずとまもPFP" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           
