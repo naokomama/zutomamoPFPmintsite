@@ -42,7 +42,7 @@ export default function WalletConnectView() {
   const SUB_DIRECTRY2 = "zutomamoPFP/mintsite/";
   const SUB_DIRECTRY = "assets/";
   const [isLoaded, setIsLoaded] = useState(false);
-  const { MerkleTree } = require('merkletreejs');
+  // const { MerkleTree } = require('merkletreejs');
   const sha1 = require('crypto-js/sha1')
   const keccak256 = require('keccak256');
 
@@ -322,7 +322,7 @@ export default function WalletConnectView() {
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <img src={ SUB_DIRECTRY + "PFP-100.jpg" } alt="ずとまもPFP" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
+          <img src={ SUB_DIRECTRY + "dog.png" } alt="ずとまもPFP" style={{ width: '90%', maxWidth: '500px', height: 'auto' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           
