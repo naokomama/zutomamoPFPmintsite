@@ -52,6 +52,7 @@ export default function WalletConnectView() {
   let addressId = -1;
   let claimingAddress;
   let hexProof;
+  let mintmax = 0;
 
   useEffect(() => {
     console.log("setCanUseMetamask")
@@ -179,7 +180,7 @@ export default function WalletConnectView() {
 
   const handleIncrease = () => {
     const remaining = remainingMintable !== null ? remainingMintable : 0;
-    if (mintAmount < Math.min(3, remaining)) {
+    if (mintAmount < Math.min(mintmax, remaining)) {
       setMintAmount(mintAmount + 1);
     }
   };
@@ -196,7 +197,7 @@ export default function WalletConnectView() {
 
   const setToMax = () => {
     const remaining = remainingMintable !== null ? remainingMintable : 0;
-    setMintAmount(Math.min(3, remaining));
+    setMintAmount(Math.min(Number( mintmax ), remaining));
   };
 
   const LogoutView = () => {
@@ -347,6 +348,13 @@ export default function WalletConnectView() {
     if (provider == null || contractDetails == null) return null;
     const totalCost = (mintAmount * 0.021).toFixed(3);
 
+    nameMap = allowlistAddresses.map( list => list[0] );
+    addressId = nameMap.indexOf(provider.connectingAddress);
+    let mintedAmount = allowlistAddresses[addressId][1]
+
+    mintmax = Number(mintedAmount) - Number(contractDetails.mintedAmountBySales)
+    setMintAmount( mintmax );
+
     return (
       <div className='w-500'>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '450px' }}>
@@ -418,7 +426,7 @@ export default function WalletConnectView() {
           //data.whitelistUserAmount = allowlistAddresses[addressId][1];
           allowlistMaxMintAmount = allowlistAddresses[addressId][1];
           claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0] , allowlistAddresses[addressId][1]]);
-          hexProof = merkleTree.getHexProof(claimingAddress);    
+          hexProof = merkleTree.getHexProof(claimingAddress);
         }
         console.log("⭐ミント前情報⭐")
         console.log("totalSupply=", totalSupply);
