@@ -1,6 +1,7 @@
 // ↓いつものlocalhost
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['crypto-js'],
   webpack: config => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding')
     return config

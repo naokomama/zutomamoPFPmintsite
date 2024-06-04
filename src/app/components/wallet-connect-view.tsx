@@ -344,7 +344,7 @@ export default function WalletConnectView() {
 
   const MainView = () => {
     if (provider == null || contractDetails == null) return null;
-    const totalCost = (mintAmount * 0.021).toFixed(2);
+    const totalCost = (mintAmount * 0.021).toFixed(3);
 
     return (
       <div className='w-500'>
@@ -391,77 +391,79 @@ export default function WalletConnectView() {
   };
 
   const mintToken = async () => {
-    // let allowlistMaxMintAmount;
+    console.log("mintToken")
+    console.log("connectingAddress=",connectingAddress)
+    let allowlistMaxMintAmount;
 
-    // try {
-    //   if (connectingAddress) {
-    //     setisLoading(true);
-    //     let totalSupply = parseInt(contractDetails.totalSupply, 10);
+    try {
+      if (connectingAddress) {
+        setisLoading(true);
+        let totalSupply = parseInt(contractDetails.totalSupply, 10);
 
-    //     nameMap = allowlistAddresses.map( list => list[0] );
-    //     leafNodes = allowlistAddresses.map(addr => ethers.utils.solidityKeccak256(['address', 'uint256'], [addr[0] , addr[1]]));
-    //     merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
-          // merkleTree = new MerkleTree(leafNodes, sha1, {
-          //   sortLeaves: true,
-          //   sortPairs: true
-          // })
-    //     addressId = nameMap.indexOf(connectingAddress);
-    //     if( addressId == -1){
-    //       //data.whitelistUserAmount = 0;
-    //       allowlistMaxMintAmount = 0;
-    //       claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[0][0] , allowlistAddresses[0][1]]);
-    //       hexProof = merkleTree.getHexProof(claimingAddress);    
-    //     }else{
-    //       //data.whitelistUserAmount = allowlistAddresses[addressId][1];
-    //       allowlistMaxMintAmount = allowlistAddresses[addressId][1];
-    //       claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0] , allowlistAddresses[addressId][1]]);
-    //       hexProof = merkleTree.getHexProof(claimingAddress);    
-    //     }
+        nameMap = allowlistAddresses.map( list => list[0] );
+        leafNodes = allowlistAddresses.map(addr => ethers.utils.solidityKeccak256(['address', 'uint256'], [addr[0] , addr[1]]));
+        merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
+          merkleTree = new MerkleTree(leafNodes, sha1, {
+            sortLeaves: true,
+            sortPairs: true
+          })
+        addressId = nameMap.indexOf(connectingAddress);
+        if( addressId == -1){
+          //data.whitelistUserAmount = 0;
+          allowlistMaxMintAmount = 0;
+          claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[0][0] , allowlistAddresses[0][1]]);
+          hexProof = merkleTree.getHexProof(claimingAddress);    
+        }else{
+          //data.whitelistUserAmount = allowlistAddresses[addressId][1];
+          allowlistMaxMintAmount = allowlistAddresses[addressId][1];
+          claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0] , allowlistAddresses[addressId][1]]);
+          hexProof = merkleTree.getHexProof(claimingAddress);    
+        }
 
-    //     console.log("totalSupply=", totalSupply);
-    //     console.log("allowlistMaxMintAmount=",allowlistMaxMintAmount)
-    //     console.log("mintAmount=", mintAmount);
+        console.log("totalSupply=", totalSupply);
+        console.log("allowlistMaxMintAmount=",allowlistMaxMintAmount)
+        console.log("mintAmount=", mintAmount);
 
-    //     // const mintIdx: string[] = [];
-    //     // for (let i = 0; i < mintAmount; i++) {
-    //     //   mintIdx.push((totalSupply + i + 1).toString());
-    //     // }
-    //     // const result = await mintTokens(connectingAddress, mintIdx);
-    //     const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof);
-    //     setisLoading(false);
+        // const mintIdx: string[] = [];
+        // for (let i = 0; i < mintAmount; i++) {
+        //   mintIdx.push((totalSupply + i + 1).toString());
+        // }
+        // const result = await mintTokens(connectingAddress, mintIdx);
+        const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof);
+        setisLoading(false);
 
-    //     if (result.success) {
-    //       if (result.message && !result.message.includes("拒否")) {
-    //         setDialogData({
-    //           title: 'Success',
-    //           message: result.message,
-    //           callback: async () => {
-    //             setDialogData(null);
-    //             const details = await getContractDetails(connectingAddress);
-    //             setContractDetails(details);
-    //           },
-    //           cancelCallback: () => setErrorData(null)
-    //         });
-    //       }
-    //     } else {
-    //       setErrorData({
-    //         title: 'Error',
-    //         message: result.message,
-    //         callback: () => setErrorData(null),
-    //         cancelCallback: () => setErrorData(null)
-    //       });
-    //     }
-    //   }
-    // } catch (error) {
-    //   setisLoading(false);
-    //   console.error('Failed to contract mint:', error);
-    //   setErrorData({
-    //     title: 'Error',
-    //     message: '予期せぬエラーが発生しました。もう一度お試しください。',
-    //     callback: () => setErrorData(null),
-    //     cancelCallback: () => setErrorData(null)
-    //   });
-    // }
+        if (result.success) {
+          if (result.message && !result.message.includes("拒否")) {
+            setDialogData({
+              title: 'Success',
+              message: result.message,
+              callback: async () => {
+                setDialogData(null);
+                const details = await getContractDetails(connectingAddress);
+                setContractDetails(details);
+              },
+              cancelCallback: () => setErrorData(null)
+            });
+          }
+        } else {
+          setErrorData({
+            title: 'Error',
+            message: result.message,
+            callback: () => setErrorData(null),
+            cancelCallback: () => setErrorData(null)
+          });
+        }
+      }
+    } catch (error) {
+      setisLoading(false);
+      console.error('Failed to contract mint:', error);
+      setErrorData({
+        title: 'Error',
+        message: '予期せぬエラーが発生しました。もう一度お試しください。',
+        callback: () => setErrorData(null),
+        cancelCallback: () => setErrorData(null)
+      });
+    }
   };
 
   return (
