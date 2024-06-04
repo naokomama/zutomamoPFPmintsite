@@ -42,7 +42,7 @@ export default function WalletConnectView() {
   const SUB_DIRECTRY2 = "zutomamoPFP/mintsite/";
   const SUB_DIRECTRY = "assets/";
   const [isLoaded, setIsLoaded] = useState(false);
-  // const { MerkleTree } = require('merkletreejs');
+  const { MerkleTree } = require('merkletreejs');
   const sha1 = require('crypto-js/sha1')
   const keccak256 = require('keccak256');
 
@@ -344,7 +344,7 @@ export default function WalletConnectView() {
 
   const MainView = () => {
     if (provider == null || contractDetails == null) return null;
-    const totalCost = (mintAmount * 0.03).toFixed(2);
+    const totalCost = (mintAmount * 0.021).toFixed(2);
 
     return (
       <div className='w-500'>
@@ -367,7 +367,7 @@ export default function WalletConnectView() {
           <Card align='center'>
             <CardHeader>
               <div style={{ textAlign: 'center', width: '450px' }}>
-                <Text>{mintAmount} Mint × 0.03 = {totalCost}</Text>
+                <Text>{mintAmount} Mint × 0.021 = {totalCost}</Text>
               </div>
             </CardHeader>
             <CardBody>
