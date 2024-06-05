@@ -46,6 +46,8 @@ export default function WalletConnectView() {
   const sha1 = require('crypto-js/sha1')
   const keccak256 = require('keccak256');
   const [allowlistMaxMintAmount, setallowlistMaxMintAmount] = useState(0);
+  const [isMintButtonDisabled, setIsMintButtonDisabled] = useState(false);
+  const [remainingPurchases, setRemainingPurchases] = useState(0);
 
   let nameMap;
   let leafNodes;
@@ -117,9 +119,18 @@ export default function WalletConnectView() {
 
           if (addressId !== -1) {
               setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
-          } else {
-            setallowlistMaxMintAmount(0);
-          }
+              const initialMintAmount = Number(allowlistAddresses[addressId][1]) - Number(details.mintedAmountBySales);
+              setRemainingPurchases(initialMintAmount);
+              setMintAmount(initialMintAmount > 0 ? initialMintAmount : 0);
+              if (initialMintAmount <= 0) {
+                setIsMintButtonDisabled(true);
+              }
+            } else {
+              setallowlistMaxMintAmount(0);
+              setRemainingPurchases(0);
+              setMintAmount(0);
+              setIsMintButtonDisabled(true);
+            }
           console.log("addressId=",addressId);
           console.log("allowlistAddresses[addressId][1]=",allowlistAddresses[addressId][1])
 
@@ -396,9 +407,14 @@ export default function WalletConnectView() {
               </Stack>
             </CardBody>
             <CardFooter>
-              <Button bg='#fa4e74' color='white' onClick={mintToken} isDisabled={isLoading}>
-                MINT
+            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                <Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text>
+              </div>
+              <div>
+              <Button bg='#fa4e74' color='white' onClick={mintToken} isDisabled={isLoading || isMintButtonDisabled}>
+                {isMintButtonDisabled ? '購入上限になりました' : 'MINT'}
               </Button>
+              </div>
             </CardFooter>
           </Card>
         </div>
