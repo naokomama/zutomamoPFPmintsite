@@ -112,9 +112,9 @@ export default function WalletConnectView() {
           // アローリストから最大ミント数を取得
           nameMap = allowlistAddresses.map(list => list[0]);
           console.log("nameMap=",nameMap);
-          addressId = nameMap.indexOf(connectingAddress);
+          addressId = nameMap.indexOf(connectingAddress.toLowerCase());
           console.log("addressId=",addressId);
-          
+
           if (addressId !== -1) {
               setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
           } else {
@@ -423,7 +423,7 @@ export default function WalletConnectView() {
             sortLeaves: true,
             sortPairs: true
           })
-        addressId = nameMap.indexOf(connectingAddress);
+        addressId = nameMap.indexOf(connectingAddress.toLowerCase());
         if( addressId == -1){
           //data.whitelistUserAmount = 0;
           allowlistMaxMintAmount = 0;
