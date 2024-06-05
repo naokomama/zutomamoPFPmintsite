@@ -52,7 +52,7 @@ export const useMint = () => {
       const contractInterface = new ethers.utils.Interface(MAIN_ABI.ERC721);
       const tx = {
         to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-        data: contractInterface.encodeFunctionData("claim"),
+        data: contractInterface.encodeFunctionData("claim", [amount, allowedAmount, merkleProof]),
         gasLimit: gasLimit
       };
 
