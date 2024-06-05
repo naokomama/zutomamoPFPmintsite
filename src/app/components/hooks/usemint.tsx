@@ -49,26 +49,13 @@ export const useMint = () => {
       // ガスリミットを手動で設定
       const gasLimit = ethers.utils.hexlify(2000000); // 適切なガスリミットを設定
 
-      const contractInterface = new ethers.utils.Interface(MAIN_ABI.ERC721);
-      const tx = {
-        to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-        data: contractInterface.encodeFunctionData("claim", [amount, allowedAmount, merkleProof]),
+      const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
         gasLimit: gasLimit
-      };
+      });
 
-      // const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
-      //   gasLimit: gasLimit
-      // });
-
-      // console.log("claimTx=",claimTx);
-      // console.log('Mint transaction sent:', claimTx.hash);
-      // await claimTx.wait(); // トランザクションの確定を待つ
-
-      const result = await provider.sendTransaction(tx);
-
-      console.log("Transaction Hash:", result.hash);
-      await result.wait();
-
+      console.log("claimTx=",claimTx);
+      console.log('Mint transaction sent:', claimTx.hash);
+      await claimTx.wait(); // トランザクションの確定を待つ
       const successMessage = 'ミントが完了しました';
       console.log(successMessage);
       return { success: true, message: successMessage };
