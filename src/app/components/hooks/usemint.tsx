@@ -31,7 +31,13 @@ export const useMint = () => {
 
     try {
       console.log("callStaticでのチェック開始");
-      await contractWithSigner.callStatic.claim(amount, allowedAmount, merkleProof);
+      // ガスリミットを手動で設定
+      const gasLimit = ethers.utils.hexlify(200000); // 適切なガスリミットを設定
+      
+      await contractWithSigner.callStatic.claim(amount, allowedAmount, merkleProof, {
+        value: ethers.utils.parseUnits("0.021", "ether").mul(amount),
+        gasLimit: gasLimit
+      });
 
       console.log("claim開始")
       // const gasLimit = await provider.estimateGas({
@@ -48,9 +54,6 @@ export const useMint = () => {
       // });
 
       // console.log ("gasLimit=",gasLimit);
-
-      // ガスリミットを手動で設定
-      const gasLimit = ethers.utils.hexlify(200000); // 適切なガスリミットを設定
 
       const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
         value: ethers.utils.parseUnits("0.021", "ether").mul(amount),
