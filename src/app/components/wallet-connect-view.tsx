@@ -396,6 +396,9 @@ export default function WalletConnectView() {
               <div style={{ textAlign: 'center', width: '450px' }}>
                 <Text>{mintAmount} Mint × 0.021 = {totalCost} ETH</Text>
               </div>
+              <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                <Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text>
+              </div>
             </CardHeader>
             <CardBody>
               <Stack spacing={4} direction='row' align='center'>
@@ -407,9 +410,6 @@ export default function WalletConnectView() {
               </Stack>
             </CardBody>
             <CardFooter>
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text>
-              </div>
               <div>
               <Button bg='#fa4e74' color='white' onClick={mintToken} isDisabled={isLoading || isMintButtonDisabled}>
                 {isMintButtonDisabled ? '購入上限になりました' : 'MINT'}
@@ -464,6 +464,7 @@ export default function WalletConnectView() {
         // const result = await mintTokens(connectingAddress, mintIdx);
         const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof);
         setisLoading(false);
+        console.log("claim_result=",result);
 
         if (result.success) {
           if (result.message && !result.message.includes("拒否")) {

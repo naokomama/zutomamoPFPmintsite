@@ -8,6 +8,11 @@ export const useMint = () => {
 
   // const mintTokens = async (userAddress: string, mintIdx: string[]) => {
     const mintTokens = async (amount: number, allowedAmount: number, merkleProof: any) => {
+      console.log("引数amount=",amount);
+      console.log("引数allowedAmount=",allowedAmount);
+      console.log("引数merkleProof=",merkleProof);
+      console.log("provider=",provider);
+
     if (!provider) {
       const errorMessage = 'Provider not found';
       console.error(errorMessage);
@@ -15,14 +20,19 @@ export const useMint = () => {
     }
 
     const signer = provider.getSigner();
+    console.log("signer=",signer);
+
     const contractWithSigner = new ethers.Contract(
       FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
       MAIN_ABI.ERC721,
       signer
     );
+    console.log("contractWithSigner=",contractWithSigner);
 
     try {
+      console.log("claim")
       const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof);
+      console.log("claimTx=",claimTx);
       console.log('Mint transaction sent:', claimTx.hash);
       await claimTx.wait(); // トランザクションの確定を待つ
       const successMessage = 'ミントが完了しました';
