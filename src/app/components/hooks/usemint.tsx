@@ -52,17 +52,23 @@ export const useMint = () => {
 
       const tx = {
         to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-        data: contractInterface.encodeFunctionData("claim", [Number(allowedAmount), Number(allowedAmount), merkleProof]),
+        data: contractInterface.encodeFunctionData('{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"uint256","name":"_allowedAmount","type":"uint256"},{"internalType":"bytes32[]","name":"_merkleProof","type":"bytes32[]"}],"name":"claim","outputs":[],"stateMutability":"payable","type":"function"}'),
         gasLimit: gasLimit
       };
 
-      const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
-        gasLimit: gasLimit
-      });
+      // const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
+      //   gasLimit: gasLimit
+      // });
 
-      console.log("claimTx=",claimTx);
-      console.log('Mint transaction sent:', claimTx.hash);
-      await claimTx.wait(); // トランザクションの確定を待つ
+      // console.log("claimTx=",claimTx);
+      // console.log('Mint transaction sent:', claimTx.hash);
+      // await claimTx.wait(); // トランザクションの確定を待つ
+
+      const result = await provider.sendTransaction(tx);
+
+      console.log("Transaction Hash:", result.hash);
+      await result.wait();
+
       const successMessage = 'ミントが完了しました';
       console.log(successMessage);
       return { success: true, message: successMessage };
