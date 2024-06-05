@@ -47,7 +47,7 @@ export const useMint = () => {
       // console.log ("gasLimit=",gasLimit);
 
       // ガスリミットを手動で設定
-      const gasLimit = ethers.utils.hexlify(200000); // 適切なガスリミットを設定
+      const gasLimit = ethers.utils.hexlify(2000000); // 適切なガスリミットを設定
 
       const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
         gasLimit: gasLimit
