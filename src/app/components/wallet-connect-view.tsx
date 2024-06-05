@@ -50,7 +50,6 @@ export default function WalletConnectView() {
   const [allowlistMaxMintAmount, setallowlistMaxMintAmount] = useState(0);
   const [isMintButtonDisabled, setIsMintButtonDisabled] = useState(false);
   const [remainingPurchases, setRemainingPurchases] = useState(0);
-  const Web3 = require('web3');
 
   let nameMap;
   let leafNodes;
@@ -374,7 +373,7 @@ export default function WalletConnectView() {
 
   const MainView = () => {
     if (provider == null || contractDetails == null) return null;
-    const mintCosthenkan = Web3.utils.fromWei(contractDetails.mintCost, 'ether')
+    const mintCosthenkan = Number(contractDetails.mintCost) / 100000000000000000
     const totalCost = (mintAmount * Number(mintCosthenkan)).toFixed(3);
 
     return (
@@ -391,6 +390,12 @@ export default function WalletConnectView() {
               <div style={{ textAlign: 'center', width: '450px' }}>
                 <Heading size='md'>TotalSupply : {contractDetails.totalSupply || ''} / {contractDetails.maxSupply || ''}</Heading>
               </div>
+              <div style={{ textAlign: 'center', width: '450px' }}>
+                <Heading size='md'><Text>ミント数：{contractDetails.mintedAmountBySales}</Text></Heading>
+              </div>
+              <div style={{ textAlign: 'center', width: '450px' }}>
+                <Heading size='md'><Text>購入予定数：{allowlistMaxMintAmount}</Text></Heading>
+              </div>
             </CardBody>
           </Card>
         </div>
@@ -404,14 +409,9 @@ export default function WalletConnectView() {
                 <Text>{mintAmount} Mint × {mintCosthenkan} = {totalCost} ETH</Text>
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text>
+                <Heading size='md'><Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text></Heading>
               </div>
-              <div style={{ textAlign: 'left', width: '450px' }}>
-                <Heading size='md'><Text>ミント数：{contractDetails.mintedAmountBySales}</Text></Heading>
-              </div>
-              <div style={{ textAlign: 'left', width: '450px' }}>
-                <Heading size='md'><Text>購入予定数：{allowlistMaxMintAmount}</Text></Heading>
-              </div>
+              
             </CardHeader>
             <CardBody>
               <Stack spacing={4} direction='row' align='center'>
