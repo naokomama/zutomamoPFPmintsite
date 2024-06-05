@@ -31,9 +31,17 @@ export const useMint = () => {
 
     try {
       console.log("claim")
+      // const gasLimit = await provider.estimateGas({
+      //   to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
+      //   data: MAIN_ABI.ERC721
+      // });
+      
+      const contractInterface = new ethers.utils.Interface(["function mint(uint256 mintAmount, uint256 allowlistMaxMintAmount, bytes32[] hexProof)"]);
+      const txData = contractInterface.encodeFunctionData("mint", [Number(amount), Number(allowedAmount), merkleProof]);
+
       const gasLimit = await provider.estimateGas({
         to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-        data: MAIN_ABI.ERC721
+        data: txData
       });
 
       console.log ("gasLimit=",gasLimit);
