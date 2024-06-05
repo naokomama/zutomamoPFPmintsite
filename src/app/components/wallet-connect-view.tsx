@@ -475,6 +475,14 @@ export default function WalletConnectView() {
         //   mintIdx.push((totalSupply + i + 1).toString());
         // }
         // const result = await mintTokens(connectingAddress, mintIdx);
+
+        // ユーザーの残高を確認
+        const balance = await provider.getBalance(connectingAddress);
+        const requiredEth = ethers.utils.parseEther((mintAmount * 0.021).toString()); // ミント価格の計算
+        if (balance.lt(requiredEth)) {
+          throw new Error("Not Enough Eth");
+        }
+
         const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof);
         setisLoading(false);
         console.log("claim_result=",result);

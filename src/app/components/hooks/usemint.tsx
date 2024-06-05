@@ -36,17 +36,20 @@ export const useMint = () => {
       //   data: MAIN_ABI.ERC721
       // });
 
-      const contractInterface = new ethers.utils.Interface(["function claim(uint256 mintAmount, uint256 allowlistMaxMintAmount, bytes32[] hexProof)"]);
-      const txData = contractInterface.encodeFunctionData("claim", [Number(amount), Number(allowedAmount), merkleProof]);
+      // const contractInterface = new ethers.utils.Interface(["function claim(uint256 mintAmount, uint256 allowlistMaxMintAmount, bytes32[] hexProof)"]);
+      // const txData = contractInterface.encodeFunctionData("claim", [Number(amount), Number(allowedAmount), merkleProof]);
 
-      const gasLimit = await provider.estimateGas({
-        to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-        data: txData
-      });
+      // const gasLimit = await provider.estimateGas({
+      //   to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
+      //   data: txData
+      // });
 
-      console.log ("gasLimit=",gasLimit);
+      // console.log ("gasLimit=",gasLimit);
 
-      const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof,{
+      // ガスリミットを手動で設定
+      const gasLimit = ethers.utils.hexlify(200000); // 適切なガスリミットを設定
+
+      const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
         gasLimit: gasLimit
       });
 
