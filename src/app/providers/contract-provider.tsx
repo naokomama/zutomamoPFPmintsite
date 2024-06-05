@@ -28,7 +28,6 @@ export default async function getContractDetails(provider: any, userAddress: str
     const pausedPromise = contract.paused();
     const mintedAmountBySalesPromise = contract.mintedAmountBySales(salesID, userAddress);
     const [totalSupply, maxSupply, paused, mintedAmountBySales] = await Promise.all([
-    // const [totalSupply, maxSupply, paused] = await Promise.all([
       totalSupplyPromise,
       maxSupplyPromise,
       pausedPromise,

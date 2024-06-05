@@ -111,7 +111,10 @@ export default function WalletConnectView() {
           
           // アローリストから最大ミント数を取得
           nameMap = allowlistAddresses.map(list => list[0]);
+          console.log("nameMap=",nameMap);
           addressId = nameMap.indexOf(connectingAddress);
+          console.log("addressId=",addressId);
+          
           if (addressId !== -1) {
               setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
           } else {
