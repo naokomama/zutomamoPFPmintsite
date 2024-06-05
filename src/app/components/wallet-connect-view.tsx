@@ -373,7 +373,7 @@ export default function WalletConnectView() {
 
   const MainView = () => {
     if (provider == null || contractDetails == null) return null;
-    const mintCosthenkan = Number(contractDetails.mintCost) / 100000000000000000
+    const mintCosthenkan = Number(contractDetails.mintCost) / 1000000000000000000
     const totalCost = (mintAmount * Number(mintCosthenkan)).toFixed(3);
 
     return (
@@ -454,7 +454,6 @@ export default function WalletConnectView() {
           })
         addressId = nameMap.indexOf(connectingAddress.toLowerCase());
         if( addressId == -1){
-          //data.whitelistUserAmount = 0;
           allowlistMaxMintAmount = 0;
           claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[0][0] , allowlistAddresses[0][1]]);
           hexProof = merkleTree.getHexProof(claimingAddress);    
