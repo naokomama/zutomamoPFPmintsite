@@ -48,6 +48,13 @@ export const useMint = () => {
 
       // ガスリミットを手動で設定
       const gasLimit = ethers.utils.hexlify(2000000); // 適切なガスリミットを設定
+      const contractInterface = new ethers.utils.Interface(MAIN_ABI.ERC721);
+
+      const tx = {
+        to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
+        data: contractInterface.encodeFunctionData("claim", [Number(allowedAmount), Number(allowedAmount), merkleProof]),
+        gasLimit: gasLimit
+      };
 
       const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
         gasLimit: gasLimit
