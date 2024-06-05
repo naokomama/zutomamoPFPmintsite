@@ -52,7 +52,7 @@ export const useMint = () => {
 
       const tx = {
         to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-        data: contractInterface.encodeFunctionData('{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"uint256","name":"_allowedAmount","type":"uint256"},{"internalType":"bytes32[]","name":"_merkleProof","type":"bytes32[]"}],"name":"claim","outputs":[],"stateMutability":"payable","type":"function"}'),
+        data: contractInterface.encodeFunctionData("claim",MAIN_ABI.ERC721),
         gasLimit: gasLimit
       };
 
