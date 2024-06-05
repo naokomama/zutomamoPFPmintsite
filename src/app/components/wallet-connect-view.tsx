@@ -45,6 +45,7 @@ export default function WalletConnectView() {
   const { MerkleTree } = require('merkletreejs');
   const sha1 = require('crypto-js/sha1')
   const keccak256 = require('keccak256');
+  const [allowlistMaxMintAmount, setallowlistMaxMintAmount] = useState(0);
 
   let nameMap;
   let leafNodes;
@@ -52,6 +53,7 @@ export default function WalletConnectView() {
   let addressId = -1;
   let claimingAddress;
   let hexProof;
+  // let allowlistMaxMintAmount = 0;
 
   useEffect(() => {
     console.log("setCanUseMetamask")
@@ -105,12 +107,22 @@ export default function WalletConnectView() {
         if (connectingAddress) {
           const details = await getContractDetails(provider, connectingAddress);
           setContractDetails(details);
-          console.log("totalSupply=", details.totalSupply);
-          console.log("maxSupply=", details.maxSupply);
-          console.log("mintedAmountBySales=", details.mintedAmountBySales);
-          console.log("paused=", details.paused);
           setIsLoaded(true);
-        }
+          
+          // アローリストから最大ミント数を取得
+          nameMap = allowlistAddresses.map(list => list[0]);
+          addressId = nameMap.indexOf(connectingAddress);
+          if (addressId !== -1) {
+              setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
+          } else {
+            setallowlistMaxMintAmount(0);
+          }
+          console.log("addressId=",addressId);
+          console.log("allowlistAddresses[addressId][1]=",allowlistAddresses[addressId][1])
+
+          const remaining = parseInt(details.maxSupply) - parseInt(details.totalSupply);
+          setRemainingMintable(remaining);
+      }
       } catch (error) {
         console.error('Failed to fetch contract details:', error);
         setErrorData({
@@ -179,8 +191,8 @@ export default function WalletConnectView() {
 
   const handleIncrease = () => {
     const remaining = remainingMintable !== null ? remainingMintable : 0;
-    if (mintAmount < Math.min(3, remaining)) {
-      setMintAmount(mintAmount + 1);
+    if (mintAmount < Math.min(allowlistMaxMintAmount, remaining)) {
+        setMintAmount(mintAmount + 1);
     }
   };
 
@@ -196,8 +208,8 @@ export default function WalletConnectView() {
 
   const setToMax = () => {
     const remaining = remainingMintable !== null ? remainingMintable : 0;
-    setMintAmount(Math.min(3, remaining));
-  };
+    setMintAmount(Math.min(allowlistMaxMintAmount, remaining));
+};
 
   const LogoutView = () => {
     if (provider == null) return null;
