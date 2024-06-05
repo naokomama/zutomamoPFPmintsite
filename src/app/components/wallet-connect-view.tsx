@@ -448,15 +448,16 @@ export default function WalletConnectView() {
         nameMap = allowlistAddresses.map( list => list[0] );
         leafNodes = allowlistAddresses.map(addr => ethers.utils.solidityKeccak256(['address', 'uint256'], [addr[0] , addr[1]]));
         merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
-          merkleTree = new MerkleTree(leafNodes, sha1, {
-            sortLeaves: true,
-            sortPairs: true
-          })
+          // merkleTree = new MerkleTree(leafNodes, sha1, {
+          //   sortLeaves: true,
+          //   sortPairs: true
+          // })
         addressId = nameMap.indexOf(connectingAddress.toLowerCase());
+        
         if( addressId == -1){
           allowlistMaxMintAmount = 0;
           claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[0][0] , allowlistAddresses[0][1]]);
-          hexProof = merkleTree.getHexProof(claimingAddress);    
+          hexProof = merkleTree.getHexProof(claimingAddress);
         }else{
           //data.whitelistUserAmount = allowlistAddresses[addressId][1];
           allowlistMaxMintAmount = allowlistAddresses[addressId][1];
