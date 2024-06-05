@@ -31,7 +31,17 @@ export const useMint = () => {
 
     try {
       console.log("claim")
-      const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof);
+      const gasLimit = await provider.estimateGas({
+        to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
+        data: MAIN_ABI.ERC721
+      });
+
+      console.log ("gasLimit=",gasLimit);
+
+      const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof,{
+        gasLimit: gasLimit
+      });
+
       console.log("claimTx=",claimTx);
       console.log('Mint transaction sent:', claimTx.hash);
       await claimTx.wait(); // トランザクションの確定を待つ
