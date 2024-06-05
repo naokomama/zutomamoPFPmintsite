@@ -478,7 +478,7 @@ export default function WalletConnectView() {
 
         // ユーザーの残高を確認
         const balance = await provider.getBalance(connectingAddress);
-        const requiredEth = ethers.utils.parseEther((mintAmount * 0.021).toString()); // ミント価格の計算
+        const requiredEth = ethers.utils.parseEther((mintAmount * 0.021 + 0.0005).toString()); // ミント価格の計算
         if (balance.lt(requiredEth)) {
           throw new Error("Not Enough Eth");
         }
