@@ -20,6 +20,7 @@ import DialogData from '@/entity/dialog/dialog-data';
 import LoadingOverlay from './loading-overlay';
 import { allowlistAddresses }  from "../allowlist.mjs";
 
+
 export default function WalletConnectView() {
   const { address, chainId, provider, setAddress, setChainId, setProvider } = useContext(WalletContext);
   const { open } = useWeb3Modal();
@@ -49,6 +50,7 @@ export default function WalletConnectView() {
   const [allowlistMaxMintAmount, setallowlistMaxMintAmount] = useState(0);
   const [isMintButtonDisabled, setIsMintButtonDisabled] = useState(false);
   const [remainingPurchases, setRemainingPurchases] = useState(0);
+  const Web3 = require('web3');
 
   let nameMap;
   let leafNodes;
@@ -372,7 +374,8 @@ export default function WalletConnectView() {
 
   const MainView = () => {
     if (provider == null || contractDetails == null) return null;
-    const totalCost = (mintAmount * Number(contractDetails.mintCost)).toFixed(3);
+    const mintCosthenkan = Web3.utils.fromWei(contractDetails.mintCost, 'ether')
+    const totalCost = (mintAmount * Number(mintCosthenkan)).toFixed(3);
 
     return (
       <div className='w-500'>
@@ -398,7 +401,7 @@ export default function WalletConnectView() {
                 <Heading size='md'>販売価格</Heading>
               </div>
               <div style={{ textAlign: 'center', width: '450px' }}>
-                <Text>{mintAmount} Mint × {contractDetails.mintCost} = {totalCost} ETH</Text>
+                <Text>{mintAmount} Mint × {mintCosthenkan} = {totalCost} ETH</Text>
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
                 <Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text>
