@@ -11,7 +11,7 @@ import { getAccount } from '@wagmi/core';
 import { useWeb3Modal, useWeb3ModalEvents } from '@web3modal/wagmi/react';
 import { CHAIN_ID } from '../../definition/contract';
 import { WalletContext } from '../providers/wallet-provider';
-import getContractDetails, { Mint } from '../providers/contract-provider';
+import getContractDetails from '../providers/contract-provider';
 import { useMint } from '../components/hooks/usemint';
 import ChainTag from './contract/chain-tag';
 import InfoDialog from './info-dialog';
@@ -33,6 +33,7 @@ export default function WalletConnectView() {
     maxSupply: '',
     paused: false,
     mintedAmountBySales: '',
+    mintCost: '0',
   });
   const [canUseMetamask, setCanUseMetamask] = useState(false);
   const [dialogData, setDialogData] = useState<DialogData | null>(null);
@@ -371,7 +372,7 @@ export default function WalletConnectView() {
 
   const MainView = () => {
     if (provider == null || contractDetails == null) return null;
-    const totalCost = (mintAmount * 0.021).toFixed(3);
+    const totalCost = (mintAmount * Number(contractDetails.mintCost)).toFixed(3);
 
     return (
       <div className='w-500'>
@@ -393,11 +394,20 @@ export default function WalletConnectView() {
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '450px' }}>
           <Card align='center'>
             <CardHeader>
+              <div style={{ textAlign: 'left', width: '450px' }}>
+                <Heading size='md'>販売価格</Heading>
+              </div>
               <div style={{ textAlign: 'center', width: '450px' }}>
-                <Text>{mintAmount} Mint × 0.021 = {totalCost} ETH</Text>
+                <Text>{mintAmount} Mint × {contractDetails.mintCost} = {totalCost} ETH</Text>
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
                 <Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text>
+              </div>
+              <div style={{ textAlign: 'left', width: '450px' }}>
+                <Heading size='md'><Text>ミント数：{contractDetails.mintedAmountBySales}</Text></Heading>
+              </div>
+              <div style={{ textAlign: 'left', width: '450px' }}>
+                <Heading size='md'><Text>購入予定数：{allowlistMaxMintAmount}</Text></Heading>
               </div>
             </CardHeader>
             <CardBody>

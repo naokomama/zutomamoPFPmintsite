@@ -27,18 +27,21 @@ export default async function getContractDetails(provider: any, userAddress: str
     const maxSupplyPromise = contract.maxSupply();
     const pausedPromise = contract.paused();
     const mintedAmountBySalesPromise = contract.mintedAmountBySales(salesID, userAddress);
-    const [totalSupply, maxSupply, paused, mintedAmountBySales] = await Promise.all([
+    const mintCostPromise = contract.mintCost();
+    const [totalSupply, maxSupply, paused, mintedAmountBySales, mintCost] = await Promise.all([
       totalSupplyPromise,
       maxSupplyPromise,
       pausedPromise,
-      mintedAmountBySalesPromise
+      mintedAmountBySalesPromise,
+      mintCostPromise
     ]);
 
     return {
       totalSupply: totalSupply.toString(),
       maxSupply: maxSupply.toString(),
       paused: paused,
-      mintedAmountBySales: mintedAmountBySales.toString()
+      mintedAmountBySales: mintedAmountBySales.toString(),
+      mintCost: mintCost.toString()
     };
   } catch (error) {
     console.error('Error fetching contract details:', error);
@@ -46,27 +49,27 @@ export default async function getContractDetails(provider: any, userAddress: str
   }
 }
 
-export async function Mint(userAddress: string, mintIdx: string[]) {
-  const provider = useContext(WalletContext).provider;
+// export async function Mint(userAddress: string, mintIdx: string[]) {
+//   const provider = useContext(WalletContext).provider;
 
-  if (!provider) {
-    console.error('Provider not found');
-    return;
-  }
+//   if (!provider) {
+//     console.error('Provider not found');
+//     return;
+//   }
 
-  const signer = provider.getSigner();
-  const contractWithSigner = new ethers.Contract(
-    FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-    MAIN_ABI.ERC721,
-    signer
-  );
+//   const signer = provider.getSigner();
+//   const contractWithSigner = new ethers.Contract(
+//     FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
+//     MAIN_ABI.ERC721,
+//     signer
+//   );
 
-  try {
-    const mintTx = await contractWithSigner.mint(userAddress, mintIdx);
-    console.log('Mint transaction sent:', mintTx.hash);
-    await mintTx.wait();
-    console.log('Mint transaction confirmed');
-  } catch (error) {
-    console.error('Mint transaction failed:', error);
-  }
-}
+//   try {
+//     const mintTx = await contractWithSigner.mint(userAddress, mintIdx);
+//     console.log('Mint transaction sent:', mintTx.hash);
+//     await mintTx.wait();
+//     console.log('Mint transaction confirmed');
+//   } catch (error) {
+//     console.error('Mint transaction failed:', error);
+//   }
+// }
