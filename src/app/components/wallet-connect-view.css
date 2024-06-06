@@ -2,3 +2,7 @@
     width: 20px; /* ここで幅を設定 */
     height: 20px; /* ここで高さを設定 */
   }
+
+  .logout-container {
+    width: 450px;
+  }
