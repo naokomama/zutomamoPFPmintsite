@@ -121,6 +121,7 @@ export default function WalletConnectView() {
           console.log("addressId=",addressId);
 
           if (addressId !== -1) {
+            console.log("allowlistAddresses[addressId][1]=",allowlistAddresses[addressId][1])
             setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
             const initialMintAmount = Number(allowlistAddresses[addressId][1]) - Number(details.mintedAmountBySales);
             setRemainingPurchases(initialMintAmount);
@@ -134,8 +135,6 @@ export default function WalletConnectView() {
             setMintAmount(0);
             setIsMintButtonDisabled(true);
           }
-          console.log("addressId=",addressId);
-          console.log("allowlistAddresses[addressId][1]=",allowlistAddresses[addressId][1])
 
           const remaining = parseInt(details.maxSupply) - parseInt(details.totalSupply);
           setRemainingMintable(remaining);
