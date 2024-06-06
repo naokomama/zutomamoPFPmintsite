@@ -310,7 +310,7 @@ export default function WalletConnectView() {
             // "chainId": `0x${CHAIN_ID.BASE.toString(16)}`,
             // "chainName": "Base" // ⭐
             "blockExplorerUrls": [
-              "https://sepolia.basescan.org/"
+              "https://base-sepolia.blockscout.com"
             ],
             "iconUrls": [],
             "nativeCurrency": {
@@ -322,7 +322,7 @@ export default function WalletConnectView() {
               "https://sepolia.base.org"
             ],
             "chainId": `0x${CHAIN_ID.SEPOLIA.toString(16)}`,
-            "chainName": "BaseSepolia"
+            "chainName": "Base Sepolia"
           }
         ]
       });
@@ -356,8 +356,12 @@ export default function WalletConnectView() {
           {!isCorrectchain && (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
-              <Text>ネットワーク切り替え</Text>
-              <Text>Base Network</Text>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Text>ネットワーク切り替え</Text>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Text>Base Network</Text>
+                </div>
               </Button>
             </div>
           )}
