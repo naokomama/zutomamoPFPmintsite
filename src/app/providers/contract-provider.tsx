@@ -16,13 +16,14 @@ const basesepoliaUrl = baseSepolia.rpcUrls.alchemy.http.toString() + `/${alchemy
 const salesID = 0;
 
 export default async function getContractDetails(provider: any, userAddress: string) {
-  const contract = new ethers.Contract(
-    FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-    MAIN_ABI.ERC721,
-    provider
-  );
-
+  
   try {
+    const contract = new ethers.Contract(
+      FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
+      MAIN_ABI.ERC721,
+      provider
+    );
+
     const totalSupplyPromise = contract.totalSupply();
     const maxSupplyPromise = contract.maxSupply();
     const pausedPromise = contract.paused();

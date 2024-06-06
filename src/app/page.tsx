@@ -34,15 +34,15 @@ export default function Home() {
         <img src={ SUB_DIRECTRY + "PFP-100.jpg" } alt="ずとまもPFP" style={{ textAlign: 'center', width: '100%', maxWidth: '450px', height: '450px' }} />
       </div>
       <div className='w-full max-w-screen-md px-4' style={{ textAlign: 'center', width: '450px' }}>
-        <Button colorScheme='blue' variant='outline' onClick={handleOpenseaClick}>
+        <Button colorScheme='cyan' variant='outline' onClick={handleOpenseaClick}>
           <img className='mr-1 icon' src= {SUB_DIRECTRY + 'opensea.png'} alt='' />
           Opensea
         </Button>
-        <Button colorScheme='green' variant='outline' onClick={handleMagicEdenClick}>
+        <Button colorScheme='pink' variant='outline' onClick={handleMagicEdenClick}>
           <img className='mr-1 icon' src= {SUB_DIRECTRY + 'MElogo.png'} alt='' />
           MagicEden
         </Button>
-        <Button colorScheme='red' variant='outline' onClick={handleDiscordClick}>
+        <Button colorScheme='blue' variant='outline' onClick={handleDiscordClick}>
           <img className='mr-1 icon' src= {SUB_DIRECTRY + 'discord.png'} alt='' />
           ずとまも心臓部
         </Button>
