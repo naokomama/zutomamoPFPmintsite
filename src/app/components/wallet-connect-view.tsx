@@ -151,7 +151,7 @@ export default function WalletConnectView() {
     }
 
     fetchContractDetails();
-  }, [connectingAddress, provider]);
+  }, [connectingAddress, provider, isCorrectchain]);
 
   useEffect(() => {
     if (contractDetails) {
