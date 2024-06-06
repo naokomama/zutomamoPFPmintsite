@@ -185,6 +185,8 @@ export default function WalletConnectView() {
           const provider = window.ethereum as any;
           const accounts = await provider.request({ method: 'eth_requestAccounts' });
           setAddress(accounts.length === 0 ? null : accounts[0]);
+          console.log("Metamaskからのaddress=",address)
+          console.log("MetamaskからのconnectingAddress=",connectingAddress)
           const chainId = await provider.request({ method: 'eth_chainId' });
           setChainId(Number(chainId));
           setProvider(new ethers.providers.Web3Provider(provider));
