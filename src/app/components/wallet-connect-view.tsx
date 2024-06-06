@@ -315,7 +315,7 @@ export default function WalletConnectView() {
             "iconUrls": [],
             "nativeCurrency": {
               "name": "SepoliaETH",
-              "symbol": "SepoliaETH",
+              "symbol": "ETH",
               "decimals": 18
             },
             "rpcUrls": [
