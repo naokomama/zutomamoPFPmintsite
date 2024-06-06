@@ -108,6 +108,7 @@ export default function WalletConnectView() {
         console.log("connectingAddress=",connectingAddress)
 
         if (connectingAddress) {
+          console.log("provider=",provider);
           const details = await getContractDetails(provider, connectingAddress);
           setContractDetails(details);
           setIsLoaded(true);
@@ -119,19 +120,19 @@ export default function WalletConnectView() {
           console.log("addressId=",addressId);
 
           if (addressId !== -1) {
-              setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
-              const initialMintAmount = Number(allowlistAddresses[addressId][1]) - Number(details.mintedAmountBySales);
-              setRemainingPurchases(initialMintAmount);
-              setMintAmount(initialMintAmount > 0 ? initialMintAmount : 0);
-              if (initialMintAmount <= 0) {
-                setIsMintButtonDisabled(true);
-              }
-            } else {
-              setallowlistMaxMintAmount(0);
-              setRemainingPurchases(0);
-              setMintAmount(0);
+            setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
+            const initialMintAmount = Number(allowlistAddresses[addressId][1]) - Number(details.mintedAmountBySales);
+            setRemainingPurchases(initialMintAmount);
+            setMintAmount(initialMintAmount > 0 ? initialMintAmount : 0);
+            if (initialMintAmount <= 0) {
               setIsMintButtonDisabled(true);
             }
+          } else {
+            setallowlistMaxMintAmount(0);
+            setRemainingPurchases(0);
+            setMintAmount(0);
+            setIsMintButtonDisabled(true);
+          }
           console.log("addressId=",addressId);
           console.log("allowlistAddresses[addressId][1]=",allowlistAddresses[addressId][1])
 
