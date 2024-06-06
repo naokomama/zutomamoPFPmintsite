@@ -123,21 +123,27 @@ export default function WalletConnectView() {
           if (addressId !== -1) {
             console.log("allowlistAddresses[addressId][1]=",allowlistAddresses[addressId][1])
             setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
+
+            // 個人が買える数
             const initialMintAmount = Number(allowlistAddresses[addressId][1]) - Number(details.mintedAmountBySales);
             setRemainingPurchases(initialMintAmount);
             setMintAmount(initialMintAmount > 0 ? initialMintAmount : 0);
+
             if (initialMintAmount <= 0) {
               setIsMintButtonDisabled(true);
             }
+
+            // 全体で買える数
+            const remaining = parseInt(details.maxSupply) - parseInt(details.totalSupply);
+            setRemainingMintable(remaining);
+            
           } else {
             setallowlistMaxMintAmount(0);
             setRemainingPurchases(0);
             setMintAmount(0);
             setIsMintButtonDisabled(true);
+            setRemainingMintable(0);
           }
-
-          const remaining = parseInt(details.maxSupply) - parseInt(details.totalSupply);
-          setRemainingMintable(remaining);
       }
       } catch (error) {
         console.error('Failed to fetch contract details:', error);
