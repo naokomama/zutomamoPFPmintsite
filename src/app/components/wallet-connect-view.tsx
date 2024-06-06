@@ -341,6 +341,10 @@ export default function WalletConnectView() {
 
   const ImageView = () => {
     console.log("ImageViewはじめ")
+    console.log("isLoaded=",isLoaded)
+    console.log("remainingMintable=",remainingMintable)
+    console.log("contractDetails=",contractDetails)
+    
     if (provider == null || contractDetails == null || remainingMintable == null || !isLoaded) return null;
 
     // 販売が停止中の場合のエラーメッセージ表示
@@ -349,9 +353,9 @@ export default function WalletConnectView() {
     }
 
     if (chainId == CHAIN_ID.SEPOLIA) { //⭐
-      setIsCorrectchain(true)
+      setIsCorrectchain(true);
     } else {
-      setIsCorrectchain(false)
+      setIsCorrectchain(false);
     }
     console.log ("chainId=",chainId);
 
