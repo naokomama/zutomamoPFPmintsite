@@ -43,6 +43,7 @@ export default function WalletConnectView() {
   const SUB_DIRECTRY2 = "zutomamoPFP/mintsite/";
   const SUB_DIRECTRY = "assets/";
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isCorrectchain, setIsCorrectchain] = useState(false);
   const { MerkleTree } = require('merkletreejs');
   const keccak256 = require('keccak256');
   const [allowlistMaxMintAmount, setallowlistMaxMintAmount] = useState(0);
@@ -347,6 +348,11 @@ export default function WalletConnectView() {
       return <Text fontSize="2xl" color="red.500">販売を停止しています。Discordの情報をチェックしてください。</Text>;
     }
 
+    if (chainId == CHAIN_ID.SEPOLIA) { //⭐
+      setIsCorrectchain(true)
+    } else {
+      setIsCorrectchain(false)
+    }
     console.log ("chainId=",chainId);
 
     return (
@@ -355,18 +361,19 @@ export default function WalletConnectView() {
           
             {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( ⭐*/}
             {/* {chainId !== CHAIN_ID.SEPOLIA ? ( */}
-            {chainId !== 84532 ? (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
-                  Switch to Base Network
-                </Button>
-              </div>
-            ) : (
+            {isCorrectchain ? (
               parseInt(remainingMintable.toString()) > 0 ? (
                 <MainView />
               ) : (
                 <Text fontSize="2xl" color="red.500">完売しました🎉</Text>
               )
+              
+            ) : (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
+                  Switch to Base Network
+                </Button>
+              </div>
             )}
         </div>
       </div>
