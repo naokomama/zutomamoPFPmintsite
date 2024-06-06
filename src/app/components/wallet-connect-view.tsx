@@ -101,7 +101,7 @@ export default function WalletConnectView() {
   }, [updateProvider]);
 
   useEffect(() => {
-    if (provider == null) return
+    if (provider == null || !isCorrectchain) return
     async function fetchContractDetails() {
       try {
         console.log("fetchContractDetails")
