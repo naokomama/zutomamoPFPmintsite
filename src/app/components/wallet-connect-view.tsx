@@ -191,6 +191,7 @@ export default function WalletConnectView() {
           console.log("Metamaskからのaccounts=",accounts);
           console.log("Metamaskからのaccounts[0]=",accounts[0]);
           console.log("Metamaskからのaddress=",address);
+          setAddress(accounts[0]);
           console.log("MetamaskからのconnectingAddress=",connectingAddress);
           const chainId = await provider.request({ method: 'eth_chainId' });
           setChainId(Number(chainId));
