@@ -348,6 +348,8 @@ export default function WalletConnectView() {
       return <Text fontSize="2xl" color="red.500">販売を停止しています。Discordの情報をチェックしてください。</Text>;
     }
 
+    console.log ("chainId=",chainId);
+
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
