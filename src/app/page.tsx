@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
 import { Button, Stack, Text } from '@chakra-ui/react';
 
 // Dynamic import for WalletConnectView
@@ -12,7 +13,6 @@ export default function Home() {
   // const { address, provider, chainId } = useContext(WalletContext);
   const SUB_DIRECTRY2 = "zutomamoPFP/mintsite/assets/";
   const SUB_DIRECTRY = "/assets/";
-  const vConsole = new VConsole();
 
   const handleOpenseaClick = () => {
     // window.open("https://opensea.io/account", "_blank");
@@ -26,6 +26,14 @@ export default function Home() {
   const handleDiscordClick = () => {
     window.open("https://discord.com/invite/zutomamo-shinzo", "_blank");
   };
+
+  useEffect(() => {
+    // vConsoleを初期化
+    if (typeof window !== 'undefined') {
+      new VConsole();
+      console.log('vConsole is initialized');
+    }
+  }, []);
 
   return (
     <main className="w-screen min-h-screen flex flex-col items-center">
