@@ -51,7 +51,7 @@ export default function Home() {
         </Stack>
       </div>
       {/* <div className='w-full max-w-screen-md px-4'> */}
-      <div className='w-500 px-4'>
+      <div className='w-500'>
         <div className='w-full flex flex-row justify-center mt-5'>
           <WalletConnectView />
         </div>
