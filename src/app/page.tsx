@@ -39,7 +39,6 @@ export default function Home() {
 
   return (
     <main className="w-screen min-h-screen flex flex-col items-center">
-      <script src="https://cdn.jsdelivr.net/npm/vconsole/dist/vconsole.min.js"></script>
       <div className='w-full max-w-screen-md px-4' style={{ textAlign: 'center', width: '350px' }}>
       {/* <img src={ SUB_DIRECTRY + "zutomamo_pink_01.png" } alt="ずとまもロゴ" style={{ width: '90%', maxWidth: '50px', height: 'auto' }} /> */}
       <img src={ SUB_DIRECTRY + "zutomamologo_pink_03.png" } alt="ずとまもロゴ" style={{ textAlign: 'center', width: '100%', maxWidth: '350px', height: '50px' }} />
