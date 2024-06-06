@@ -404,15 +404,15 @@ export default function WalletConnectView() {
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '450px' }}>
           <Card align='center'>
             <CardHeader>
-              <div style={{ textAlign: 'center' }}>
-                <Text>Your Address</Text>
-              </div>
-              <div>{address}</div>
-            </CardHeader>
-            <CardBody>
               <div style={{ textAlign: 'center', width: '450px' }}>
                 <Heading size='md'>全体発行数 : {contractDetails.totalSupply || ''} / {contractDetails.maxSupply || ''}</Heading>
               </div>
+            </CardHeader>
+            <CardBody>
+              <div style={{ textAlign: 'center' }}>
+              <Heading size='md'>Your Address</Heading>
+              </div>
+              <div>{address}</div>
               <div style={{ textAlign: 'center', width: '450px' }}>
                 　　　
               </div>
@@ -429,7 +429,10 @@ export default function WalletConnectView() {
           <Card align='center'>
             <CardHeader>
               <div style={{ textAlign: 'center', width: '450px' }}>
-              <Text>販売価格：{mintAmount} Mint × {mintCosthenkan} = <Heading size='md'>{totalCost} ETH</Heading></Text>
+              <Text>販売価格：{mintAmount} Mint × {mintCosthenkan}<Heading size='md'>{totalCost} ETH</Heading></Text>
+              </div>
+              <div style={{ textAlign: 'center', width: '450px' }}>
+                　　　
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
                 <Heading size='md'><Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text></Heading>

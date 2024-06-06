@@ -13,7 +13,8 @@ export default function Home() {
   const SUB_DIRECTRY = "/assets/";
 
   const handleOpenseaClick = () => {
-    window.open("https://opensea.io/account", "_blank");
+    // window.open("https://opensea.io/account", "_blank");
+    window.open("https://testnets.opensea.io/account", "_blank");
   };
 
   const handleMagicEdenClick = () => {
