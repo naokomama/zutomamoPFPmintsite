@@ -45,7 +45,7 @@ export default function Home() {
       <img src={ SUB_DIRECTRY + "zutomamologo_pink_03.png" } alt="ずとまもロゴ" style={{ textAlign: 'center', width: '100%', maxWidth: '350px', height: '50px' }} />
       </div>
       <div className='w-full max-w-screen-md px-3' style={{ textAlign: 'center', width: '400px' }}>
-        <img src={ SUB_DIRECTRY + "PFP-100.jpg" } alt="ずとまもPFP" style={{ textAlign: 'center', width: '100%', maxWidth: '450px', height: '450px' }} />
+        <img src={ SUB_DIRECTRY + "PFP-100.jpg" } alt="ずとまもPFP" style={{ textAlign: 'center', width: '100%', maxWidth: '400px', height: '400px' }} />
       </div>
       <div className='w-full max-w-screen-md px-3' style={{ textAlign: 'center', width: '400px', margin: '10px' }}>
         <Stack spacing={4} direction='row' align='center'>
