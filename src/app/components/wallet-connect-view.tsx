@@ -45,11 +45,11 @@ export default function WalletConnectView() {
   const SUB_DIRECTRY = "assets/";
   const [isLoaded, setIsLoaded] = useState(false);
   const { MerkleTree } = require('merkletreejs');
-  const sha1 = require('crypto-js/sha1')
   const keccak256 = require('keccak256');
   const [allowlistMaxMintAmount, setallowlistMaxMintAmount] = useState(0);
   const [isMintButtonDisabled, setIsMintButtonDisabled] = useState(false);
   const [remainingPurchases, setRemainingPurchases] = useState(0);
+  const [mintCosthenkan, setMintCosthenkan] = useState(0);
 
   let nameMap;
   let leafNodes;
@@ -57,7 +57,6 @@ export default function WalletConnectView() {
   let addressId = -1;
   let claimingAddress;
   let hexProof;
-  // let allowlistMaxMintAmount = 0;
 
   useEffect(() => {
     console.log("setCanUseMetamask")
@@ -183,7 +182,7 @@ export default function WalletConnectView() {
           setChainId(Number(chainId));
           setProvider(new ethers.providers.Web3Provider(provider));
         }} isDisabled={isLoading}>
-          <img className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
+          <Image className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
           Metamask接続
         </Button>
       );
@@ -196,7 +195,7 @@ export default function WalletConnectView() {
           const metamaskLink = `https://metamask.app.link/dapp/` + `${path}`;
           location.href = metamaskLink;
         }} isDisabled={isLoading}>
-          <img className='mr-1 metamask-icon' src={SUB_DIRECTRY + 'metamask.svg'} alt='' />
+          <Image className='mr-1 metamask-icon' src={SUB_DIRECTRY + 'metamask.svg'} alt='' />
           MetamaskAppで開く
         </Button>
       );
@@ -230,7 +229,7 @@ export default function WalletConnectView() {
   const LogoutView = () => {
     if (provider == null) return null;
     return (
-      <div className='w-full flex justify-between items-center px-3' style={{ marginBottom: '20px' }}>
+      <div className='w-450 flex justify-between items-center px-3' style={{ marginBottom: '20px' }}>
         {chainId && <ChainTag chainId={chainId} />}
         <Menu>
           <MenuButton bg='#fa4e74' color='white' as={Button} size={'sm'} isDisabled={isLoading}>
@@ -255,7 +254,7 @@ export default function WalletConnectView() {
     try {
       await (window.ethereum as any).request({
         method: 'wallet_switchEthereumChain',
-        // params: [{ chainId: `0x${CHAIN_ID.BASE.toString(16)}` }],
+        // params: [{ chainId: `0x${CHAIN_ID.BASE.toString(16)}` }], // ⭐
         params: [{ chainId: `0x${CHAIN_ID.SEPOLIA.toString(16)}` }],
       });
     } catch (switchError: any) {
@@ -307,7 +306,7 @@ export default function WalletConnectView() {
             //   "https://mainnet.base.org"
             // ],
             // "chainId": `0x${CHAIN_ID.BASE.toString(16)}`,
-            // "chainName": "Base"
+            // "chainName": "Base" // ⭐
             "blockExplorerUrls": [
               "https://sepolia.basescan.org/"
             ],
@@ -352,7 +351,7 @@ export default function WalletConnectView() {
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           
-            {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( */}
+            {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( ⭐*/}
             {chainId !== null && chainId !== CHAIN_ID.SEPOLIA ? (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
@@ -373,7 +372,7 @@ export default function WalletConnectView() {
 
   const MainView = () => {
     if (provider == null || contractDetails == null) return null;
-    const mintCosthenkan = Number(contractDetails.mintCost) / 1000000000000000000
+    setMintCosthenkan(Number(contractDetails.mintCost) / 1000000000000000000);
     const totalCost = (mintAmount * Number(mintCosthenkan)).toFixed(3);
 
     return (
@@ -388,13 +387,13 @@ export default function WalletConnectView() {
             </CardHeader>
             <CardBody>
               <div style={{ textAlign: 'center', width: '450px' }}>
-                <Heading size='md'>TotalSupply : {contractDetails.totalSupply || ''} / {contractDetails.maxSupply || ''}</Heading>
+                <Heading size='md'>発行数 : {contractDetails.totalSupply || ''} / {contractDetails.maxSupply || ''}</Heading>
               </div>
               <div style={{ textAlign: 'center', width: '450px' }}>
                 <Heading size='md'><Text>ミント数：{contractDetails.mintedAmountBySales}</Text></Heading>
               </div>
               <div style={{ textAlign: 'center', width: '450px' }}>
-                <Heading size='md'><Text>購入予定数：{allowlistMaxMintAmount}</Text></Heading>
+                <Heading size='md'><Text>購入希望数：{allowlistMaxMintAmount}</Text></Heading>
               </div>
             </CardBody>
           </Card>
@@ -478,7 +477,7 @@ export default function WalletConnectView() {
 
         // ユーザーの残高を確認
         const balance = await provider.getBalance(connectingAddress);
-        const requiredEth = ethers.utils.parseEther((mintAmount * 0.021 + 0.0005).toString()); // ミント価格の計算
+        const requiredEth = ethers.utils.parseEther((mintAmount * mintCosthenkan + 0.0005).toString()); // ミント価格の計算
         if (balance.lt(requiredEth)) {
           throw new Error("Not Enough Eth");
         }
@@ -489,6 +488,18 @@ export default function WalletConnectView() {
 
         if (result.success) {
           if (result.message && !result.message.includes("拒否")) {
+
+            // ミント完了後に購入可能数を更新
+            const details = await getContractDetails(provider, connectingAddress);
+            setContractDetails(details);
+
+            const initialMintAmount = Number(allowlistAddresses[addressId][1]) - Number(details.mintedAmountBySales);
+            setRemainingPurchases(initialMintAmount);
+            setMintAmount(initialMintAmount > 0 ? initialMintAmount : 0);
+            if (initialMintAmount <= 0) {
+                setIsMintButtonDisabled(true);
+            }
+
             setDialogData({
               title: 'Success',
               message: result.message,
