@@ -20,7 +20,6 @@ import DialogData from '@/entity/dialog/dialog-data';
 import LoadingOverlay from './loading-overlay';
 import { allowlistAddresses }  from "../allowlist.mjs";
 
-
 export default function WalletConnectView() {
   const { address, chainId, provider, setAddress, setChainId, setProvider } = useContext(WalletContext);
   const { open } = useWeb3Modal();
@@ -355,7 +354,8 @@ export default function WalletConnectView() {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           
             {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( ⭐*/}
-            {chainId !== null && chainId !== CHAIN_ID.SEPOLIA ? (
+            {/* {chainId !== CHAIN_ID.SEPOLIA ? ( */}
+            {chainId !== 84532 ? (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
                   Switch to Base Network
