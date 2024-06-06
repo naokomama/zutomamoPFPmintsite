@@ -89,6 +89,7 @@ export default function WalletConnectView() {
       if (chain != null) {
         setChainId(chain.id);
       }
+      console.log("updateProviderのchainId=", chainId)
     }
   }, [connectingAddress, setAddress, setChainId, setProvider, chain]);
 
@@ -344,7 +345,7 @@ export default function WalletConnectView() {
     console.log("isLoaded=",isLoaded)
     console.log("remainingMintable=",remainingMintable)
     console.log("contractDetails=",contractDetails)
-    
+
     if (provider == null || contractDetails == null || remainingMintable == null || !isLoaded) return null;
 
     // 販売が停止中の場合のエラーメッセージ表示
