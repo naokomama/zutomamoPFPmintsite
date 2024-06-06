@@ -7,7 +7,7 @@ import { Button, Stack, Text } from '@chakra-ui/react';
 // Dynamic import for WalletConnectView
 // const WalletConnectView = dynamic(() => import('./components/wallet-connect-view'), { ssr: false });
 import WalletConnectView from './components/wallet-connect-view'
-import VConsole from 'vconsole';
+// import VConsole from 'vconsole';
 
 export default function Home() {
   // const { address, provider, chainId } = useContext(WalletContext);
@@ -27,20 +27,6 @@ export default function Home() {
     window.open("https://discord.com/invite/zutomamo-shinzo", "_blank");
   };
 
-  useEffect(() => {
-    const vConsole = new VConsole();
-    console.log("vConsole initialized");
-
-    // vConsoleのスタイルを設定して非表示にする
-    const vConsoleDom = document.querySelector('.vc-container') as HTMLElement;
-    if (vConsoleDom) {
-      vConsoleDom.style.display = 'none';
-    }
-
-    return () => {
-      vConsole.destroy();
-    };
-  }, []);
   
   // useEffect(() => {
   //   const loadVConsole = async () => {
