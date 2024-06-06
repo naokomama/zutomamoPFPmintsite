@@ -7,7 +7,7 @@ import { Button, Stack, Text } from '@chakra-ui/react';
 // Dynamic import for WalletConnectView
 // const WalletConnectView = dynamic(() => import('./components/wallet-connect-view'), { ssr: false });
 import WalletConnectView from './components/wallet-connect-view'
-import VConsole from 'vconsole';
+// import VConsole from 'vconsole';
 
 export default function Home() {
   // const { address, provider, chainId } = useContext(WalletContext);
@@ -28,11 +28,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // vConsoleを初期化
-    if (typeof window !== 'undefined') {
+    const loadVConsole = async () => {
+      const VConsole = (await import('vconsole')).default;
       new VConsole();
       console.log('vConsole is initialized');
-    }
+    };
+
+    loadVConsole();
   }, []);
 
   return (
