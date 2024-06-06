@@ -353,18 +353,16 @@ export default function WalletConnectView() {
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          
-            {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( ⭐*/}
-            {/* {chainId !== CHAIN_ID.SEPOLIA ? ( */}
-            !isCorrectchain ? (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
-                  Switch to Base Network
-                </Button>
-              </div>
-            )
+          {!isCorrectchain && (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
+                Switch to Base Network
+              </Button>
+            </div>
+          )}
         </div>
-      </div>);
+      </div>
+    );
   }
 
   const ImageView = () => {
