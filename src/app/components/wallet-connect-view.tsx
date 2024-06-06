@@ -186,6 +186,7 @@ export default function WalletConnectView() {
         <Button key={1} className='m-5 w-30' colorScheme='orange' onClick={async () => {
           const provider = window.ethereum as any;
           const accounts = await provider.request({ method: 'eth_requestAccounts' });
+          console.log("Metamaskからのaccounts.length=",accounts.length);
           setAddress(accounts.length === 0 ? null : accounts[0]);
           console.log("Metamaskからのaccounts=",accounts);
           console.log("Metamaskからのaccounts[0]=",accounts[0]);
