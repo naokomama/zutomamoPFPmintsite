@@ -34,7 +34,7 @@ export default function Home() {
       <div className='w-full max-w-screen-md px-4' style={{ textAlign: 'center', width: '450px' }}>
         <img src={ SUB_DIRECTRY + "PFP-100.jpg" } alt="ずとまもPFP" style={{ textAlign: 'center', width: '100%', maxWidth: '450px', height: '450px' }} />
       </div>
-      <div className='w-full max-w-screen-md px-4' style={{ textAlign: 'center', width: '450px', margin: '50px' }}>
+      <div className='w-full max-w-screen-md px-4' style={{ textAlign: 'center', width: '450px', margin: '30px' }}>
         <Stack spacing={4} direction='row' align='center'>
           <Button colorScheme='cyan' variant='outline' onClick={handleOpenseaClick}>
             <img className='mr-1 icon' src= {SUB_DIRECTRY + 'opensea.png'} alt='' />

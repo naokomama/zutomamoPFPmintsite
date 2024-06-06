@@ -225,7 +225,7 @@ export default function WalletConnectView() {
   };
 
   const setToMin = () => {
-    setMintAmount(1);
+    setMintAmount(Math.min(remainingPurchases, 1));
   };
 
   const setToMax = () => {
