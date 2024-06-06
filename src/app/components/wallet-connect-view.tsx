@@ -173,15 +173,15 @@ export default function WalletConnectView() {
     const views = [];
     if (provider != null) return null;
 
-    views.push(
-      <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
-        ウォレットに接続
-      </Button>
-    );
+    // views.push(
+    //   <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
+    //     ウォレットに接続
+    //   </Button>
+    // );
 
     if (isMobile && canUseMetamask) {
       views.push(
-        <Button key={2} className='m-5 w-30' colorScheme='orange' onClick={async () => {
+        <Button key={1} className='m-5 w-30' colorScheme='orange' onClick={async () => {
           const provider = window.ethereum as any;
           const accounts = await provider.request({ method: 'eth_requestAccounts' });
           setAddress(accounts.length === 0 ? null : accounts[0]);
@@ -197,7 +197,7 @@ export default function WalletConnectView() {
 
     if (isMobile && !canUseMetamask) {
       views.push(
-        <Button key={3} className='m-5 w-30' colorScheme='orange' onClick={() => {
+        <Button key={2} className='m-5 w-30' colorScheme='orange' onClick={() => {
           const path = document.URL.split('://')[1];
           const metamaskLink = `https://metamask.app.link/dapp/` + `${path}`;
           location.href = metamaskLink;
