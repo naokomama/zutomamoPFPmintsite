@@ -179,7 +179,7 @@ export default function WalletConnectView() {
     //   </Button>
     // );
 
-    if (isMobile && canUseMetamask) {
+    if (canUseMetamask) {
       views.push(
         <Button key={1} className='m-5 w-30' colorScheme='orange' onClick={async () => {
           const provider = window.ethereum as any;
@@ -195,7 +195,7 @@ export default function WalletConnectView() {
       );
     }
 
-    if (isMobile && !canUseMetamask) {
+    if (!canUseMetamask) {
       views.push(
         <Button key={2} className='m-5 w-30' colorScheme='orange' onClick={() => {
           const path = document.URL.split('://')[1];
