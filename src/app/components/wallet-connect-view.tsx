@@ -339,6 +339,33 @@ export default function WalletConnectView() {
       });
     }
   }
+  const KirikaeView = () => {
+    console.log("KirikaeViewはじめ")
+    if (provider == null ) return null;
+
+    if (chainId == CHAIN_ID.SEPOLIA) { //⭐
+      setIsCorrectchain(true);
+    } else {
+      setIsCorrectchain(false);
+    }
+    console.log ("KirikaeViewのchainId=",chainId);
+
+    return (
+      <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          
+            {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( ⭐*/}
+            {/* {chainId !== CHAIN_ID.SEPOLIA ? ( */}
+            !isCorrectchain ? (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
+                  Switch to Base Network
+                </Button>
+              </div>
+            )
+        </div>
+      </div>);
+  }
 
   const ImageView = () => {
     console.log("ImageViewはじめ")
@@ -352,13 +379,6 @@ export default function WalletConnectView() {
     if (contractDetails != null && contractDetails.paused) {
       return <Text fontSize="2xl" color="red.500">販売を停止しています。Discordの情報をチェックしてください。</Text>;
     }
-
-    if (chainId == CHAIN_ID.SEPOLIA) { //⭐
-      setIsCorrectchain(true);
-    } else {
-      setIsCorrectchain(false);
-    }
-    console.log ("chainId=",chainId);
 
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
@@ -551,6 +571,7 @@ export default function WalletConnectView() {
     <div className='w-full'>
       <LoginView />
       <LogoutView />
+      <KirikaeView />
       <ImageView />
       <InfoDialog dialogData={dialogData} />
       <ErrorDialog dialogData={errorData} />
