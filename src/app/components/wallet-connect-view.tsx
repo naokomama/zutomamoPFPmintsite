@@ -237,6 +237,7 @@ export default function WalletConnectView() {
 
   const LogoutView = () => {
     if (provider == null) return null;
+    console.log("LogoutViewのaddress=",address)
     return (
       <div className='w-450 flex justify-between items-center px-3' style={{ marginBottom: '20px' }}>
         {chainId && <ChainTag chainId={chainId} />}
