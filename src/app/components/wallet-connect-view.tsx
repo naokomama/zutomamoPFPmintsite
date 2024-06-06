@@ -181,7 +181,7 @@ export default function WalletConnectView() {
 
     console.log("canUseMetamask=",canUseMetamask);
 
-    if (canUseMetamask) {
+    if (isMobile && canUseMetamask) {
       views.push(
         <Button key={2} className='m-5 w-30' colorScheme='orange' onClick={async () => {
           const provider = window.ethereum as any;
@@ -204,7 +204,7 @@ export default function WalletConnectView() {
       );
     }
 
-    if (!canUseMetamask) {
+    if (isMobile && !canUseMetamask) {
       views.push(
         <Button key={3} className='m-5 w-30' colorScheme='orange' onClick={() => {
           const path = document.URL.split('://')[1];
@@ -249,7 +249,7 @@ export default function WalletConnectView() {
       <div className='w-450 flex justify-between items-center px-3' style={{ marginBottom: '20px' }}>
         {chainId && <ChainTag chainId={chainId} />}
         <Menu>
-          <MenuButton bg='#fa4e74' color='white' as={Button} size={'sm'} isDisabled={isLoading}>
+          <MenuButton bg='#fa4e74' color='white' as={Button} size={'sm'} isDisabled={isLoading} >
             {address == null ? '' : `${address.slice(0, 4)} ... ${address.slice(-4)}`}
           </MenuButton>
           <MenuList>
