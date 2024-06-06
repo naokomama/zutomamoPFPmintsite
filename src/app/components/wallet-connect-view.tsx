@@ -208,7 +208,7 @@ export default function WalletConnectView() {
 
   const handleIncrease = () => {
     const remaining = remainingMintable !== null ? remainingMintable : 0;
-    if (mintAmount < Math.min(allowlistMaxMintAmount, remaining)) {
+    if (mintAmount < Math.min(remainingPurchases, remaining)) {
         setMintAmount(mintAmount + 1);
     }
   };
@@ -225,7 +225,7 @@ export default function WalletConnectView() {
 
   const setToMax = () => {
     const remaining = remainingMintable !== null ? remainingMintable : 0;
-    setMintAmount(Math.min(allowlistMaxMintAmount, remaining));
+    setMintAmount(Math.min(remainingPurchases, remaining));
 };
 
   const LogoutView = () => {
@@ -356,7 +356,8 @@ export default function WalletConnectView() {
           {!isCorrectchain && (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
-                Switch to Base Network
+              <Text>ネットワーク切り替え</Text>
+              <Text>Base Network</Text>
               </Button>
             </div>
           )}
@@ -371,7 +372,7 @@ export default function WalletConnectView() {
     console.log("remainingMintable=",remainingMintable)
     console.log("contractDetails=",contractDetails)
 
-    if (provider == null || contractDetails == null || remainingMintable == null || !isLoaded) return null;
+    if (provider == null || contractDetails == null || remainingMintable == null || !isLoaded || !isCorrectchain) return null;
 
     // 販売が停止中の場合のエラーメッセージ表示
     if (contractDetails != null && contractDetails.paused) {
@@ -382,22 +383,12 @@ export default function WalletConnectView() {
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           
-            {/* {chainId !== null && chainId !== CHAIN_ID.BASE ? ( ⭐*/}
-            {/* {chainId !== CHAIN_ID.SEPOLIA ? ( */}
-            {isCorrectchain ? (
-              parseInt(remainingMintable.toString()) > 0 ? (
-                <MainView />
-              ) : (
-                <Text fontSize="2xl" color="red.500">完売しました🎉</Text>
-              )
-              
+            {parseInt(remainingMintable.toString()) > 0 ? (
+              <MainView />
             ) : (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
-                  Switch to Base Network
-                </Button>
-              </div>
+              <Text fontSize="2xl" color="red.500">完売しました🎉</Text>
             )}
+            
         </div>
       </div>
     );
@@ -420,7 +411,10 @@ export default function WalletConnectView() {
             </CardHeader>
             <CardBody>
               <div style={{ textAlign: 'center', width: '450px' }}>
-                <Heading size='md'>発行数 : {contractDetails.totalSupply || ''} / {contractDetails.maxSupply || ''}</Heading>
+                <Heading size='md'>全体発行数 : {contractDetails.totalSupply || ''} / {contractDetails.maxSupply || ''}</Heading>
+              </div>
+              <div style={{ textAlign: 'center', width: '450px' }}>
+                　　　
               </div>
               <div style={{ textAlign: 'center', width: '450px' }}>
                 <Heading size='md'><Text>ミント数：{contractDetails.mintedAmountBySales}</Text></Heading>
@@ -434,11 +428,8 @@ export default function WalletConnectView() {
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '450px' }}>
           <Card align='center'>
             <CardHeader>
-              <div style={{ textAlign: 'left', width: '450px' }}>
-                <Heading size='md'>販売価格</Heading>
-              </div>
               <div style={{ textAlign: 'center', width: '450px' }}>
-                <Text>{mintAmount} Mint × {mintCosthenkan} = {totalCost} ETH</Text>
+              <Text>販売価格：{mintAmount} Mint × {mintCosthenkan} = <Heading size='md'>{totalCost} ETH</Heading></Text>
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
                 <Heading size='md'><Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text></Heading>
