@@ -428,10 +428,10 @@ export default function WalletConnectView() {
 
     return (
       <div className='w-500'>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '450px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '400px' }}>
           <Card align='center'>
             <CardHeader>
-              <div style={{ textAlign: 'center', width: '450px' }}>
+              <div style={{ textAlign: 'center', width: '400px' }}>
                 <Heading size='md'>全体発行数 : {contractDetails.totalSupply || ''} / {contractDetails.maxSupply || ''}</Heading>
               </div>
             </CardHeader>
@@ -440,25 +440,25 @@ export default function WalletConnectView() {
               <Heading size='md'>Your Address</Heading>
               </div>
               <div>{address}</div>
-              <div style={{ textAlign: 'center', width: '450px' }}>
+              <div style={{ textAlign: 'center', width: '400px' }}>
                 　　　
               </div>
-              <div style={{ textAlign: 'center', width: '450px' }}>
+              <div style={{ textAlign: 'center', width: '400px' }}>
                 <Heading size='md'><Text>ミント数：{contractDetails.mintedAmountBySales}</Text></Heading>
               </div>
-              <div style={{ textAlign: 'center', width: '450px' }}>
+              <div style={{ textAlign: 'center', width: '400px' }}>
                 <Heading size='md'><Text>購入希望数：{allowlistMaxMintAmount}</Text></Heading>
               </div>
             </CardBody>
           </Card>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '450px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '400px' }}>
           <Card align='center'>
             <CardHeader>
-              <div style={{ textAlign: 'center', width: '450px' }}>
+              <div style={{ textAlign: 'center', width: '400px' }}>
               <Text>販売価格：{mintAmount} Mint × {mintCosthenkan}<Heading size='md'>{totalCost} ETH</Heading></Text>
               </div>
-              <div style={{ textAlign: 'center', width: '450px' }}>
+              <div style={{ textAlign: 'center', width: '400px' }}>
                 　　　
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
