@@ -50,6 +50,7 @@ export default function WalletConnectView() {
   const [isMintButtonDisabled, setIsMintButtonDisabled] = useState(false);
   const [remainingPurchases, setRemainingPurchases] = useState(0);
   const [mintCosthenkan, setMintCosthenkan] = useState(0);
+  const [tmpaccount, settmpAccount] = useState(null);
 
   let nameMap;
   let leafNodes;
@@ -167,8 +168,11 @@ export default function WalletConnectView() {
   }, [contractDetails]);
 
   useEffect(() => {
-    console.log("useEffectのaddress=", address);
-  }, [address]);
+    console.log("useEffectのtmpaccount=", tmpaccount);
+    console.log("useEffectのaddress1=", address);
+    setAddress(tmpaccount);
+    console.log("useEffectのaddress2=", address);
+  }, [tmpaccount]);
 
   const { mintTokens } = useMint();
 
@@ -194,6 +198,7 @@ export default function WalletConnectView() {
           const accounts = await provider.request({ method: 'eth_requestAccounts' });
           console.log("Metamaskからのaccounts.length=",accounts.length);
           setAddress(accounts.length === 0 ? null : accounts[0]);
+          settmpAccount(accounts.length === 0 ? null : accounts[0]);
           console.log("Metamaskからのaccounts=",accounts);
           console.log("Metamaskからのaccounts[0]=",accounts[0]);
           console.log("Metamaskからのaddress=",address);
