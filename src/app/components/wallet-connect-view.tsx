@@ -104,14 +104,16 @@ export default function WalletConnectView() {
   }, [updateProvider]);
 
   useEffect(() => {
-    if (provider == null || !isCorrectchain) return
+    if (provider == null ) return;
     async function fetchContractDetails() {
       try {
         console.log("fetchContractDetails")
         console.log("connectingAddress=",connectingAddress)
+        console.log("Address=", address);
+        console.log("provider=",provider);
 
         if (connectingAddress) {
-          console.log("provider=",provider);
+          
           const details = await getContractDetails(provider, connectingAddress);
           setContractDetails(details);
           setIsLoaded(true);
@@ -195,6 +197,7 @@ export default function WalletConnectView() {
           console.log("Metamaskからのprovider=",provider);
           console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
           setProvider(new ethers.providers.Web3Provider(provider));
+          console.log("⭐再Metamaskからのprovider=",provider);
         }} >
           <Image className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
           Metamask接続
@@ -242,7 +245,9 @@ export default function WalletConnectView() {
 
   const LogoutView = () => {
     if (provider == null) return null;
-    console.log("LogoutViewのaddress=",address)
+    console.log("LogoutViewのaddress=",address);
+    console.log("LogoutViewのconnectingAddress=",connectingAddress);
+
     return (
       <div className='w-450 flex justify-between items-center px-3' style={{ marginBottom: '20px' }}>
         {chainId && <ChainTag chainId={chainId} />}
@@ -354,6 +359,7 @@ export default function WalletConnectView() {
   }
   const KirikaeView = () => {
     console.log("KirikaeViewはじめ")
+    console.log("KirikaeViewのconnectingAddress=",connectingAddress);
     if (provider == null ) return null;
 
     if (chainId == CHAIN_ID.SEPOLIA) { //⭐
@@ -361,6 +367,7 @@ export default function WalletConnectView() {
     } else {
       setIsCorrectchain(false);
     }
+    console.log ("KirikaeViewのisCorrectchain=",isCorrectchain);
     console.log ("KirikaeViewのchainId=",chainId);
 
     return (
