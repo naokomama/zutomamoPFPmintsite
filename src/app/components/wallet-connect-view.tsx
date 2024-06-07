@@ -168,10 +168,12 @@ export default function WalletConnectView() {
   }, [contractDetails]);
 
   useEffect(() => {
-    console.log("useEffectのtmpaccount=", tmpaccount);
+    console.log("⭐useEffectのtmpaccount=", tmpaccount);
     console.log("useEffectのaddress1=", address);
     setAddress(tmpaccount);
     console.log("useEffectのaddress2=", address);
+    console.log("useEffectのprovider=",provider);
+    console.log("useEffectのisCorrectchain=",isCorrectchain);
   }, [tmpaccount]);
 
   const { mintTokens } = useMint();
