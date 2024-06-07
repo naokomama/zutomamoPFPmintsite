@@ -166,6 +166,10 @@ export default function WalletConnectView() {
     }
   }, [contractDetails]);
 
+  useEffect(() => {
+    console.log("useEffectのaddress=", address);
+  }, [address]);
+
   const { mintTokens } = useMint();
 
   const LoginView = () => {
