@@ -70,7 +70,7 @@ export default function WalletConnectView() {
     console.log("Address=", address);
     console.log("ChainId=", chainId);
 
-    if (connectingAddress == null) {
+    if (address == null) {
       setProvider(null);
       setAddress(null);
       setChainId(null);
@@ -87,13 +87,14 @@ export default function WalletConnectView() {
         setChainId(Number(chainId));
       });
       setProvider(new ethers.providers.Web3Provider(provider));
-      setAddress(connectingAddress);
+      setAddress(address);
       if (chain != null) {
         setChainId(chain.id);
       }
       console.log("updateProviderのchainId=", chainId)
     }
-  }, [connectingAddress, setAddress, setChainId, setProvider, chain]);
+  // }, [connectingAddress, setAddress, setChainId, setProvider, chain]);
+  }, [ setAddress, setChainId, setProvider, chain]);
 
   useEffect(() => {
     updateProvider();
@@ -162,7 +163,8 @@ export default function WalletConnectView() {
     }
 
     fetchContractDetails();
-  }, [connectingAddress, provider, isCorrectchain]);
+  // }, [connectingAddress, provider, isCorrectchain]);
+  }, [address, provider, isCorrectchain]);
 
   useEffect(() => {
     if (contractDetails) {
@@ -492,7 +494,8 @@ export default function WalletConnectView() {
     let allowlistMaxMintAmount;
 
     try {
-      if (connectingAddress) {
+      // if (connectingAddress) {
+      if (address) {
         setisLoading(true);
         let totalSupply = parseInt(contractDetails.totalSupply, 10);
 
@@ -503,7 +506,8 @@ export default function WalletConnectView() {
           //   sortLeaves: true,
           //   sortPairs: true
           // })
-        addressId = nameMap.indexOf(connectingAddress.toLowerCase());
+        // addressId = nameMap.indexOf(connectingAddress.toLowerCase());
+        addressId = nameMap.indexOf(address.toLowerCase());
         
         if( addressId == -1){
           allowlistMaxMintAmount = 0;
@@ -528,7 +532,8 @@ export default function WalletConnectView() {
         // const result = await mintTokens(connectingAddress, mintIdx);
 
         // ユーザーの残高を確認
-        const balance = await provider.getBalance(connectingAddress);
+        // const balance = await provider.getBalance(connectingAddress);
+        const balance = await provider.getBalance(address);
         const requiredEth = ethers.utils.parseEther(((mintAmount * mintCosthenkan) + 0.0005).toString()); // ミント価格の計算
         if (balance.lt(requiredEth)) {
           throw new Error("ETHが不足しています。");
@@ -542,7 +547,8 @@ export default function WalletConnectView() {
           if (result.message && !result.message.includes("拒否")) {
 
             // ミント完了後に購入可能数を更新
-            const details = await getContractDetails(provider, connectingAddress);
+            // const details = await getContractDetails(provider, connectingAddress);
+            const details = await getContractDetails(provider, address);
             setContractDetails(details);
 
             const initialMintAmount = Number(allowlistAddresses[addressId][1]) - Number(details.mintedAmountBySales);
@@ -557,7 +563,8 @@ export default function WalletConnectView() {
               message: result.message,
               callback: async () => {
                 setDialogData(null);
-                const details = await getContractDetails(provider, connectingAddress);
+                // const details = await getContractDetails(provider, connectingAddress);
+                const details = await getContractDetails(provider, address);
                 setContractDetails(details);
               },
               cancelCallback: () => setErrorData(null)
