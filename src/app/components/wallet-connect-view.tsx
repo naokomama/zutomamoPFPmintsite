@@ -114,7 +114,7 @@ export default function WalletConnectView() {
         // console.log("provider=",provider);
 
         // if (connectingAddress) {
-        if (address) {
+        if (address && isCorrectchain) {
           
           const details = await getContractDetails(provider, address);
           setContractDetails(details);
@@ -380,7 +380,7 @@ export default function WalletConnectView() {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Text>`ネットワーク切り替え\nBase Network`</Text>
+                  <Text>{`ネットワーク切り替え\nBase Network`}</Text>
                 </div>
               </Button>
             </div>
