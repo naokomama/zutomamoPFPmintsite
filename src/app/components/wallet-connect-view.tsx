@@ -66,13 +66,15 @@ export default function WalletConnectView() {
   const updateProvider = useCallback(async () => {
     console.log("updateProvider")
     console.log("connectingAddress=",connectingAddress)
+    console.log("Provider=", provider);
+    console.log("Address=", address);
+    console.log("ChainId=", chainId);
 
     if (connectingAddress == null) {
       setProvider(null);
       setAddress(null);
       setChainId(null);
     } else {
-      console.log("connectingAddress=",connectingAddress)
 
       if (getAccount().connector == null) return;
       const provider = await getAccount().connector!.options.getProvider();
@@ -190,10 +192,10 @@ export default function WalletConnectView() {
           console.log("MetamaskからのconnectingAddress=",connectingAddress);
           const chainId = await provider.request({ method: 'eth_chainId' });
           setChainId(Number(chainId));
-          setProvider(new ethers.providers.Web3Provider(provider));
           console.log("Metamaskからのprovider=",provider);
           console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
-        }} isDisabled={isLoading}>
+          setProvider(new ethers.providers.Web3Provider(provider));
+        }} >
           <Image className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
           Metamask接続
         </Button>
