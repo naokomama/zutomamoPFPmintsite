@@ -110,18 +110,19 @@ export default function WalletConnectView() {
         console.log("fetchContractDetails")
         console.log("connectingAddress=",connectingAddress)
         console.log("Address=", address);
-        console.log("provider=",provider);
+        // console.log("provider=",provider);
 
-        if (connectingAddress) {
+        // if (connectingAddress) {
+        if (address) {
           
-          const details = await getContractDetails(provider, connectingAddress);
+          const details = await getContractDetails(provider, address);
           setContractDetails(details);
           setIsLoaded(true);
           
           // アローリストから最大ミント数を取得
           nameMap = allowlistAddresses.map(list => list[0]);
           console.log("nameMap=",nameMap);
-          addressId = nameMap.indexOf(connectingAddress.toLowerCase());
+          addressId = nameMap.indexOf(address.toLowerCase());
           console.log("addressId=",addressId);
 
           if (addressId !== -1) {
@@ -148,7 +149,7 @@ export default function WalletConnectView() {
             setIsMintButtonDisabled(true);
             setRemainingMintable(0);
           }
-      }
+        }
       } catch (error) {
         console.error('Failed to fetch contract details:', error);
         setErrorData({
