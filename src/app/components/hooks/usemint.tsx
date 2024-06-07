@@ -33,28 +33,13 @@ export const useMint = () => {
       console.log("callStaticでのチェック開始");
       // ガスリミットを手動で設定
       const gasLimit = ethers.utils.hexlify(200000); // 適切なガスリミットを設定
-      
+
       await contractWithSigner.callStatic.claim(amount, allowedAmount, merkleProof, {
         value: ethers.utils.parseUnits("0.021", "ether").mul(amount),
         gasLimit: gasLimit
       });
 
       console.log("claim開始")
-      // const gasLimit = await provider.estimateGas({
-      //   to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-      //   data: MAIN_ABI.ERC721
-      // });
-
-      // const contractInterface = new ethers.utils.Interface(["function claim(uint256 mintAmount, uint256 allowlistMaxMintAmount, bytes32[] hexProof)"]);
-      // const txData = contractInterface.encodeFunctionData("claim", [Number(amount), Number(allowedAmount), merkleProof]);
-
-      // const gasLimit = await provider.estimateGas({
-      //   to: FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
-      //   data: txData
-      // });
-
-      // console.log ("gasLimit=",gasLimit);
-
       const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
         value: ethers.utils.parseUnits("0.021", "ether").mul(amount),
         gasLimit: gasLimit
@@ -72,6 +57,13 @@ export const useMint = () => {
 
       if (errorCode === 4001) {
         // ユーザーがトランザクションを拒否した場合の処理
+        const cancelMessage = 'ユーザーがトランザクションを拒否しました。';
+        console.log(cancelMessage);
+        return { success: true, message: cancelMessage };
+      }
+
+      // ユーザーがメタマスクでキャンセルした場合、エラーにしない
+      if (errorMg.includes("ACTION_REJECTED")) {
         const cancelMessage = 'ユーザーがトランザクションを拒否しました。';
         console.log(cancelMessage);
         return { success: true, message: cancelMessage };
