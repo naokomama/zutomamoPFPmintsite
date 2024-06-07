@@ -4,8 +4,8 @@ import './globals.css'
 
 
 export const metadata: Metadata = {
-  title: 'Baseミントサイト',
-  description: 'Baseミントサイト',
+  title: 'ZUTOMAMO PFP ミントサイト',
+  description: 'ZUTOMAMO PFP ミントサイト',
   icons: [],
 }
 
