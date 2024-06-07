@@ -380,10 +380,7 @@ export default function WalletConnectView() {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Text>ネットワーク切り替え</Text>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Text>Base Network</Text>
+                  <Text>`ネットワーク切り替え\nBase Network`</Text>
                 </div>
               </Button>
             </div>
@@ -427,7 +424,7 @@ export default function WalletConnectView() {
     const totalCost = (mintAmount * Number(mintCosthenkan)).toFixed(3);
 
     return (
-      <div className='w-500'>
+      <div className='w-400'>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', width: '400px' }}>
           <Card align='center'>
             <CardHeader>
