@@ -50,7 +50,6 @@ export default function WalletConnectView() {
   const [isMintButtonDisabled, setIsMintButtonDisabled] = useState(false);
   const [remainingPurchases, setRemainingPurchases] = useState(0);
   const [mintCosthenkan, setMintCosthenkan] = useState(0);
-  // const [tmpaccount, settmpAccount] = useState(null);
 
   let nameMap;
   let leafNodes;
@@ -167,15 +166,6 @@ export default function WalletConnectView() {
     }
   }, [contractDetails]);
 
-  // useEffect(() => {
-  //   console.log("⭐useEffectのtmpaccount=", tmpaccount);
-  //   console.log("useEffectのaddress1=", address);
-  //   setAddress(tmpaccount);
-  //   console.log("useEffectのaddress2=", address);
-  //   console.log("useEffectのprovider=",provider);
-  //   console.log("useEffectのisCorrectchain=",isCorrectchain);
-  // }, [tmpaccount]);
-
   const { mintTokens } = useMint();
 
   const LoginView = () => {
@@ -183,33 +173,26 @@ export default function WalletConnectView() {
     const views = [];
     if (provider != null) return null;
 
-    views.push(
-      <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
-        ウォレットに接続
-      </Button>
-    );
+    // views.push(
+    //   <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
+    //     ウォレットに接続
+    //   </Button>
+    // );
 
-    console.log("canUseMetamask=",canUseMetamask);
-
-    if (isMobile && canUseMetamask) {
+    if (canUseMetamask) {
       views.push(
-        <Button key={2} className='m-5 w-30' colorScheme='orange' onClick={async () => {
+        <Button key={1} className='m-5 w-30' colorScheme='orange' onClick={async () => {
           const provider = window.ethereum as any;
           const accounts = await provider.request({ method: 'eth_requestAccounts' });
-          // console.log("Metamaskからのprovider=",provider);
-          // console.log("Metamaskからのaccounts.length=",accounts.length);
           setAddress(accounts.length === 0 ? null : accounts[0]);
-          // settmpAccount(accounts.length === 0 ? null : accounts[0]);
-          // console.log("Metamaskからのtmpaccount=",tmpaccount);
-          // console.log("Metamaskからのaccounts=",accounts);
-          // console.log("Metamaskからのaccounts[0]=",accounts[0]);
-          // console.log("Metamaskからのaddress=",address);
-          // console.log("MetamaskからのconnectingAddress=",connectingAddress);
+          console.log("Metamaskからのaccounts=",accounts);
+          console.log("Metamaskからのaddress=",address);
+          console.log("MetamaskからのconnectingAddress=",connectingAddress);
           const chainId = await provider.request({ method: 'eth_chainId' });
           setChainId(Number(chainId));
           setProvider(new ethers.providers.Web3Provider(provider));
-          console.log("MetamaskからのchainId=",chainId);
-          console.log("MetamaskからのProvider=",provider);
+          console.log("Metamaskからのprovider=",provider);
+          console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
         }} isDisabled={isLoading}>
           <Image className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
           Metamask接続
@@ -217,9 +200,9 @@ export default function WalletConnectView() {
       );
     }
 
-    if (isMobile && !canUseMetamask) {
+    if (!canUseMetamask) {
       views.push(
-        <Button key={3} className='m-5 w-30' colorScheme='orange' onClick={() => {
+        <Button key={2} className='m-5 w-30' colorScheme='orange' onClick={() => {
           const path = document.URL.split('://')[1];
           const metamaskLink = `https://metamask.app.link/dapp/` + `${path}`;
           location.href = metamaskLink;
@@ -262,7 +245,7 @@ export default function WalletConnectView() {
       <div className='w-450 flex justify-between items-center px-3' style={{ marginBottom: '20px' }}>
         {chainId && <ChainTag chainId={chainId} />}
         <Menu>
-          <MenuButton bg='#fa4e74' color='white' as={Button} size={'sm'} isDisabled={isLoading} >
+          <MenuButton bg='#fa4e74' color='white' as={Button} size={'sm'} isDisabled={isLoading}>
             {address == null ? '' : `${address.slice(0, 4)} ... ${address.slice(-4)}`}
           </MenuButton>
           <MenuList>
@@ -536,7 +519,7 @@ export default function WalletConnectView() {
 
         // ユーザーの残高を確認
         const balance = await provider.getBalance(connectingAddress);
-        const requiredEth = ethers.utils.parseEther(((mintAmount * mintCosthenkan) + 0.0005).toString()); // ミント価格の計算
+        const requiredEth = ethers.utils.parseEther((mintAmount * mintCosthenkan + 0.0005).toString()); // ミント価格の計算
         if (balance.lt(requiredEth)) {
           throw new Error("Not Enough Eth");
         }

@@ -26,17 +26,16 @@ export default function Home() {
   const handleDiscordClick = () => {
     window.open("https://discord.com/invite/zutomamo-shinzo", "_blank");
   };
-
   
-  // useEffect(() => {
-  //   const loadVConsole = async () => {
-  //     const VConsole = (await import('vconsole')).default;
-  //     new VConsole();
-  //     console.log('vConsole is initialized');
-  //   };
+  useEffect(() => {
+    const loadVConsole = async () => {
+      const VConsole = (await import('vconsole')).default;
+      new VConsole();
+      console.log('vConsole is initialized');
+    };
 
-  //   loadVConsole();
-  // }, []);
+    loadVConsole();
+  }, []);
 
   return (
     <main className="w-screen min-h-screen flex flex-col items-center">
