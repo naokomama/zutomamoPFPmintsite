@@ -28,15 +28,15 @@ export default function Home() {
   };
 
   
-  useEffect(() => {
-    const loadVConsole = async () => {
-      const VConsole = (await import('vconsole')).default;
-      new VConsole();
-      console.log('vConsole is initialized');
-    };
+  // useEffect(() => {
+  //   const loadVConsole = async () => {
+  //     const VConsole = (await import('vconsole')).default;
+  //     new VConsole();
+  //     console.log('vConsole is initialized');
+  //   };
 
-    loadVConsole();
-  }, []);
+  //   loadVConsole();
+  // }, []);
 
   return (
     <main className="w-screen min-h-screen flex flex-col items-center">

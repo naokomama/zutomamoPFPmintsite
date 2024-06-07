@@ -50,7 +50,7 @@ export default function WalletConnectView() {
   const [isMintButtonDisabled, setIsMintButtonDisabled] = useState(false);
   const [remainingPurchases, setRemainingPurchases] = useState(0);
   const [mintCosthenkan, setMintCosthenkan] = useState(0);
-  const [tmpaccount, settmpAccount] = useState(null);
+  // const [tmpaccount, settmpAccount] = useState(null);
 
   let nameMap;
   let leafNodes;
@@ -167,14 +167,14 @@ export default function WalletConnectView() {
     }
   }, [contractDetails]);
 
-  useEffect(() => {
-    console.log("⭐useEffectのtmpaccount=", tmpaccount);
-    console.log("useEffectのaddress1=", address);
-    setAddress(tmpaccount);
-    console.log("useEffectのaddress2=", address);
-    console.log("useEffectのprovider=",provider);
-    console.log("useEffectのisCorrectchain=",isCorrectchain);
-  }, [tmpaccount]);
+  // useEffect(() => {
+  //   console.log("⭐useEffectのtmpaccount=", tmpaccount);
+  //   console.log("useEffectのaddress1=", address);
+  //   setAddress(tmpaccount);
+  //   console.log("useEffectのaddress2=", address);
+  //   console.log("useEffectのprovider=",provider);
+  //   console.log("useEffectのisCorrectchain=",isCorrectchain);
+  // }, [tmpaccount]);
 
   const { mintTokens } = useMint();
 
@@ -183,13 +183,11 @@ export default function WalletConnectView() {
     const views = [];
     if (provider != null) return null;
 
-    // if (!isMobile) {
-      views.push(
-        <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
-          ウォレットに接続
-        </Button>
-      );
-    // }
+    views.push(
+      <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
+        ウォレットに接続
+      </Button>
+    );
 
     console.log("canUseMetamask=",canUseMetamask);
 
@@ -198,15 +196,15 @@ export default function WalletConnectView() {
         <Button key={2} className='m-5 w-30' colorScheme='orange' onClick={async () => {
           const provider = window.ethereum as any;
           const accounts = await provider.request({ method: 'eth_requestAccounts' });
-          console.log("Metamaskからのprovider=",provider);
-          console.log("Metamaskからのaccounts.length=",accounts.length);
+          // console.log("Metamaskからのprovider=",provider);
+          // console.log("Metamaskからのaccounts.length=",accounts.length);
           setAddress(accounts.length === 0 ? null : accounts[0]);
-          settmpAccount(accounts.length === 0 ? null : accounts[0]);
-          console.log("Metamaskからのtmpaccount=",tmpaccount);
-          console.log("Metamaskからのaccounts=",accounts);
-          console.log("Metamaskからのaccounts[0]=",accounts[0]);
-          console.log("Metamaskからのaddress=",address);
-          console.log("MetamaskからのconnectingAddress=",connectingAddress);
+          // settmpAccount(accounts.length === 0 ? null : accounts[0]);
+          // console.log("Metamaskからのtmpaccount=",tmpaccount);
+          // console.log("Metamaskからのaccounts=",accounts);
+          // console.log("Metamaskからのaccounts[0]=",accounts[0]);
+          // console.log("Metamaskからのaddress=",address);
+          // console.log("MetamaskからのconnectingAddress=",connectingAddress);
           const chainId = await provider.request({ method: 'eth_chainId' });
           setChainId(Number(chainId));
           setProvider(new ethers.providers.Web3Provider(provider));
@@ -538,7 +536,7 @@ export default function WalletConnectView() {
 
         // ユーザーの残高を確認
         const balance = await provider.getBalance(connectingAddress);
-        const requiredEth = ethers.utils.parseEther((mintAmount * mintCosthenkan + 0.0005).toString()); // ミント価格の計算
+        const requiredEth = ethers.utils.parseEther(((mintAmount * mintCosthenkan) + 0.0005).toString()); // ミント価格の計算
         if (balance.lt(requiredEth)) {
           throw new Error("Not Enough Eth");
         }
