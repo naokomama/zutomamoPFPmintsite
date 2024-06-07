@@ -94,7 +94,7 @@ export default function WalletConnectView() {
       console.log("updateProviderのchainId=", chainId)
     }
   // }, [connectingAddress, setAddress, setChainId, setProvider, chain]);
-  }, [ setAddress, setChainId, setProvider, chain]);
+  }, [ setAddress, setChainId, setProvider, chainId]);
 
   useEffect(() => {
     updateProvider();
@@ -259,7 +259,7 @@ export default function WalletConnectView() {
             {address == null ? '' : `${address.slice(0, 4)} ... ${address.slice(-4)}`}
           </MenuButton>
           <MenuList>
-            <MenuItem onClick={() => open()} isDisabled={isLoading}>あなたのウォレット</MenuItem>
+            {/* <MenuItem onClick={() => open()} isDisabled={isLoading}>あなたのウォレット</MenuItem> */}
             <MenuItem onClick={() => {
               setProvider(null);
               setAddress(null);
@@ -462,7 +462,7 @@ export default function WalletConnectView() {
                 　　　
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <Heading size='md'><Text fontSize="xl">あなたはあと{remainingPurchases}点購入可能です</Text></Heading>
+                <Text fontSize="xl">あなたはあと<Heading size='md'>{remainingPurchases}</Heading>点購入可能です</Text>
               </div>
               
             </CardHeader>
