@@ -199,6 +199,7 @@ export default function WalletConnectView() {
           console.log("Metamaskからのaccounts.length=",accounts.length);
           setAddress(accounts.length === 0 ? null : accounts[0]);
           settmpAccount(accounts.length === 0 ? null : accounts[0]);
+          console.log("Metamaskからのtmpaccount=",tmpaccount);
           console.log("Metamaskからのaccounts=",accounts);
           console.log("Metamaskからのaccounts[0]=",accounts[0]);
           console.log("Metamaskからのaddress=",address);
