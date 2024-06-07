@@ -173,11 +173,13 @@ export default function WalletConnectView() {
     const views = [];
     if (provider != null) return null;
 
-    views.push(
-      <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
-        ウォレットに接続
-      </Button>
-    );
+    if (!isMobile) {
+      views.push(
+        <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
+          ウォレットに接続
+        </Button>
+      );
+    }
 
     console.log("canUseMetamask=",canUseMetamask);
 
