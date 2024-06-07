@@ -519,9 +519,9 @@ export default function WalletConnectView() {
 
         // ユーザーの残高を確認
         const balance = await provider.getBalance(connectingAddress);
-        const requiredEth = ethers.utils.parseEther((mintAmount * mintCosthenkan + 0.0005).toString()); // ミント価格の計算
+        const requiredEth = ethers.utils.parseEther(((mintAmount * mintCosthenkan) + 0.0005).toString()); // ミント価格の計算
         if (balance.lt(requiredEth)) {
-          throw new Error("Not Enough Eth");
+          throw new Error("ETHが不足しています。");
         }
 
         const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof);
@@ -567,7 +567,7 @@ export default function WalletConnectView() {
       console.error('Failed to contract mint:', error);
       setErrorData({
         title: 'Error',
-        message: '予期せぬエラーが発生しました。もう一度お試しください。',
+        message: `予期せぬエラーが発生しました。もう一度お試しください。${error}`,
         callback: () => setErrorData(null),
         cancelCallback: () => setErrorData(null)
       });
