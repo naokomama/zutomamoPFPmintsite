@@ -2,7 +2,7 @@
 
 import './wallet-connect-view.css'
 
-import { Button, Image, Menu, MenuButton, MenuItem, MenuList, Card, CardHeader, CardBody, CardFooter, Heading, Text, Stack, Center } from '@chakra-ui/react';
+import { Button, Box, Image, Menu, MenuButton, MenuItem, MenuList, Card, CardHeader, CardBody, CardFooter, Heading, Text, Stack, Center } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import { useContext, useEffect, useState, useCallback } from 'react';
 import { isMobile } from "react-device-detect";
@@ -103,6 +103,17 @@ export default function WalletConnectView() {
   useEffect(() => {
     updateProvider();
   }, [updateProvider]);
+
+  useEffect(() => {
+    if (chainId !== CHAIN_ID.SEPOLIA) {
+      setIsCorrectchain(false);
+      setProvider(null); // Correct the provider when the network is wrong
+      setChainId(null);
+      return;
+    } else {
+      setIsCorrectchain(true);
+    }
+  }, [chainId]);
 
   useEffect(() => {
     if (provider == null ) return;
@@ -463,7 +474,7 @@ export default function WalletConnectView() {
                 　　　
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <Text fontSize="xl">あなたはあと<Heading size='md'>{remainingPurchases}</Heading>点購入可能です</Text>
+                <Text fontSize="xl">あなたはあと<Box as="span" fontWeight="bold">{remainingPurchases}</Box>点購入可能です</Text>
               </div>
               
             </CardHeader>
