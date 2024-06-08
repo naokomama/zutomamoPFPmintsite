@@ -120,8 +120,9 @@ export default function WalletConnectView() {
     async function fetchContractDetails() {
       try {
         console.log("fetchContractDetails")
-        console.log("connectingAddress=",connectingAddress)
-        console.log("Address=", address);
+        console.log("fetchContractDetailsのconnectingAddress=",connectingAddress)
+        console.log("fetchContractDetailsのAddress=", address);
+        console.log("fetchContractDetailsのisCorrectchain=",isCorrectchain);
         // console.log("provider=",provider);
 
         // if (connectingAddress) {
@@ -629,10 +630,11 @@ export default function WalletConnectView() {
   return (
     <div className='w-full'>
       
-      {provider == null && isCorrectchain && <LoginView />}
-      {provider == null && !isCorrectchain && <KirikaeView />}
+      {/* {provider == null && isCorrectchain && <LoginView />}
+      {provider == null && !isCorrectchain && <KirikaeView />} */}
+      <LoginView />
+      <KirikaeView />
       <LogoutView />
-      {/* <KirikaeView /> */}
       <ImageView />
       <InfoDialog dialogData={dialogData} />
       <ErrorDialog dialogData={errorData} />
