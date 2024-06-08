@@ -293,16 +293,20 @@ export default function WalletConnectView() {
           await addChain()
           
         } else {
-          console.error('Failed to switch the network:', switchError);
+
           const errorCode = (switchError as any)?.code;
           const errorMessage = (switchError as any)?.message || (switchError as any).toString();
 
-          setErrorData({
-            title: 'Error',
-            message: `ネットワークの切り替えに失敗しました。${ errorCode } : ${ errorMessage }`,
-            callback: () => setErrorData(null),
-            cancelCallback: () => setErrorData(null)
-          });
+          if (errorCode != 4001) {
+            console.error('Failed to switch the network:', switchError);
+
+            setErrorData({
+              title: 'Error',
+              message: `ネットワークの切り替えに失敗しました。${ errorCode } : ${ errorMessage }`,
+              callback: () => setErrorData(null),
+              cancelCallback: () => setErrorData(null)
+            });
+          }
         }
       }
     }
@@ -380,7 +384,7 @@ export default function WalletConnectView() {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  {`ネットワーク切り替え\nBase Network`}
+                  <Text whiteSpace="normal">ネットワーク切り替え<br />Base Network</Text>
                 </div>
               </Button>
             </div>
