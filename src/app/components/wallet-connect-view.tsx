@@ -94,7 +94,7 @@ export default function WalletConnectView() {
       console.log("updateProviderのchainId=", chainId)
     }
   // }, [connectingAddress, setAddress, setChainId, setProvider, chain]);
-  }, [ setAddress, setChainId, setProvider, chain]);
+  }, [ address, setAddress, setChainId, setProvider, chain]);
 
   useEffect(() => {
     updateProvider();
