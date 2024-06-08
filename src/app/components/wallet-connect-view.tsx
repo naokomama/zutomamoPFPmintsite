@@ -203,20 +203,7 @@ export default function WalletConnectView() {
 
     if (canUseMetamask) {
       views.push(
-        <Button key={1} className='m-5 w-30' colorScheme='orange' onClick={async () => {
-          const provider = window.ethereum as any;
-          const accounts = await provider.request({ method: 'eth_requestAccounts' });
-          setAddress(accounts.length === 0 ? null : accounts[0]);
-          console.log("Metamaskからのaccounts=",accounts);
-          console.log("Metamaskからのaddress=",address);
-          console.log("MetamaskからのconnectingAddress=",connectingAddress);
-          const chainId = await provider.request({ method: 'eth_chainId' });
-          setChainId(Number(chainId));
-          console.log("Metamaskからのprovider=",provider);
-          console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
-          setProvider(new ethers.providers.Web3Provider(provider));
-          console.log("⭐再Metamaskからのprovider=",provider);
-        }} >
+        <Button key={1} className='m-5 w-30' colorScheme='orange' onClick={setConnectInfo} >
           <Image className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
           Metamask接続
         </Button>
@@ -238,6 +225,21 @@ export default function WalletConnectView() {
 
     return <div className='flex flex-col justify-center'>{views}</div>;
   };
+
+  const setConnectInfo = async () => {
+    const provider = window.ethereum as any;
+    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+    setAddress(accounts.length === 0 ? null : accounts[0]);
+    console.log("Metamaskからのaccounts=",accounts);
+    console.log("Metamaskからのaddress=",address);
+    console.log("MetamaskからのconnectingAddress=",connectingAddress);
+    const chainId = await provider.request({ method: 'eth_chainId' });
+    setChainId(Number(chainId));
+    console.log("Metamaskからのprovider=",provider);
+    console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
+    setProvider(new ethers.providers.Web3Provider(provider));
+    console.log("⭐再Metamaskからのprovider=",provider);
+  }
 
   const handleIncrease = () => {
     const remaining = remainingMintable !== null ? remainingMintable : 0;
@@ -289,6 +291,8 @@ export default function WalletConnectView() {
 
   const requestNetworkChange = async () => {
     setisLoading(true);
+    let errflg = false;
+
     try {
       await (window.ethereum as any).request({
         method: 'wallet_switchEthereumChain',
@@ -321,12 +325,20 @@ export default function WalletConnectView() {
               callback: () => setErrorData(null),
               cancelCallback: () => setErrorData(null)
             });
+
+            errflg = true;
           }
         }
       }
     }
 
     setisLoading(false);
+
+    if (!errflg) {
+      // エラーになっていなければ接続情報を読み込む
+      setConnectInfo();
+    }
+    
   };
 
   const addChain = () => {
