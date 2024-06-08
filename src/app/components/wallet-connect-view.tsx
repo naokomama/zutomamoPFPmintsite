@@ -378,7 +378,10 @@ export default function WalletConnectView() {
   const KirikaeView = () => {
     console.log("KirikaeViewはじめ")
     console.log("KirikaeViewのconnectingAddress=",connectingAddress);
-    if (provider == null ) return null;
+    console.log("KirikaeViewのchainId=",chainId);
+
+    // すでに異なっているチェーンの場合、正しい接続に切り替えるボタンを表示してほしい
+    // if (provider == null ) return null;
 
     if (chainId == CHAIN_ID.SEPOLIA) { //⭐
       setIsCorrectchain(true);
