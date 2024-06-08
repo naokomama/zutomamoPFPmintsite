@@ -105,6 +105,10 @@ export default function WalletConnectView() {
   }, [updateProvider]);
 
   useEffect(() => {
+    updateProvider();
+  }, [chain]);
+
+  useEffect(() => {
     if (chainId !== CHAIN_ID.SEPOLIA) {
       setIsCorrectchain(false);
       setProvider(null); // Correct the provider when the network is wrong
