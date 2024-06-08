@@ -105,10 +105,6 @@ export default function WalletConnectView() {
   }, [updateProvider]);
 
   useEffect(() => {
-    updateProvider();
-  }, [chain]);
-
-  useEffect(() => {
     if (chainId !== CHAIN_ID.SEPOLIA) {
       setIsCorrectchain(false);
       setProvider(null); // Correct the provider when the network is wrong
@@ -231,6 +227,7 @@ export default function WalletConnectView() {
   };
 
   const setConnectInfo = async () => {
+    console.log("setConnectInfo");
     const provider = window.ethereum as any;
     const accounts = await provider.request({ method: 'eth_requestAccounts' });
     setAddress(accounts.length === 0 ? null : accounts[0]);
@@ -338,6 +335,7 @@ export default function WalletConnectView() {
 
     setisLoading(false);
 
+    console.log("errflg=",errflg);
     if (!errflg) {
       // エラーになっていなければ接続情報を読み込む
       setConnectInfo();
@@ -629,9 +627,11 @@ export default function WalletConnectView() {
 
   return (
     <div className='w-full'>
-      <LoginView />
+      
+      {isCorrectchain && <LoginView />}
+      {!isCorrectchain && <KirikaeView />}
       <LogoutView />
-      <KirikaeView />
+      {/* <KirikaeView /> */}
       <ImageView />
       <InfoDialog dialogData={dialogData} />
       <ErrorDialog dialogData={errorData} />
