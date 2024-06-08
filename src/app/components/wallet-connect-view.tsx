@@ -94,7 +94,7 @@ export default function WalletConnectView() {
       console.log("updateProviderのchainId=", chainId)
     }
   // }, [connectingAddress, setAddress, setChainId, setProvider, chain]);
-  }, [ setAddress, setChainId, setProvider, chainId]);
+  }, [ setAddress, setChainId, setProvider, chain]);
 
   useEffect(() => {
     updateProvider();
@@ -380,7 +380,7 @@ export default function WalletConnectView() {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button bg='#fa4e74' color='white' onClick={requestNetworkChange} isDisabled={isLoading}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Text>{`ネットワーク切り替え\nBase Network`}</Text>
+                  {`ネットワーク切り替え\nBase Network`}
                 </div>
               </Button>
             </div>
