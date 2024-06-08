@@ -193,7 +193,8 @@ export default function WalletConnectView() {
     console.log("LoginView");
     console.log("LoginViewのprovider=",provider);
     console.log("LoginViewのisCorrectchain=",isCorrectchain);
-    console.log("canUseMetamask=",canUseMetamask);
+    console.log("LoginViewのcanUseMetamask=",canUseMetamask);
+    console.log("⭐LoginViewのchain=",chain);
 
     if (provider != null) return null;
 
@@ -231,13 +232,13 @@ export default function WalletConnectView() {
     const provider = window.ethereum as any;
     const accounts = await provider.request({ method: 'eth_requestAccounts' });
     setAddress(accounts.length === 0 ? null : accounts[0]);
-    console.log("Metamaskからのaccounts=",accounts);
+    // console.log("Metamaskからのaccounts=",accounts);
     console.log("Metamaskからのaddress=",address);
-    console.log("MetamaskからのconnectingAddress=",connectingAddress);
+    // console.log("MetamaskからのconnectingAddress=",connectingAddress);
     const chainId = await provider.request({ method: 'eth_chainId' });
     setChainId(Number(chainId));
-    console.log("Metamaskからのprovider=",provider);
-    console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
+    // console.log("Metamaskからのprovider=",provider);
+    // console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
     setProvider(new ethers.providers.Web3Provider(provider));
     console.log("⭐再Metamaskからのprovider=",provider);
   }
@@ -628,8 +629,8 @@ export default function WalletConnectView() {
   return (
     <div className='w-full'>
       
-      {provider == null && !isCorrectchain && <KirikaeView />}
       {provider == null && isCorrectchain && <LoginView />}
+      {provider == null && !isCorrectchain && <KirikaeView />}
       <LogoutView />
       {/* <KirikaeView /> */}
       <ImageView />
