@@ -628,8 +628,8 @@ export default function WalletConnectView() {
   return (
     <div className='w-full'>
       
-      {isCorrectchain && <LoginView />}
-      {!isCorrectchain && <KirikaeView />}
+      {provider == null && !isCorrectchain && <KirikaeView />}
+      {provider == null && isCorrectchain && <LoginView />}
       <LogoutView />
       {/* <KirikaeView /> */}
       <ImageView />
