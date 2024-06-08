@@ -199,7 +199,7 @@ export default function WalletConnectView() {
     console.log("LoginViewのisCorrectchain=",isCorrectchain);
     console.log("canUseMetamask=",canUseMetamask);
 
-    if (provider != null || !isCorrectchain) return null;
+    if (provider != null) return null;
 
     // views.push(
     //   <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
