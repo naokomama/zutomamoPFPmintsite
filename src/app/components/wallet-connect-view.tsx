@@ -19,6 +19,7 @@ import ErrorDialog from './error-dialog';
 import DialogData from '@/entity/dialog/dialog-data';
 import LoadingOverlay from './loading-overlay';
 import { allowlistAddresses }  from "../allowlist.mjs";
+import { ExternalProvider } from '@ethersproject/providers';
 
 export default function WalletConnectView() {
   const { address, chainId, provider, setAddress, setChainId, setProvider } = useContext(WalletContext);
@@ -62,6 +63,27 @@ export default function WalletConnectView() {
     console.log("setCanUseMetamask")
     setCanUseMetamask(window.ethereum != null);
   }, []);
+  
+  useEffect(() => {
+    const handleChainChanged = (_chainId: string) => {
+      console.log("chainChanged:_chainId=", _chainId);
+      setChainId(Number(_chainId));
+      setIsCorrectchain(Number(_chainId) === CHAIN_ID.SEPOLIA);
+      setProvider(new ethers.providers.Web3Provider(window.ethereum as ExternalProvider));
+    };
+
+    setconnectchange();
+  
+    // if (window.ethereum) {
+    //   window.ethereum.on('chainChanged', handleChainChanged);
+    // }
+  
+    // return () => {
+    //   if (window.ethereum) {
+    //     window.ethereum.removeListener('chainChanged', handleChainChanged);
+    //   }
+    // };
+  }, []);
 
   const updateProvider = useCallback(async () => {
     console.log("updateProvider")
@@ -76,25 +98,29 @@ export default function WalletConnectView() {
       setChainId(null);
     } else {
 
-      if (getAccount().connector == null) return;
-      const provider = await getAccount().connector!.options.getProvider();
-      provider.on('accountsChanged', (accounts: string[]) => {
-        console.log('accountsChanged', accounts[0]);
-        setAddress(accounts[0]);
-      });
-      provider.on('chainChanged', (chainId: number) => {
-        console.log('chainChanged', Number(chainId));
-        setChainId(Number(chainId));
-      });
-      setProvider(new ethers.providers.Web3Provider(provider));
-      setAddress(address);
-      if (chain != null) {
-        setChainId(chain.id);
-      }
-      console.log("updateProviderのchainId=", chainId)
+      setconnectchange();
     }
   // }, [connectingAddress, setAddress, setChainId, setProvider, chain]);
   }, [ address, setAddress, setChainId, setProvider, chain]);
+
+  const setconnectchange = async () => {
+    if (getAccount().connector == null) return;
+    const provider = await getAccount().connector!.options.getProvider();
+    provider.on('accountsChanged', (accounts: string[]) => {
+      console.log('accountsChanged', accounts[0]);
+      setAddress(accounts[0]);
+    });
+    provider.on('chainChanged', (chainId: number) => {
+      console.log('chainChanged', Number(chainId));
+      setChainId(Number(chainId));
+    });
+    setProvider(new ethers.providers.Web3Provider(provider));
+    setAddress(address);
+    if (chain != null) {
+      setChainId(chain.id);
+    }
+    console.log("updateProviderのchainId=", chainId)
+  }
 
   useEffect(() => {
     updateProvider();
