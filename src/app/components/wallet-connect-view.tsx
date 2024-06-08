@@ -191,8 +191,14 @@ export default function WalletConnectView() {
   const { mintTokens } = useMint();
 
   const LoginView = () => {
-    console.log("LoginView");
+    
     const views = [];
+
+    console.log("LoginView");
+    console.log("LoginViewのprovider=",provider);
+    console.log("LoginViewのisCorrectchain=",isCorrectchain);
+    console.log("canUseMetamask=",canUseMetamask);
+
     if (provider != null || !isCorrectchain) return null;
 
     // views.push(
@@ -208,9 +214,7 @@ export default function WalletConnectView() {
           Metamask接続
         </Button>
       );
-    }
-
-    if (!canUseMetamask) {
+    } else {
       views.push(
         <Button key={2} className='m-5 w-30' colorScheme='orange' onClick={() => {
           const path = document.URL.split('://')[1];
@@ -325,9 +329,9 @@ export default function WalletConnectView() {
               callback: () => setErrorData(null),
               cancelCallback: () => setErrorData(null)
             });
-
-            errflg = true;
           }
+
+          errflg = true;
         }
       }
     }
