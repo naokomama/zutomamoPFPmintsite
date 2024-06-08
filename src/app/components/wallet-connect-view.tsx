@@ -113,7 +113,7 @@ export default function WalletConnectView() {
     } else {
       setIsCorrectchain(true);
     }
-  }, [chainId]);
+  }, [chain]);
 
   useEffect(() => {
     if (provider == null ) return;
@@ -189,7 +189,7 @@ export default function WalletConnectView() {
   const LoginView = () => {
     console.log("LoginView");
     const views = [];
-    if (provider != null) return null;
+    if (provider != null || !isCorrectchain) return null;
 
     // views.push(
     //   <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
@@ -385,6 +385,7 @@ export default function WalletConnectView() {
 
     if (chainId == CHAIN_ID.SEPOLIA) { //⭐
       setIsCorrectchain(true);
+      return null;
     } else {
       setIsCorrectchain(false);
     }
