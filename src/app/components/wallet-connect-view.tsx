@@ -75,7 +75,7 @@ export default function WalletConnectView() {
       setconnectchange();
     };
   
-    if (provider == null) {
+    if (provider != null) {
       // provider.on('chainChanged', handleChainChanged);
       provider.on('chainChanged', (chainId: number) => {
         console.log('chainChanged', Number(chainId));
@@ -84,7 +84,7 @@ export default function WalletConnectView() {
     }
   
     return () => {
-      if (provider == null) {
+      if (provider != null) {
         provider.removeListener('chainChanged', handleChainChanged);
       }
     };
