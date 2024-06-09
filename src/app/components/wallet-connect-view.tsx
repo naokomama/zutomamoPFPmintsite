@@ -67,27 +67,30 @@ export default function WalletConnectView() {
   useEffect(() => {
     const handleChainChanged = async (_chainId: string) => {
       console.log("chainChanged:_chainId=", _chainId);
-      setChainId(Number(_chainId));
-      setIsCorrectchain(Number(_chainId) === CHAIN_ID.SEPOLIA); // ⭐
-      const provider = await getAccount().connector!.options.getProvider();
-      // setProvider(new ethers.providers.Web3Provider(window.ethereum as ExternalProvider));
-      setProvider(new ethers.providers.Web3Provider(provider));
+
       setconnectchange();
-    };
+      
+    //   setChainId(Number(_chainId));
+    //   setIsCorrectchain(Number(_chainId) === CHAIN_ID.SEPOLIA); // ⭐
+    //   const provider = await getAccount().connector!.options.getProvider();
+    //   // setProvider(new ethers.providers.Web3Provider(window.ethereum as ExternalProvider));
+    //   setProvider(new ethers.providers.Web3Provider(provider));
+    //   setconnectchange();
+    // };
   
-    if (provider != null) {
-      // provider.on('chainChanged', handleChainChanged);
-      provider.on('chainChanged', (chainId: number) => {
-        console.log('chainChanged', Number(chainId));
-        setChainId(Number(chainId));
-      })
-    }
+    // if (provider != null) {
+    //   // provider.on('chainChanged', handleChainChanged);
+    //   provider.on('chainChanged', (chainId: number) => {
+    //     console.log('chainChanged', Number(chainId));
+    //     setChainId(Number(chainId));
+    //   })
+    // }
   
-    return () => {
-      if (provider != null) {
-        provider.removeListener('chainChanged', handleChainChanged);
-      }
-    };
+    // return () => {
+    //   if (provider != null) {
+    //     provider.removeListener('chainChanged', handleChainChanged);
+    //   }
+    // };
   }, []);
 
   const initializeProvider = () => {
@@ -130,7 +133,7 @@ export default function WalletConnectView() {
     if (chain != null) {
       setChainId(chain.id);
     }
-    console.log("updateProviderのchainId=", chainId)
+    console.log("setconnectchangeのchainId=", chainId)
   }
 
   useEffect(() => {
