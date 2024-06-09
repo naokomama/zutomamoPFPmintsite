@@ -70,9 +70,8 @@ export default function WalletConnectView() {
       setChainId(Number(_chainId));
       setIsCorrectchain(Number(_chainId) === CHAIN_ID.SEPOLIA);
       setProvider(new ethers.providers.Web3Provider(window.ethereum as ExternalProvider));
+      setconnectchange();
     };
-
-    setconnectchange();
   
     // if (window.ethereum) {
     //   window.ethereum.on('chainChanged', handleChainChanged);
@@ -84,6 +83,12 @@ export default function WalletConnectView() {
     //   }
     // };
   }, []);
+
+  const initializeProvider = () => {
+    if (window.ethereum) {
+      setProvider(new ethers.providers.Web3Provider(window.ethereum));
+    }
+  };
 
   const updateProvider = useCallback(async () => {
     console.log("updateProvider")
@@ -330,6 +335,7 @@ export default function WalletConnectView() {
       });
     } catch (switchError: any) {
 
+      errflg = true;
       // モバイルだったら返却されるエラーコードが違うらしい
       if (isMobile) {
         const errorCode = switchError.data?.originalError?.code
@@ -355,8 +361,6 @@ export default function WalletConnectView() {
               cancelCallback: () => setErrorData(null)
             });
           }
-
-          errflg = true;
         }
       }
     }
@@ -366,6 +370,7 @@ export default function WalletConnectView() {
     console.log("errflg=",errflg);
     if (!errflg) {
       // エラーになっていなければ接続情報を読み込む
+      // エラーまたはキャンセルの場合は読み込まない
       setConnectInfo();
     }
     
