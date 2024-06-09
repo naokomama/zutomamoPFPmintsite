@@ -119,7 +119,11 @@ export default function WalletConnectView() {
   }, [ address, setAddress, setChainId, setProvider, chain]);
 
   const setconnectchange = async () => {
+    console.log("setconnectchange");
+
     if (getAccount().connector == null) return;
+
+    console.log("returnせずに実行");
     const provider = await getAccount().connector!.options.getProvider();
     provider.on('accountsChanged', (accounts: string[]) => {
       console.log('accountsChanged', accounts[0]);
@@ -672,7 +676,7 @@ export default function WalletConnectView() {
     <div className='w-full'>
       
       <LoginView />
-      {provider != null && !isCorrectchain && <KirikaeView />}
+      {provider != null && !chainId && <KirikaeView />}
       <LogoutView />
       <ImageView />
       <InfoDialog dialogData={dialogData} />
