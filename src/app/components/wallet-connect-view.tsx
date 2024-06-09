@@ -73,15 +73,15 @@ export default function WalletConnectView() {
       setconnectchange();
     };
   
-    // if (window.ethereum) {
-    //   window.ethereum.on('chainChanged', handleChainChanged);
-    // }
+    if (window.ethereum) {
+      provider.on('chainChanged', handleChainChanged);
+    }
   
-    // return () => {
-    //   if (window.ethereum) {
-    //     window.ethereum.removeListener('chainChanged', handleChainChanged);
-    //   }
-    // };
+    return () => {
+      if (window.ethereum) {
+        provider.removeListener('chainChanged', handleChainChanged);
+      }
+    };
   }, []);
 
   const initializeProvider = () => {
@@ -661,10 +661,8 @@ export default function WalletConnectView() {
   return (
     <div className='w-full'>
       
-      {/* {provider == null && isCorrectchain && <LoginView />}
-      {provider == null && !isCorrectchain && <KirikaeView />} */}
       <LoginView />
-      <KirikaeView />
+      {provider != null && !isCorrectchain && <KirikaeView />}
       <LogoutView />
       <ImageView />
       <InfoDialog dialogData={dialogData} />
