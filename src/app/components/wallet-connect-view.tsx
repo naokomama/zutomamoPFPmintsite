@@ -444,6 +444,7 @@ export default function WalletConnectView() {
     console.log("KirikaeViewはじめ")
     console.log("KirikaeViewのconnectingAddress=",connectingAddress);
     console.log("KirikaeViewのchainId=",chainId);
+    console.log("KirikaeViewのchain=",chain);
 
     // すでに異なっているチェーンの場合、正しい接続に切り替えるボタンを表示してほしい
     // if (provider == null ) return null;
@@ -676,7 +677,8 @@ export default function WalletConnectView() {
     <div className='w-full'>
       
       <LoginView />
-      {provider != null && !isCorrectchain && <KirikaeView />}
+      {/* {provider != null && !isCorrectchain && <KirikaeView />} */}
+      <KirikaeView />
       <LogoutView />
       <ImageView />
       <InfoDialog dialogData={dialogData} />
