@@ -69,7 +69,7 @@ export default function WalletConnectView() {
       console.log("chainChanged:_chainId=", _chainId);
 
       setconnectchange();
-      
+
     //   setChainId(Number(_chainId));
     //   setIsCorrectchain(Number(_chainId) === CHAIN_ID.SEPOLIA); // ⭐
     //   const provider = await getAccount().connector!.options.getProvider();
@@ -91,6 +91,7 @@ export default function WalletConnectView() {
     //     provider.removeListener('chainChanged', handleChainChanged);
     //   }
     // };
+    }
   }, []);
 
   const initializeProvider = () => {
