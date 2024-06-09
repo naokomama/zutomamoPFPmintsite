@@ -65,15 +65,17 @@ export default function WalletConnectView() {
   }, []);
   
   useEffect(() => {
-    const handleChainChanged = (_chainId: string) => {
+    const handleChainChanged = async (_chainId: string) => {
       console.log("chainChanged:_chainId=", _chainId);
       setChainId(Number(_chainId));
       setIsCorrectchain(Number(_chainId) === CHAIN_ID.SEPOLIA); // ⭐
-      setProvider(new ethers.providers.Web3Provider(window.ethereum as ExternalProvider));
+      const provider = await getAccount().connector!.options.getProvider();
+      // setProvider(new ethers.providers.Web3Provider(window.ethereum as ExternalProvider));
+      setProvider(new ethers.providers.Web3Provider(provider));
       setconnectchange();
     };
   
-    if (window.ethereum) {
+    if (provider == null) {
       // provider.on('chainChanged', handleChainChanged);
       provider.on('chainChanged', (chainId: number) => {
         console.log('chainChanged', Number(chainId));
@@ -82,7 +84,7 @@ export default function WalletConnectView() {
     }
   
     return () => {
-      if (window.ethereum) {
+      if (provider == null) {
         provider.removeListener('chainChanged', handleChainChanged);
       }
     };
