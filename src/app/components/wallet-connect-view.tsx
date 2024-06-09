@@ -676,7 +676,7 @@ export default function WalletConnectView() {
     <div className='w-full'>
       
       <LoginView />
-      {provider != null && chainId == null && <KirikaeView />}
+      {provider != null && !isCorrectchain && <KirikaeView />}
       <LogoutView />
       <ImageView />
       <InfoDialog dialogData={dialogData} />
