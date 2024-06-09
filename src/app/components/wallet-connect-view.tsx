@@ -68,13 +68,17 @@ export default function WalletConnectView() {
     const handleChainChanged = (_chainId: string) => {
       console.log("chainChanged:_chainId=", _chainId);
       setChainId(Number(_chainId));
-      setIsCorrectchain(Number(_chainId) === CHAIN_ID.SEPOLIA);
+      setIsCorrectchain(Number(_chainId) === CHAIN_ID.SEPOLIA); // ⭐
       setProvider(new ethers.providers.Web3Provider(window.ethereum as ExternalProvider));
       setconnectchange();
     };
   
     if (window.ethereum) {
-      provider.on('chainChanged', handleChainChanged);
+      // provider.on('chainChanged', handleChainChanged);
+      provider.on('chainChanged', (chainId: number) => {
+        console.log('chainChanged', Number(chainId));
+        setChainId(Number(chainId));
+      })
     }
   
     return () => {
