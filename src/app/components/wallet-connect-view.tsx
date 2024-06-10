@@ -644,6 +644,7 @@ export default function WalletConnectView() {
         console.log("allowlistMaxMintAmount=",allowlistMaxMintAmount)
         console.log("mintAmount=", mintAmount);
         console.log("hexProof=",hexProof);
+        console.log("chain.id=",chain);
 
         // const mintIdx: string[] = [];
         // for (let i = 0; i < mintAmount; i++) {
@@ -659,6 +660,16 @@ export default function WalletConnectView() {
           throw new Error("ETHが不足しています。");
         }
 
+        // ⭐チェーン確認
+        if (chainId != CHAIN_ID.SEPOLIA) {
+          requestNetworkChange();
+
+          if (isKirikae) {
+            throw new Error("ネットワーク切り替えがキャンセルされました。再度切り替えしてください。");
+          }
+        }
+
+        // コントラクトでclaimトランザクション送信
         const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof);
         setisLoading(false);
         console.log("claim_result=",result);
