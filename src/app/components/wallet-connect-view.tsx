@@ -254,7 +254,7 @@ export default function WalletConnectView() {
     // );
 
     // if (isMobile && canUseMetamask) {
-    if (isMobile && canUseMetamask) {
+    if (canUseMetamask) {
       views.push(
         <Button key={1} className='m-5 w-30' colorScheme='orange' onClick={setConnectInfo} >
           <Image className='mr-1 metamask-icon' src= {SUB_DIRECTRY + 'metamask.svg'} alt='' />
@@ -280,6 +280,7 @@ export default function WalletConnectView() {
   };
 
   const setConnectInfo = async () => {
+    setisLoading(true);
     console.log("setConnectInfo");
     const provider = window.ethereum as any;
     const accounts = await provider.request({ method: 'eth_requestAccounts' });
@@ -293,6 +294,15 @@ export default function WalletConnectView() {
     // console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
     setProvider(new ethers.providers.Web3Provider(provider));
     console.log("⭐再Metamaskからのprovider=",provider);
+
+    if (chainId == CHAIN_ID.SEPOLIA) { //⭐
+      setIsCorrectchain(true);
+    } else {
+      setIsCorrectchain(false);
+      requestNetworkChange();
+    }
+    
+    setisLoading(false);
   }
 
   const handleIncrease = () => {
@@ -692,7 +702,7 @@ export default function WalletConnectView() {
       
       <LoginView />
       {/* {provider != null && !isCorrectchain && <KirikaeView />} */}
-      <KirikaeView />
+      {/* <KirikaeView /> */}
       <LogoutView />
       <ImageView />
       <InfoDialog dialogData={dialogData} />
