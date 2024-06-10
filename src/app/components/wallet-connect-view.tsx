@@ -244,12 +244,13 @@ export default function WalletConnectView() {
 
     if (provider != null) return null;
 
-    views.push(
-      <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
-        ウォレットに接続
-      </Button>
-    );
+    // views.push(
+    //   <Button key={1} className='m-5 w-30' bg='#fa4e74' color='white' onClick={() => open()} isDisabled={isLoading}>
+    //     ウォレットに接続
+    //   </Button>
+    // );
 
+    // if (isMobile && canUseMetamask) {
     if (isMobile && canUseMetamask) {
       views.push(
         <Button key={1} className='m-5 w-30' colorScheme='orange' onClick={setConnectInfo} >
