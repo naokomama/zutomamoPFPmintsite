@@ -298,7 +298,7 @@ export default function WalletConnectView() {
     console.log("⭐chain=",chain);
     console.log("⭐chainId=",chainId);
 
-    if ((chainId == CHAIN_ID.SEPOLIA) || (chain != null && chain.id == CHAIN_ID.SEPOLIA)) { //⭐
+    if ((chainId == CHAIN_ID.SEPOLIA) || (chain !== undefined && chain !== null && chain.id == CHAIN_ID.SEPOLIA)) { //⭐
       setIsCorrectchain(true);
     } else {
       setIsCorrectchain(false);
