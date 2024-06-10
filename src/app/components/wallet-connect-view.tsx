@@ -644,7 +644,7 @@ export default function WalletConnectView() {
         console.log("allowlistMaxMintAmount=",allowlistMaxMintAmount)
         console.log("mintAmount=", mintAmount);
         console.log("hexProof=",hexProof);
-        console.log("chain.id=",chain);
+        console.log("chainId=",chainId);
 
         // const mintIdx: string[] = [];
         // for (let i = 0; i < mintAmount; i++) {
@@ -661,7 +661,7 @@ export default function WalletConnectView() {
         }
 
         // ⭐チェーン確認
-        if (chainId != CHAIN_ID.SEPOLIA) {
+        if (chainId == null || chainId && chainId != CHAIN_ID.SEPOLIA) {
           requestNetworkChange();
 
           if (isKirikae) {
