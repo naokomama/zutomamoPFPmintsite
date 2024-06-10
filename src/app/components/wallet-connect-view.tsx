@@ -52,6 +52,7 @@ export default function WalletConnectView() {
   const [remainingPurchases, setRemainingPurchases] = useState(0);
   const [mintCosthenkan, setMintCosthenkan] = useState(0);
   const [isAllowListed, setIsAllowListed] = useState(false);
+  const [isKirikae, setIsKirikae] = useState(false);
 
   let nameMap;
   let leafNodes;
@@ -355,6 +356,7 @@ export default function WalletConnectView() {
 
   const requestNetworkChange = async () => {
     setisLoading(true);
+    setIsKirikae(false);
     let errflg = false;
 
     try {
@@ -366,32 +368,44 @@ export default function WalletConnectView() {
     } catch (switchError: any) {
 
       errflg = true;
+      let addChainflg = false;
+      let errorCode = 0;
+
       // モバイルだったら返却されるエラーコードが違うらしい
       if (isMobile) {
-        const errorCode = switchError.data?.originalError?.code
+        errorCode = switchError.data?.originalError?.code
         if (errorCode && errorCode === 4902) {
-          await addChain()
+          addChainflg = true;
         }
       } else {
+        errorCode = (switchError as any)?.code;
         if (typeof switchError === 'object' && switchError !== null && 'code' in switchError && (switchError as any).code === 4902) {
-          await addChain()
-          
-        } else {
-
-          const errorCode = (switchError as any)?.code;
-          const errorMessage = (switchError as any)?.message || (switchError as any).toString();
-
-          if (errorCode != 4001) {
-            console.error('Failed to switch the network:', switchError);
-
-            setErrorData({
-              title: 'Error',
-              message: `ネットワークの切り替えに失敗しました。${ errorCode } : ${ errorMessage }`,
-              callback: () => setErrorData(null),
-              cancelCallback: () => setErrorData(null)
-            });
-          }
+          addChainflg = true;
         }
+      }
+
+      // ウォレット接続追加フラグ
+      if (addChainflg) {
+        await addChain()
+        
+      } else {
+
+        const errorMessage = (switchError as any)?.message || (switchError as any).toString();
+
+        if (errorCode == 4001) {
+          // ネットワーク切り替えキャンセルの時はネットワーク切り替えボタンのみ表示する
+          setIsKirikae(true);
+        } else {
+          console.error('Failed to switch the network:', switchError);
+
+          setErrorData({
+            title: 'Error',
+            message: `ネットワークの切り替えに失敗しました。${ errorCode } : ${ errorMessage }`,
+            callback: () => setErrorData(null),
+            cancelCallback: () => setErrorData(null)
+          });
+        }
+        
       }
     }
 
@@ -701,10 +715,11 @@ export default function WalletConnectView() {
     <div className='w-full'>
       
       <LoginView />
-      {/* {provider != null && !isCorrectchain && <KirikaeView />} */}
+      {isKirikae && <KirikaeView />}
+      {!isKirikae && <LogoutView />}
       {/* <KirikaeView /> */}
-      <LogoutView />
-      <ImageView />
+      {/* <LogoutView /> */}
+      {!isKirikae && <ImageView />}
       <InfoDialog dialogData={dialogData} />
       <ErrorDialog dialogData={errorData} />
       <LoadingOverlay loading={isLoading} />
