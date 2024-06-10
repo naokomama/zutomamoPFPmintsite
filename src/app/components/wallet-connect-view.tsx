@@ -294,15 +294,18 @@ export default function WalletConnectView() {
     // console.log("Metamaskからのprovider=",provider);
     // console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
     setProvider(new ethers.providers.Web3Provider(provider));
-    console.log("⭐再Metamaskからのprovider=",provider);
+    console.log("再Metamaskからのprovider=",provider);
+    console.log("⭐chain=",chain);
+    console.log("⭐chainId=",chainId);
 
-    if (chainId == CHAIN_ID.SEPOLIA) { //⭐
+    if ((chainId == CHAIN_ID.SEPOLIA) || (chain != null && chain.id == CHAIN_ID.SEPOLIA)) { //⭐
       setIsCorrectchain(true);
     } else {
       setIsCorrectchain(false);
       requestNetworkChange();
     }
     
+    console.log("⭐isCorrectchain=",isCorrectchain);
     setisLoading(false);
   }
 
