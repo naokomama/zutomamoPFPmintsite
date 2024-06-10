@@ -51,6 +51,7 @@ export default function WalletConnectView() {
   const [isMintButtonDisabled, setIsMintButtonDisabled] = useState(false);
   const [remainingPurchases, setRemainingPurchases] = useState(0);
   const [mintCosthenkan, setMintCosthenkan] = useState(0);
+  const [isAllowListed, setIsAllowListed] = useState(false);
 
   let nameMap;
   let leafNodes;
@@ -199,6 +200,7 @@ export default function WalletConnectView() {
             // 全体で買える数
             const remaining = parseInt(details.maxSupply) - parseInt(details.totalSupply);
             setRemainingMintable(remaining);
+            setIsAllowListed(true);
             
           } else {
             setallowlistMaxMintAmount(0);
@@ -206,6 +208,7 @@ export default function WalletConnectView() {
             setMintAmount(0);
             setIsMintButtonDisabled(true);
             setRemainingMintable(0);
+            setIsAllowListed(false);
           }
         }
       } catch (error) {
@@ -547,7 +550,15 @@ export default function WalletConnectView() {
                 　　　
               </div>
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <Text fontSize="xl">あなたはあと<Box as="span" fontWeight="bold">{remainingPurchases}</Box>点購入可能です</Text>
+                {isAllowListed ? (
+                  isMintButtonDisabled ? (
+                    <Text fontSize="xl">購入上限に達しました</Text>
+                  ) : (
+                    <Text fontSize="xl">あなたはあと<Box as="span" fontWeight="bold">{remainingPurchases}</Box>点購入可能です</Text>
+                  )
+                )
+                  : '申し訳ありませんが、ご予約が確認できませんでした'
+                }
               </div>
               
             </CardHeader>
@@ -563,7 +574,7 @@ export default function WalletConnectView() {
             <CardFooter>
               <div>
               <Button bg='#fa4e74' color='white' onClick={mintToken} isDisabled={isLoading || isMintButtonDisabled}>
-                {isMintButtonDisabled ? '購入上限になりました' : 'MINT'}
+                {isMintButtonDisabled ? 'MINT不可' : 'MINT'}
               </Button>
               </div>
             </CardFooter>
