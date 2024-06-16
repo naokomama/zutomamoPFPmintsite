@@ -42,3 +42,5 @@ next-env.d.ts
 # hardhat
 /contracts/hardhat-n
 /contracts/sankou
+
+allowlist*

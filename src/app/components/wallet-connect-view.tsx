@@ -62,13 +62,13 @@ export default function WalletConnectView() {
   let hexProof;
 
   useEffect(() => {
-    console.log("setCanUseMetamask")
+    // console.log("setCanUseMetamask")
     setCanUseMetamask(window.ethereum != null);
   }, []);
   
   useEffect(() => {
     const handleChainChanged = async (_chainId: string) => {
-      console.log("chainChanged:_chainId=", _chainId);
+      // console.log("chainChanged:_chainId=", _chainId);
 
       setconnectchange();
 
@@ -103,11 +103,11 @@ export default function WalletConnectView() {
   };
 
   const updateProvider = useCallback(async () => {
-    console.log("updateProvider")
-    console.log("connectingAddress=",connectingAddress)
-    console.log("Provider=", provider);
-    console.log("Address=", address);
-    console.log("ChainId=", chainId);
+    // console.log("updateProvider")
+    // console.log("connectingAddress=",connectingAddress)
+    // console.log("Provider=", provider);
+    // console.log("Address=", address);
+    // console.log("ChainId=", chainId);
 
     if (address == null) {
       setProvider(null);
@@ -125,14 +125,14 @@ export default function WalletConnectView() {
 
     if (getAccount().connector == null) return;
 
-    console.log("setconnectchange");
+    // console.log("setconnectchange");
     const provider = await getAccount().connector!.options.getProvider();
     provider.on('accountsChanged', (accounts: string[]) => {
-      console.log('accountsChanged', accounts[0]);
+      // console.log('accountsChanged', accounts[0]);
       setAddress(accounts[0]);
     });
     provider.on('chainChanged', (chainId: number) => {
-      console.log('chainChanged', Number(chainId));
+      // console.log('chainChanged', Number(chainId));
       setChainId(Number(chainId));
     });
     setProvider(new ethers.providers.Web3Provider(provider));
@@ -140,7 +140,7 @@ export default function WalletConnectView() {
     if (chain != null) {
       setChainId(chain.id);
     }
-    console.log("setconnectchangeのchainId=", chainId)
+    // console.log("setconnectchangeのchainId=", chainId)
   }
 
   useEffect(() => {
@@ -152,7 +152,7 @@ export default function WalletConnectView() {
   }, [updateProvider]);
 
   useEffect(() => {
-    if (chainId !== CHAIN_ID.SEPOLIA) {
+    if (chainId !== CHAIN_ID.BASE) {
       setIsCorrectchain(false);
       setProvider(null); // Correct the provider when the network is wrong
       setChainId(null);
@@ -166,10 +166,10 @@ export default function WalletConnectView() {
     if (provider == null ) return;
     async function fetchContractDetails() {
       try {
-        console.log("fetchContractDetails")
-        console.log("fetchContractDetailsのconnectingAddress=",connectingAddress)
-        console.log("fetchContractDetailsのAddress=", address);
-        console.log("fetchContractDetailsのisCorrectchain=",isCorrectchain);
+        // console.log("fetchContractDetails")
+        // console.log("fetchContractDetailsのconnectingAddress=",connectingAddress)
+        // console.log("fetchContractDetailsのAddress=", address);
+        // console.log("fetchContractDetailsのisCorrectchain=",isCorrectchain);
         // console.log("provider=",provider);
 
         // if (connectingAddress) {
@@ -181,12 +181,12 @@ export default function WalletConnectView() {
           
           // アローリストから最大ミント数を取得
           nameMap = allowlistAddresses.map(list => list[0]);
-          console.log("nameMap=",nameMap);
+          // console.log("nameMap=",nameMap);
           addressId = nameMap.indexOf(address.toLowerCase());
-          console.log("addressId=",addressId);
+          // console.log("addressId=",addressId);
 
           if (addressId !== -1) {
-            console.log("allowlistAddresses[addressId][1]=",allowlistAddresses[addressId][1])
+            // console.log("allowlistAddresses[addressId][1]=",allowlistAddresses[addressId][1])
             setallowlistMaxMintAmount(Number(allowlistAddresses[addressId][1]));
 
             // 個人が買える数
@@ -240,11 +240,11 @@ export default function WalletConnectView() {
     
     const views = [];
 
-    console.log("LoginView");
-    console.log("LoginViewのprovider=",provider);
-    console.log("LoginViewのisCorrectchain=",isCorrectchain);
-    console.log("LoginViewのcanUseMetamask=",canUseMetamask);
-    console.log("⭐LoginViewのchain=",chain);
+    // console.log("LoginView");
+    // console.log("LoginViewのprovider=",provider);
+    // console.log("LoginViewのisCorrectchain=",isCorrectchain);
+    // console.log("LoginViewのcanUseMetamask=",canUseMetamask);
+    // console.log("⭐LoginViewのchain=",chain);
 
     if (provider != null) return null;
 
@@ -282,30 +282,41 @@ export default function WalletConnectView() {
 
   const setConnectInfo = async () => {
     setisLoading(true);
-    console.log("setConnectInfo");
+    // console.log("setConnectInfo");
     const provider = window.ethereum as any;
-    const accounts = await provider.request({ method: 'eth_requestAccounts' });
-    setAddress(accounts.length === 0 ? null : accounts[0]);
-    // console.log("Metamaskからのaccounts=",accounts);
-    console.log("Metamaskからのaddress=",address);
-    // console.log("MetamaskからのconnectingAddress=",connectingAddress);
-    const chainId = await provider.request({ method: 'eth_chainId' });
-    setChainId(Number(chainId));
-    // console.log("Metamaskからのprovider=",provider);
-    // console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
-    setProvider(new ethers.providers.Web3Provider(provider));
-    console.log("再Metamaskからのprovider=",provider);
-    console.log("⭐chain=",chain);
-    console.log("⭐chainId=",chainId);
 
-    if ((chainId == CHAIN_ID.SEPOLIA) || (chain !== undefined && chain !== null && chain.id == CHAIN_ID.SEPOLIA)) { //⭐
-      setIsCorrectchain(true);
-    } else {
-      setIsCorrectchain(false);
-      requestNetworkChange();
+    try {
+      const accounts = await provider.request({ method: 'eth_requestAccounts' });
+      setAddress(accounts.length === 0 ? null : accounts[0]);
+      // console.log("Metamaskからのaddress=",address);
+      const chainId = await provider.request({ method: 'eth_chainId' });
+      setChainId(Number(chainId));
+      // console.log("Metamaskからのprovider=",provider);
+      // console.log("⭐Metamaskからのnew provider=",new ethers.providers.Web3Provider(provider));
+      setProvider(new ethers.providers.Web3Provider(provider));
+  
+      if ((chainId == CHAIN_ID.BASE) || (chain !== undefined && chain !== null && chain.id == CHAIN_ID.BASE)) { //⭐
+        setIsCorrectchain(true);
+      } else {
+        setIsCorrectchain(false);
+        requestNetworkChange();
+      }
+    } catch (connectError: any) {
+      let errorCode = (connectError as any)?.code;
+
+      // ユーザーキャンセルは何もしない
+      if (errorCode !== 4001) {
+        console.error('Failed to switch the network:', connectError);
+
+        setErrorData({
+          title: 'Error',
+          message: `接続に失敗しました。${ errorCode } : ${ connectError }`,
+          callback: () => setErrorData(null),
+          cancelCallback: () => setErrorData(null)
+        });
+      }
     }
-    
-    console.log("⭐isCorrectchain=",isCorrectchain);
+
     setisLoading(false);
   }
 
@@ -333,8 +344,8 @@ export default function WalletConnectView() {
 
   const LogoutView = () => {
     if (provider == null) return null;
-    console.log("LogoutViewのaddress=",address);
-    console.log("LogoutViewのconnectingAddress=",connectingAddress);
+    // console.log("LogoutViewのaddress=",address);
+    // console.log("LogoutViewのconnectingAddress=",connectingAddress);
 
     return (
       <div className='w-450 flex justify-between items-center px-3' style={{ marginBottom: '20px' }}>
@@ -366,7 +377,7 @@ export default function WalletConnectView() {
       await (window.ethereum as any).request({
         method: 'wallet_switchEthereumChain',
         // params: [{ chainId: `0x${CHAIN_ID.BASE.toString(16)}` }], // ⭐
-        params: [{ chainId: `0x${CHAIN_ID.SEPOLIA.toString(16)}` }],
+        params: [{ chainId: `0x${CHAIN_ID.BASE.toString(16)}` }],
       });
     } catch (switchError: any) {
 
@@ -414,7 +425,7 @@ export default function WalletConnectView() {
 
     setisLoading(false);
 
-    console.log("errflg=",errflg);
+    // console.log("errflg=",errflg);
     if (!errflg) {
       // エラーになっていなければ接続情報を読み込む
       // エラーまたはキャンセルの場合は読み込まない
@@ -429,34 +440,34 @@ export default function WalletConnectView() {
         "method": "wallet_addEthereumChain",
         "params": [
           {
-            // "blockExplorerUrls": [
-            //   "https://basescan.org"
-            // ],
-            // "iconUrls": [],
-            // "nativeCurrency": {
-            //   "name": "ETH",
-            //   "symbol": "ETH",
-            //   "decimals": 18
-            // },
-            // "rpcUrls": [
-            //   "https://mainnet.base.org"
-            // ],
-            // "chainId": `0x${CHAIN_ID.BASE.toString(16)}`,
-            // "chainName": "Base" // ⭐
             "blockExplorerUrls": [
-              "https://base-sepolia.blockscout.com"
+              "https://basescan.org"
             ],
             "iconUrls": [],
             "nativeCurrency": {
-              "name": "SepoliaETH",
+              "name": "ETH",
               "symbol": "ETH",
               "decimals": 18
             },
             "rpcUrls": [
-              "https://sepolia.base.org"
+              "https://mainnet.base.org"
             ],
-            "chainId": `0x${CHAIN_ID.SEPOLIA.toString(16)}`,
-            "chainName": "Base Sepolia"
+            "chainId": `0x${CHAIN_ID.BASE.toString(16)}`,
+            "chainName": "Base" // ⭐
+            // "blockExplorerUrls": [
+            //   "https://base-sepolia.blockscout.com"
+            // ],
+            // "iconUrls": [],
+            // "nativeCurrency": {
+            //   "name": "SepoliaETH",
+            //   "symbol": "ETH",
+            //   "decimals": 18
+            // },
+            // "rpcUrls": [
+            //   "https://sepolia.base.org"
+            // ],
+            // "chainId": `0x${CHAIN_ID.SEPOLIA.toString(16)}`,
+            // "chainName": "Base Sepolia"
           }
         ]
       });
@@ -474,22 +485,22 @@ export default function WalletConnectView() {
     }
   }
   const KirikaeView = () => {
-    console.log("KirikaeViewはじめ")
-    console.log("KirikaeViewのconnectingAddress=",connectingAddress);
-    console.log("KirikaeViewのchainId=",chainId);
-    console.log("KirikaeViewのchain=",chain);
+    // console.log("KirikaeViewはじめ")
+    // console.log("KirikaeViewのconnectingAddress=",connectingAddress);
+    // console.log("KirikaeViewのchainId=",chainId);
+    // console.log("KirikaeViewのchain=",chain);
 
     // すでに異なっているチェーンの場合、正しい接続に切り替えるボタンを表示してほしい
     // if (provider == null ) return null;
 
-    if (chainId == CHAIN_ID.SEPOLIA) { //⭐
+    if (chainId == CHAIN_ID.BASE) { //⭐
       setIsCorrectchain(true);
       return null;
     } else {
       setIsCorrectchain(false);
     }
-    console.log ("KirikaeViewのisCorrectchain=",isCorrectchain);
-    console.log ("KirikaeViewのchainId=",chainId);
+    // console.log ("KirikaeViewのisCorrectchain=",isCorrectchain);
+    // console.log ("KirikaeViewのchainId=",chainId);
 
     return (
       <div className='w-full' style={{ width: '100%', margin: '0 auto', textAlign: 'center' }}>
@@ -509,10 +520,10 @@ export default function WalletConnectView() {
   }
 
   const ImageView = () => {
-    console.log("ImageViewはじめ")
-    console.log("isLoaded=",isLoaded)
-    console.log("remainingMintable=",remainingMintable)
-    console.log("contractDetails=",contractDetails)
+    // console.log("ImageViewはじめ")
+    // console.log("isLoaded=",isLoaded)
+    // console.log("remainingMintable=",remainingMintable)
+    // console.log("contractDetails=",contractDetails)
 
     if (provider == null || contractDetails == null || remainingMintable == null || !isLoaded || !isCorrectchain) return null;
 
@@ -612,8 +623,8 @@ export default function WalletConnectView() {
   };
 
   const mintToken = async () => {
-    console.log("mintToken")
-    console.log("connectingAddress=",connectingAddress)
+    // console.log("mintToken")
+    // console.log("connectingAddress=",connectingAddress)
     let allowlistMaxMintAmount;
 
     try {
@@ -642,12 +653,12 @@ export default function WalletConnectView() {
           claimingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0] , allowlistAddresses[addressId][1]]);
           hexProof = merkleTree.getHexProof(claimingAddress);    
         }
-        console.log("⭐ミント前情報⭐")
-        console.log("totalSupply=", totalSupply);
-        console.log("allowlistMaxMintAmount=",allowlistMaxMintAmount)
-        console.log("mintAmount=", mintAmount);
-        console.log("hexProof=",hexProof);
-        console.log("chainId=",chainId);
+        // console.log("⭐ミント前情報⭐")
+        // console.log("totalSupply=", totalSupply);
+        // console.log("allowlistMaxMintAmount=",allowlistMaxMintAmount)
+        // console.log("mintAmount=", mintAmount);
+        // console.log("hexProof=",hexProof);
+        // console.log("chainId=",chainId);
 
         // const mintIdx: string[] = [];
         // for (let i = 0; i < mintAmount; i++) {
@@ -664,7 +675,7 @@ export default function WalletConnectView() {
         }
 
         // ⭐チェーン確認
-        if (chainId == null || chainId && chainId != CHAIN_ID.SEPOLIA) {
+        if (chainId == null || chainId && chainId != CHAIN_ID.BASE) {
           requestNetworkChange();
 
           if (isKirikae) {
@@ -675,7 +686,7 @@ export default function WalletConnectView() {
         // コントラクトでclaimトランザクション送信
         const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof);
         setisLoading(false);
-        console.log("claim_result=",result);
+        // console.log("claim_result=",result);
 
         if (result.success) {
           if (result.message && !result.message.includes("拒否")) {

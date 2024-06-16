@@ -8,10 +8,10 @@ export const useMint = () => {
 
   // const mintTokens = async (userAddress: string, mintIdx: string[]) => {
     const mintTokens = async (amount: number, allowedAmount: number, merkleProof: any) => {
-      console.log("引数amount=",amount);
-      console.log("引数allowedAmount=",allowedAmount);
-      console.log("引数merkleProof=",merkleProof);
-      console.log("provider=",provider);
+      // console.log("引数amount=",amount);
+      // console.log("引数allowedAmount=",allowedAmount);
+      // console.log("引数merkleProof=",merkleProof);
+      // console.log("provider=",provider);
 
     if (!provider) {
       const errorMessage = 'Provider not found';
@@ -20,17 +20,17 @@ export const useMint = () => {
     }
 
     const signer = provider.getSigner();
-    console.log("signer=",signer);
+    // console.log("signer=",signer);
 
     const contractWithSigner = new ethers.Contract(
       FACTORY_CONTRACT_ADDRESS.BASE_ERC721,
       MAIN_ABI.ERC721,
       signer
     );
-    console.log("contractWithSigner=",contractWithSigner);
+    // console.log("contractWithSigner=",contractWithSigner);
 
     try {
-      console.log("callStaticでのチェック開始");
+      // console.log("callStaticでのチェック開始");
       // ガスリミットを手動で設定
       const gasLimit = ethers.utils.hexlify(200000); // 適切なガスリミットを設定
 

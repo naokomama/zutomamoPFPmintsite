@@ -24,3 +24,12 @@ body {
   width: 20px; /* ここで幅を設定 */
   height: 20px; /* ここで高さを設定 */
 }
+
+.footer-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}

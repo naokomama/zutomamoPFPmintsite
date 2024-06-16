@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { Button, Stack, Text } from '@chakra-ui/react';
 
 // Dynamic import for WalletConnectView
-// const WalletConnectView = dynamic(() => import('./components/wallet-connect-view'), { ssr: false });
-import WalletConnectView from './components/wallet-connect-view'
+const WalletConnectView = dynamic(() => import('./components/wallet-connect-view'), { ssr: false });
+// import WalletConnectView from './components/wallet-connect-view'
 // import VConsole from 'vconsole';
 
 export default function Home() {
@@ -15,8 +15,8 @@ export default function Home() {
   const SUB_DIRECTRY = "/assets/";
 
   const handleOpenseaClick = () => {
-    // window.open("https://opensea.io/account", "_blank");
-    window.open("https://testnets.opensea.io/account", "_blank");
+    window.open("https://opensea.io/account", "_blank");
+    // window.open("https://testnets.opensea.io/account", "_blank");
   };
 
   const handleMagicEdenClick = () => {
@@ -26,7 +26,7 @@ export default function Home() {
   const handleDiscordClick = () => {
     window.open("https://discord.com/invite/zutomamo-shinzo", "_blank");
   };
-  
+
   // useEffect(() => {
   //   const loadVConsole = async () => {
   //     const VConsole = (await import('vconsole')).default;
@@ -45,7 +45,7 @@ export default function Home() {
       <div className='w-full max-w-screen-md px-3' style={{ textAlign: 'center', width: '400px' }}>
         <img src={ SUB_DIRECTRY + "PFP-100.jpg" } alt="ずとまもPFP" style={{ textAlign: 'center', width: '100%', maxWidth: '400px', height: '400px' }} />
       </div>
-      <div className='w-full max-w-screen-md px-3' style={{ textAlign: 'center', width: '400px', margin: '10px' }}>
+      <div className='w-full max-w-screen-md px-3' style={{ textAlign: 'center', width: '400px', margin: '5px' }}>
         <Stack spacing={4} direction='row' align='center'>
           <Button colorScheme='cyan' variant='outline' onClick={handleOpenseaClick}>
             <img className='mr-1 icon' src= {SUB_DIRECTRY + 'opensea.png'} alt='' />
@@ -64,6 +64,25 @@ export default function Home() {
       <div style={{ width: '400px' }}>
         <div className='w-full flex flex-row justify-center mt-5'>
           <WalletConnectView />
+        </div>
+      </div>
+      <div style={{ width: '400px' }}>
+        <div className='w-full flex flex-row justify-center mt-5'>
+          <footer style={{ textAlign: 'center', padding: '10px', marginTop: '20px' }}>
+            <Text fontSize="sm">
+              <a href="https://zutto-mamoru.com/" target="_blank" rel="noopener noreferrer" className="footer-link">
+                公式サイト
+              </a>
+              <span style={{ margin: '0 3px', fontSize: '15px' }}>｜</span>
+              <a href="https://opensea.io/collection/zutomamonopfp/" target="_blank" rel="noopener noreferrer" className="footer-link">
+                Collection Link
+              </a>
+              <span style={{ margin: '0 3px', fontSize: '15px' }}>｜</span>
+              <a href="https://zutto-mamoru.com/tokushoho/" target="_blank" rel="noopener noreferrer" className="footer-link">
+                特商法
+              </a>
+            </Text>
+          </footer>
         </div>
       </div>
     </main>
