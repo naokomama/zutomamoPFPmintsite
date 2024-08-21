@@ -7,7 +7,7 @@ export const useMint = () => {
   const { provider } = useContext(WalletContext);
 
   // const mintTokens = async (userAddress: string, mintIdx: string[]) => {
-    const mintTokens = async (amount: number, allowedAmount: number, merkleProof: any) => {
+    const mintTokens = async (amount: number, allowedAmount: number, merkleProof: any, mintCosthenkan: number) => {
       // console.log("引数amount=",amount);
       // console.log("引数allowedAmount=",allowedAmount);
       // console.log("引数merkleProof=",merkleProof);
@@ -32,16 +32,16 @@ export const useMint = () => {
     try {
       // console.log("callStaticでのチェック開始");
       // ガスリミットを手動で設定
-      const gasLimit = ethers.utils.hexlify(200000); // 適切なガスリミットを設定
+      const gasLimit = ethers.utils.hexlify(500000); // 適切なガスリミットを設定
 
       await contractWithSigner.callStatic.claim(amount, allowedAmount, merkleProof, {
-        value: ethers.utils.parseUnits("0.021", "ether").mul(amount),
+        value: ethers.utils.parseUnits(mintCosthenkan.toString(), "ether").mul(amount),
         gasLimit: gasLimit
       });
 
       console.log("claim開始")
       const claimTx = await contractWithSigner.claim(amount, allowedAmount, merkleProof, {
-        value: ethers.utils.parseUnits("0.021", "ether").mul(amount),
+        value: ethers.utils.parseUnits(mintCosthenkan.toString(), "ether").mul(amount),
         gasLimit: gasLimit
       });
 

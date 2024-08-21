@@ -669,7 +669,7 @@ export default function WalletConnectView() {
         // ユーザーの残高を確認
         // const balance = await provider.getBalance(connectingAddress);
         const balance = await provider.getBalance(address);
-        const requiredEth = ethers.utils.parseEther(((mintAmount * mintCosthenkan) + 0.0005).toString()); // ミント価格の計算
+        const requiredEth = ethers.utils.parseEther(((mintAmount * mintCosthenkan) + 0.00001).toString()); // ミント価格の計算
         if (balance.lt(requiredEth)) {
           throw new Error("ETHが不足しています。");
         }
@@ -684,7 +684,7 @@ export default function WalletConnectView() {
         }
 
         // コントラクトでclaimトランザクション送信
-        const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof);
+        const result = await mintTokens(Number(mintAmount), Number(allowlistMaxMintAmount), hexProof, mintCosthenkan);
         setisLoading(false);
         // console.log("claim_result=",result);
 
@@ -742,8 +742,6 @@ export default function WalletConnectView() {
       <LoginView />
       {isKirikae && <KirikaeView />}
       {!isKirikae && <LogoutView />}
-      {/* <KirikaeView /> */}
-      {/* <LogoutView /> */}
       {!isKirikae && <ImageView />}
       <InfoDialog dialogData={dialogData} />
       <ErrorDialog dialogData={errorData} />
